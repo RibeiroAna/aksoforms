@@ -1,0 +1,187 @@
+@import '../../../prelude';
+
+.map-list {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    height: 100%;
+    min-height: 80vh;
+
+    .inner-list-container {
+        flex: 2;
+        position: relative;
+        overflow-x: clip;
+        overflow-y: scroll;
+        scrollbar-width: thin;
+
+        .inner-list {
+            .list-search {
+                position: sticky;
+                top: 0;
+                display: flex;
+                align-items: center;
+                background: @card-background;
+                z-index: 2;
+
+                .search-icon-container {
+                    padding-left: 16px;
+                }
+
+                .list-search-input {
+                    font: inherit;
+                    color: inherit;
+                    padding: 16px;
+                    margin: 0;
+                    margin-left: 8px;
+                    border: none;
+                    background: none;
+                    flex: 1;
+                    width: 0;
+
+                    &:focus {
+                        outline: none;
+                    }
+                }
+
+                .close-map-container {
+                    margin: 0 4px;
+                }
+            }
+
+            .list-items {
+                overflow: auto;
+
+                .list-item {
+                    border-bottom: 1px solid @separator;
+                    transition: background 0.3s @easing;
+
+                    &.is-highlighted, &:hover {
+                        background: @text-fade-10;
+                    }
+                }
+
+                .list-item-container {
+                    border-bottom: 1px solid @separator;
+
+                    & > .list-item-children > .list-item {
+                        position: relative;
+                        margin-left: 24px;
+                        margin-right: 8px;
+                        border-radius: 4px;
+
+                        &::before {
+                            content: '';
+                            position: absolute;
+                            left: 0px;
+                            top: 0;
+                            bottom: 0;
+                            border-left: 1px solid @separator;
+                        }
+
+                        &:last-child {
+                            border-bottom: none;
+                        }
+                    }
+                }
+
+                .list-items-loading, .list-items-empty {
+                    text-align: center;
+                    padding-top: 8px;
+                    padding-bottom: 16px;
+                    color: @text-fade-60;
+                }
+            }
+        }
+
+        .inner-list-detail-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: @card-background;
+            z-index: 10;
+        }
+    }
+
+    .inner-map-container {
+        position: relative;
+        flex: 3;
+        border-left: 1px solid @separator;
+
+        .map-loading-progress {
+            top: 0;
+            left: 0;
+            position: absolute;
+            width: 100%;
+            z-index: 9998;
+            text-align: right;
+            padding-top: 8px;
+            padding-right: 16px;
+            box-sizing: border-box;
+            pointer-events: none;
+        }
+
+        .inner-map {
+            height: 100%;
+            margin: 0;
+            border-radius: 0;
+            box-shadow: none;
+        }
+    }
+
+    .map-switch {
+        display: none;
+    }
+
+    @media (max-width: 700px) {
+        // switchable layout
+
+        display: block;
+        @switch-width: 56px;
+
+        .inner-list-container,
+        .inner-map-container {
+            width: calc(100% - @switch-width);
+            height: 100%;
+        }
+
+        .inner-list-container {
+            transition: opacity 0.3s @easing;
+        }
+
+        .inner-map-container {
+            position: absolute;
+            top: 0;
+            transform: translate(100%);
+            transition: transform 0.3s @easing, opacity 0.3s @easing;
+            z-index: 90;
+            opacity: 0.5;
+        }
+
+        &.map-is-open {
+            .inner-list-container {
+                opacity: 0.5;
+            }
+
+            .inner-map-container {
+                transform: translate(@switch-width);
+                opacity: 1;
+            }
+
+            .map-switch {
+                left: 0;
+            }
+        }
+
+        .map-switch {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: calc(100% - @switch-width);
+            width: @switch-width;
+            height: 100%;
+            z-index: 100;
+        }
+    }
+}

@@ -1,0 +1,213 @@
+@import '../../../../prelude';
+
+.congress-tag-manager {
+    .congress-tag {
+        display: inline-block;
+        margin-left: 4px;
+        padding: 4px 8px;
+        background: @text-fade-10;
+        border-radius: 100px;
+        text-transform: uppercase;
+        font-size: small;
+        font-weight: 500;
+
+        &:first-child {
+            margin-left: 0;
+        }
+    }
+    .empty-label {
+        font-style: italic;
+        color: @text-fade-60;
+    }
+}
+
+.congress-tag-manager-popout {
+    width: 400px;
+    max-width: 100%;
+
+    .list-inner {
+        overflow-y: auto;
+        padding: 0 4px;
+
+        .list-loading {
+            text-align: center;
+            padding: 4px;
+        }
+    }
+
+    .congress-tag {
+        position: relative;
+        display: flex;
+        align-items: center;
+        border-radius: 4px;
+        transition: background 0.3s @easing, margin 0.3s @easing, opacity 0.3s @easing;
+        padding: 4px;
+
+        .tag-name {
+            flex: 1;
+            padding-left: 8px;
+        }
+
+        .tag-check {
+            position: relative;
+
+            .check-icon {
+                transform: scale(0);
+                transition: transform 0.3s @easing, opacity 0.2s @easing;
+            }
+
+            .check-loading {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .tag-really-delete {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            pointer-events: none;
+            opacity: 0;
+            background: @card-background;
+            border-radius: inherit;
+            transition: opacity 0.3s @easing;
+            padding: 0 4px;
+            z-index: 1;
+
+            .delete-button {
+                position: relative;
+
+                .loading-indicator {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                }
+                .loading-indicator.is-loading + span {
+                    opacity: 0;
+                }
+                span {
+                    transition: opacity 0.1s;
+                }
+            }
+
+            .cancel-button {
+                transition: opacity 0.3s @easing;
+            }
+            &.is-deleting .cancel-button {
+                opacity: 0;
+            }
+        }
+
+        &.really-delete {
+            .tag-really-delete {
+                opacity: 1;
+                pointer-events: all;
+            }
+        }
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: inherit;
+            background: @text-fade-10;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s @easing;
+        }
+        &:not(.is-editing):hover::before {
+            opacity: 1;
+        }
+
+        &.is-selected {
+            background: @text-fade-10;
+
+            &.prev-selected {
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+            }
+            &.next-selected {
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+
+            .tag-check .check-icon {
+                transform: none;
+            }
+        }
+
+        &.is-editing {
+            margin-top: 8px;
+            margin-bottom: 8px;
+            border-radius: 4px !important;
+            background: @card-background;
+            .elevation(4);
+
+            .tag-name {
+                .paper-text-field {
+                    width: 100%;
+                }
+            }
+        }
+
+        &.is-deleted {
+            opacity: 0;
+        }
+    }
+
+    .add-tag {
+        position: relative;
+
+        .add-button-container {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            transition: opacity 0.3s @easing;
+        }
+        .add-contents {
+            display: flex;
+            align-items: center;
+            transition: margin 0.3s @easing, opacity 0.3s @easing;
+            opacity: 0;
+            pointer-events: none;
+            background: @card-background;
+            padding: 4px;
+            border-radius: 4px;
+            .elevation(4);
+
+            .name-field {
+                flex: 1;
+                margin: 0 8px;
+            }
+        }
+
+        &.is-adding {
+            .add-button-container {
+                opacity: 0;
+                pointer-events: none;
+            }
+            .add-contents {
+                opacity: 1;
+                pointer-events: all;
+                margin-top: 8px;
+                margin-bottom: 8px;
+            }
+        }
+    }
+}

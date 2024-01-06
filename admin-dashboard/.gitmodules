@@ -1,0 +1,3 @@
+[submodule "yamdl"]
+	path = yamdl
+	url = https://github.com/cpsdqs/yamdl

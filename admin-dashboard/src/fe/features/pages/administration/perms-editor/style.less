@@ -1,0 +1,380 @@
+@import '../../../../prelude';
+
+.akso-app .app-header.perms-editor-app-bar {
+    background: #333;
+    color: white;
+}
+
+.perms-editor {
+    position: relative;
+    padding: 24px;
+
+    .perms-stats {
+        font-size: 0.875em;
+        font-style: italic;
+        margin-bottom: 16px;
+
+        .stats-line {
+            margin-bottom: 4px;
+            opacity: 0.6;
+
+            &.is-linkish {
+                text-decoration: underline;
+
+                &:hover {
+                    opacity: 1;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    .perms-req-notice {
+        font-size: small;
+        padding: 8px 16px;
+        padding-bottom: 4px;
+    }
+
+    .perms-item {
+        background: @card1-background;
+        padding: 8px;
+        border-radius: 8px;
+        .elevation(4);
+        margin-bottom: 8px;
+
+        .perms-req-notice {
+            padding-left: 0;
+            padding-top: 0;
+        }
+    }
+
+    .perm-mr-note {
+        margin-top: 4px;
+        font-size: smaller;
+    }
+
+    .perms-category {
+        margin-bottom: 8px;
+        padding: 0 8px;
+        background: @card1-background;
+        border-radius: 8px;
+        .elevation(4);
+
+        .perms-category-contents {
+            overflow: hidden;
+        }
+
+        .category-title {
+            display: block;
+            width: 100%;
+            background: none;
+            text-align: left;
+            padding: 8px 0;
+            margin: 0;
+            border: none;
+            font: inherit;
+            color: inherit;
+            font-size: 1.1em;
+            font-weight: bold;
+            position: sticky;
+            z-index: 1;
+            background: @card1-background;
+            top: 0;
+
+            &:focus {
+                outline: none;
+                color: @secondary;
+            }
+            &::-moz-focus-inner {
+                border: 0;
+            }
+        }
+
+        &.is-expanded .category-title {
+            margin-bottom: 8px;
+        }
+
+        &.is-expanded > .perms-req-notice {
+            margin-top: -8px;
+            margin-bottom: 16px;
+        }
+
+        .perms-item {
+            background: @card2-background;
+            border: 1px solid @separator;
+            box-shadow: none;
+        }
+    }
+
+    .perms-group {
+        margin-bottom: 16px;
+
+        .group-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+    }
+
+    .perm-checkbox {
+        margin-right: 8px;
+
+        &.is-implied-active {
+            --md-checkbox-color: @text-rgb;
+            --md-checkbox-color-opacity: 0.4;
+        }
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border: 4px solid @secondary-fade-50;
+            box-sizing: border-box;
+            border-radius: 10px;
+            transform: scale(0.9);
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.3s @easing, opacity 0.3s @easing;
+        }
+
+        &.is-implier::before {
+            transform: none;
+            opacity: 1;
+            animation: admin-perms-editor-checkbox-implier-in 0.3s @easing;
+
+            @keyframes admin-perms-editor-checkbox-implier-in {
+                0% {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+                100% {
+                    transform: none;
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    .member-fields-container {
+        background: @card2-background;
+        border: 1px solid @separator;
+        padding: 8px;
+        border-radius: 8px;
+        margin-bottom: 16px;
+
+        .member-fields {
+            border-spacing: 0;
+
+            th, tr {
+                padding: 0;
+            }
+
+            thead th {
+                padding-bottom: 8px;
+                font-weight: inherit;
+            }
+        }
+    }
+
+    .member-filter-editor {
+        label {
+            font-size: 0.8em;
+            font-weight: 500;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        .json-editor {
+            margin-top: 4px;
+        }
+
+        .CodeMirror {
+            height: 150px;
+            border-radius: 4px;
+        }
+    }
+
+    .perms-switch {
+        padding-top: 0;
+        padding-bottom: 0;
+
+        .switch-name {
+            display: inline-block;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        .switch-options {
+            .switch-option {
+                display: inline-block;
+                margin: 8px;
+
+                &:first-child {
+                    margin-left: 0;
+                }
+            }
+        }
+    }
+}
+
+.perms-editor-index-sidebar {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 16px;
+    width: 240px;
+    max-height: calc(100vh - 64px - 16px);
+    overflow: auto;
+    background: @card-background;
+    border-radius: 8px;
+    .elevation(8);
+    z-index: 100;
+    animation: perms-editor-index-sidebar-in 0.3s @easing;
+
+    @keyframes perms-editor-index-sidebar-in {
+        0% {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+    }
+
+    .inner-header {
+        display: flex;
+        gap: 8px;
+        padding: 8px;
+        align-items: center;
+
+        .close-button {
+            .md-gray-button();
+        }
+
+        .inner-title {
+            font-weight: bold;
+        }
+    }
+
+    .inner-categories {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        & > li {
+            display: flex;
+            border-top: 1px solid @separator;
+
+            .inner-button {
+                flex: 1;
+                white-space: nowrap;
+                padding: 8px 16px;
+                background: none;
+                border: none;
+                font: inherit;
+                text-transform: none;
+                letter-spacing: 0;
+                color: inherit;
+                text-align: left;
+                transition: font-weight 0.1s;
+                border-radius: 0;
+                .md-gray-button();
+            }
+
+            &.is-selected .inner-button {
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+.admin-perms-save-dialog {
+    max-width: 100%;
+    width: 350px;
+
+    .autosizer {
+        overflow: hidden;
+    }
+
+    .perms-changes {
+        overflow: hidden;
+        background: @text-fade-10;
+        border-radius: 4px;
+        padding: 16px;
+
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+        }
+    }
+
+    .perms-state {
+        margin: 0;
+        list-style-type: none;
+        padding: 0 16px;
+
+        .state-line {
+            .state-line-inner {
+                .state-icon {
+                    width: 48px;
+                    height: 48px;
+                    display: inline-block;
+                    vertical-align: middle;
+                    position: relative;
+
+                    .state-progress {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                    }
+                    .state-check-container,
+                    .state-error-container {
+                        display: inline-block;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        line-height: 1;
+                        transform: translate(-50%, -50%) scale(0.001);
+                        opacity: 0;
+                        transition: transform 0.3s @easing, opacity 0.3s @easing;
+
+                        &.visible {
+                            transform: translate(-50%, -50%);
+                            opacity: 1;
+                        }
+                    }
+                    .state-check-container {
+                        color: @secondary;
+                    }
+                    .state-error-container {
+                        color: @error;
+                    }
+                }
+            }
+            .state-line-error {
+                overflow: hidden;
+
+                .display-error {
+                    text-align: left;
+                }
+            }
+        }
+    }
+}
+
+.perms-editor-raw-permissions-dialog {
+    width: 100%;
+    max-width: 600px;
+
+    .perms-editor-raw-permissions {
+        .raw-perm {
+            font-family: @monospace;
+            font-size: 0.875em;
+            padding: 8px 16px;
+        }
+        .raw-perms-empty {
+            text-align: center;
+            opacity: 0.6;
+        }
+    }
+}

@@ -1,0 +1,222 @@
+@import '../../../../prelude';
+
+.intermediary-report-create {
+    .loading-container {
+        padding: 24px;
+        text-align: center;
+    }
+
+    .report-setup {
+        padding: 24px;
+
+        .setup-field {
+            border-top: 1px solid @separator;
+            padding: 8px 0;
+
+            &:first-child {
+                border-top: none;
+            }
+
+            .setup-field-label {
+                font-size: smaller;
+                font-weight: 600;
+                text-transform: uppercase;
+                opacity: 0.8;
+            }
+
+            &:not(.is-stack) {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            &.is-stack .setup-field-label {
+                margin-bottom: 4px;
+            }
+        }
+    }
+
+    .report-header {
+        padding: 16px;
+
+        .reset-button {
+            float: right;
+            font-size: smaller;
+            .md-gray-button();
+        }
+
+        .report-title {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .report-subtitle {
+            font-size: smaller;
+        }
+
+        .report-currency-select {
+            margin-top: 16px;
+            font-size: smaller;
+
+            label {
+                font-size: smaller;
+                font-weight: 600;
+                text-transform: uppercase;
+                margin-bottom: 4px;
+                display: block
+            }
+        }
+    }
+
+    .report-entry {
+        padding: 16px;
+        margin: 8px 0;
+        border-radius: 8px;
+        .elevation(2);
+
+        .entry-header {
+            display: flex;
+            align-items: center;
+
+            .remove-button {
+                margin-right: 16px;
+            }
+
+            .entry-name {
+                flex: 1;
+            }
+        }
+    }
+    .report-addon {
+        margin: 8px 0;
+        padding: 8px 16px;
+        border-radius: 4px;
+        background: @card2-background;
+        .elevation(2);
+
+        .addon-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+
+            .remove-button {
+                margin-right: 16px;
+            }
+
+            .addon-name-container {
+                flex: 1;
+            }
+        }
+
+        .desc-label {
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            font-size: smaller;
+            font-weight: 600;
+            opacity: 0.7;
+        }
+    }
+    .report-expense {
+        margin: 8px 0;
+        padding: 8px 16px;
+        border-radius: 4px;
+        background: @card2-background;
+        display: flex;
+        .elevation(2);
+
+        @media (max-width: 600px) {
+            display: block;
+            .expense-header {
+                margin-bottom: 8px;
+            }
+        }
+
+        .expense-header {
+            flex: 1;
+            margin-right: 8px;
+            display: flex;
+
+            .title-field {
+                margin-top: 4px;
+                margin-left: 16px;
+                flex: 1;
+            }
+        }
+
+        .amount-container {
+            margin-top: 4px;
+            text-align: right;
+        }
+    }
+
+    .report-section-container {
+        margin: 16px;
+
+        .collapsing-section {
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            background: @card1-background;
+            .elevation(2);
+
+            & > summary {
+                padding: 4px 0;
+                cursor: default;
+
+                .inner-title {
+                    font-weight: bold;
+                }
+                .inner-count {
+                    opacity: 0.7;
+                    margin-left: 8px;
+                }
+            }
+        }
+    }
+    .report-final-totals {
+        margin: 16px;
+    }
+
+    .report-section-floating-loading {
+        float: right;
+    }
+
+    .report-warning-box {
+        border: 1px solid @warning-text;
+        padding: 8px 15px;
+        border-radius: 8px;
+
+        .inner-title {
+            font-weight: bold;
+        }
+        .inner-description {
+            margin: 4px 0;
+        }
+
+        .inner-action {
+            margin-top: 8px;
+
+            .inner-buttons {
+                --md-button-color: var(--warning-text);
+            }
+        }
+    }
+
+    .report-submit-container {
+        text-align: right;
+        padding: 16px 24px;
+    }
+}
+
+.intermediary-report-entry-dialog {
+    width: 100%;
+    max-width: 600px;
+}
+
+.intermediary-report-create-submit-dialog {
+    width: 100%;
+    max-width: 400px;
+
+    .inner-progress {
+        width: 100%;
+    }
+}

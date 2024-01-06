@@ -1,0 +1,18 @@
+@import '../../prelude';
+
+.limited-text-field {
+    .p-helper-label {
+        width: 100%;
+
+        .limited-text-field-counter {
+            display: block;
+            text-align: right;
+        }
+    }
+
+    &.is-at-limit {
+        .p-helper-label {
+            opacity: 1;
+        }
+    }
+}

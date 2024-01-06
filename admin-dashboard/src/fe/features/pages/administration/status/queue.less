@@ -1,0 +1,66 @@
+@import '../../../../prelude';
+
+.admin-worker-queue-status {
+    background: @card-background;
+    border-radius: 8px;
+
+    &.is-loading {
+        padding: 8px 16px;
+        text-align: center;
+    }
+    &.is-error {
+        padding: 8px 16px;
+    }
+
+    .queue-items {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        .queue-item {
+            padding: 8px 16px;
+            border-top: 1px solid @separator;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1em;
+
+            .item-title {
+                font-weight: bold;
+                flex: 1;
+                margin-bottom: 8px;
+            }
+
+            .item-counters {
+                width: 20em;
+            }
+
+            .item-counter {
+                display: flex;
+                justify-content: space-between;
+
+                & + .item-counter {
+                    margin-top: 8px;
+                }
+
+                .counter-value {
+                    border-radius: 100px;
+                    padding: 2px 4px;
+                    min-width: 32px;
+                    text-align: center;
+                    background: @positive;
+                    --danger-percent: 0%;
+                    background: color-mix(in lch, @positive, @danger var(--danger-percent));
+                    color: @text-on-positive;
+
+                    &.is-messages {
+                        --danger-percent: ~"calc(clamp(0%, var(--count) * 10%, 100%))";
+                    }
+
+                    &.is-consumers {
+                        --danger-percent: ~"calc(clamp(0%, 100% - var(--count) * 100%, 100%))";
+                    }
+                }
+            }
+        }
+    }
+}

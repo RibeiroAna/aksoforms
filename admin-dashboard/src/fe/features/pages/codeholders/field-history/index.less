@@ -1,0 +1,55 @@
+@import '../../../../prelude';
+
+.codeholder-field-history {
+    .history-loading-container {
+        text-align: center;
+        padding: 24px 0;
+    }
+
+    .history-retention-note {
+        display: flex;
+        align-items: center;
+        background: @text-fade-10;
+        font-size: smaller;
+        gap: 8px;
+        padding: 8px 16px;
+        border-radius: 4px;
+        margin: 16px;
+        margin-bottom: 8px;
+
+        .inner-icon {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    .history-items {
+        .history-items-no-changes {
+            text-align: center;
+            padding: 16px;
+            border-bottom: 1px solid @separator;
+        }
+
+        .field-history-item {
+            padding-bottom: 16px;
+
+            .item-value {
+                padding: 16px;
+
+                .basic-address .address-pseudoline {
+                    display: block;
+                }
+            }
+
+            .item-meta {
+                padding: 0 16px;
+                font-size: small;
+                line-height: 1.5;
+            }
+
+            &:not(.initial) {
+                border-bottom: 1px solid @separator;
+            }
+        }
+    }
+}

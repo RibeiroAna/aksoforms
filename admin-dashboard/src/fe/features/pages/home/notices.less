@@ -1,0 +1,93 @@
+@import '../../../prelude';
+
+.home-notices {
+    .notices-header {
+        padding: 8px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+
+        .title-container {
+            .inner-title {
+                font-size: 1.1em;
+                font-weight: bold;
+            }
+
+            .inner-count {
+                display: inline-block;
+                margin-left: 0.5em;
+                font-size: smaller;
+                font-weight: 600;
+                padding: 1px 4px;
+                min-width: 1em;
+                text-align: center;
+                border-radius: 100px;
+                background: @secondary;
+                color: @text-on-primary;
+            }
+        }
+    }
+
+    .notice-item {
+        padding: 8px 16px;
+        border-top: 1px solid @separator;
+
+        &.is-read {
+            color: @text-fade-60;
+        }
+
+        .notice-header {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            align-items: center;
+
+            .inner-title {
+                font-size: smaller;
+                font-weight: bold;
+                color: @text-fade-80;
+            }
+
+            .notice-unread-dot {
+                display: inline-block;
+                width: 0.8em;
+                height: 0.8em;
+                border-radius: 50%;
+                background: @secondary;
+                margin-right: 0.5em;
+            }
+
+            .read-button {
+                font-size: smaller;
+                display: flex;
+                align-items: center;
+
+                &.is-read {
+                    .md-gray-button();
+                }
+
+                .check-icon-container {
+                    display: inline-block;
+                    height: 0;
+                    margin-right: 8px;
+                    transform: translateY(-12px);
+                }
+            }
+        }
+
+        .notice-contents {
+            .inner-contents {
+                overflow: hidden;
+
+                h1 {
+                    margin: 0.5em 0;
+                }
+
+                &.is-collapsed {
+                    max-height: 4em;
+                }
+            }
+        }
+    }
+}

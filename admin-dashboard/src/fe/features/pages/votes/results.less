@@ -1,0 +1,330 @@
+@import '../../../prelude';
+
+.vote-results {
+    .results-bar {
+        padding: 8px 24px;
+        text-align: right;
+    }
+
+    .inner-results {
+        background: @card-background;
+        padding: 24px;
+
+        &.is-exporting {
+            // when fonts dont load, the text is invisible in dom-to-image.
+            // just use some default fonts
+            font-family: "Helvetica Neue", Helvetica, sans-serif;
+        }
+    }
+
+    &.has-error {
+        text-align: center;
+    }
+    &.is-loading {
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 1.4em;
+        margin: 0.5em 0;
+    }
+    h2 {
+        font-size: 1.1em;
+        margin-bottom: 0.5em;
+    }
+    h3 {
+        font-size: 1.05em;
+    }
+    h3, h4 {
+        margin-bottom: 0.2em;
+    }
+
+    .option-codeholder-link {
+        color: inherit;
+    }
+
+    .result-summary {
+        &.is-ynb {
+            display: grid;
+            gap: 16px;
+            grid-template-columns: repeat(3, 1fr);
+
+            @media (max-width: 800px) {
+                display: block;
+            }
+        }
+
+        .ynb-condition {
+            background: @text-fade-05;
+            margin: 4px 0;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+
+            .condition-icon {
+                background: @text-fade-10;
+                padding: 4px;
+                margin: 8px;
+                border-radius: 50%;
+                flex-shrink: 0;
+            }
+
+            &.is-result {
+                font-size: 1.2em;
+
+                .condition-label {
+                    font-weight: bold;
+                }
+            }
+
+            &[data-passed="true"] .condition-icon {
+                background: @positive;
+                color: @text-on-positive;
+            }
+        }
+    }
+
+    .option-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 0;
+        list-style: none;
+
+        .inner-item {
+            display: inline-block;
+            background: @text-fade-05;
+            border: 1px solid @separator;
+            border-radius: 4px;
+            padding: 4px 8px;
+        }
+
+        &.is-empty {
+            opacity: 0.5;
+        }
+    }
+
+    .result-ballots {
+        margin-bottom: 16px;
+    }
+
+    .result-bar-chart {
+        width: 100%;
+        margin-bottom: 16px;
+
+        .candidate-item {
+            .candidate-name {
+                text-align: right;
+            }
+
+            .candidate-value {
+                width: 70%;
+                position: relative;
+
+                .inner-value {
+                    position: relative;
+                    width: 100%;
+                    min-height: 1em;
+                    white-space: nowrap;
+
+                    .min-bar, .value-bar {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: calc(100% * var(--value));
+                        height: 100%;
+                        border-radius: 2px;
+                        overflow: hidden;
+                        box-sizing: border-box;
+                    }
+
+                    .min-bar {
+                        box-shadow: inset 0 0 0 1px @separator;
+                    }
+
+                    .inner-label {
+                        position: relative;
+                        z-index: 1;
+                        padding: 2px 4px;
+                    }
+                }
+            }
+
+            &.is-not-marked .value-bar {
+                background: @text-fade-20;
+            }
+            &.is-marked .value-bar {
+                background: @positive;
+            }
+            &.is-marked .value-bar .inner-label {
+                color: @text-on-positive;
+            }
+        }
+    }
+
+    .result-bar-chart {
+        .bar-chart-item {
+            position: relative;
+            padding: 8px 16px;
+            margin-bottom: 1px;
+
+            .item-bar {
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                background: @text-fade-20;
+                border-radius: 4px;
+            }
+
+            .item-name, .item-value, .item-description {
+                position: relative;
+                z-index: 1;
+            }
+            .item-value {
+                margin-top: 4px;
+                font-size: small;
+            }
+            .item-description:not(:empty) {
+                margin-top: 8px;
+                font-size: small;
+            }
+
+            &.was-chosen .item-bar {
+                background: @positive-fade-50;
+            }
+
+            &.was-eliminated .item-bar {
+                background: @danger-fade-20;
+            }
+
+            .item-chosen-check {
+                position: absolute;
+                right: 16px;
+                top: 50%;
+                transform: translateY(-50%);
+                z-index: 1;
+            }
+        }
+    }
+
+    .rp-rounds {
+        padding: 0;
+
+        .rp-round {
+            margin: 16px 0;
+            background: @text-fade-05;
+            border-radius: 4px;
+            padding: 8px 16px;
+
+            .round-options {
+                .round-option {
+                    .round-option-name {
+                        margin-right: 8px;
+                    }
+                }
+            }
+        }
+    }
+
+    .stv-events {
+        padding: 0;
+        list-style: none;
+
+        .stv-event {
+            margin: 16px 0;
+            background: @text-fade-05;
+            border-radius: 4px;
+            padding: 8px 16px;
+
+            h3:first-child {
+                margin-top: 0;
+            }
+        }
+    }
+
+    .result-lock-graph-container {
+        display: flex;
+        text-align: center;
+        gap: 8px;
+
+        @media (max-width: 800px) {
+            display: block;
+        }
+
+        .ordered-pairs {
+            text-align: left;
+
+            table {
+                border-collapse: collapse;
+            }
+
+            th {
+                font-weight: bold;
+            }
+
+            th, td {
+                padding: 4px 8px;
+                border-bottom: 1px solid @separator;
+            }
+
+            tr.is-selected td {
+                background: @text-fade-10;
+            }
+        }
+
+        .inner-lock-graph-container {
+            flex: 1;
+        }
+    }
+
+    .result-lock-graph {
+        max-width: 100%;
+
+        .lock-graph-edge {
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-width: 3px;
+            opacity: 0.7;
+            pointer-events: none;
+
+            transition: stroke-width 0.2s @easing;
+
+            &.is-selected {
+                stroke-width: 6px;
+                opacity: 1;
+            }
+        }
+
+        .lock-graph-edge-hitbox {
+            stroke-width: 14px;
+            fill: none;
+            stroke: #f00;
+            opacity: 0;
+
+            &:hover + .lock-graph-edge {
+                opacity: 1;
+            }
+        }
+
+        .lock-graph-node-background {
+            fill: @text-fade-20;
+
+            &.is-winner {
+                fill: @secondary;
+            }
+        }
+
+        .lock-graph-node-label.is-winner {
+            color: @text-on-primary;
+        }
+
+        text {
+            fill: currentColor;
+            dominant-baseline: middle;
+            alignment-baseline: middle;
+        }
+    }
+}

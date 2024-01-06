@@ -1,0 +1,50 @@
+@import '../../../prelude';
+
+.notif-template-preview-page {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .preview-loading {
+        padding: 24px;
+        text-align: center;
+    }
+
+    .preview-contents {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+
+        .preview-tabs {
+            flex-shrink: 0;
+        }
+        .html-preview, .text-preview {
+            flex: 1;
+        }
+
+        .html-preview {
+            border: none;
+            width: 100%;
+            height: 100%;
+
+            // default html background
+            background: #fff;
+        }
+
+        .text-preview {
+            padding: 24px;
+            overflow: auto;
+
+            .text-contents {
+                font-family: @monospace;
+                font-size: small;
+                white-space: pre-wrap;
+            }
+        }
+    }
+}
+
+.notif-template-html-preview-link-prompt {
+    width: 100%;
+    max-width: 400px;
+}

@@ -1,0 +1,30 @@
+@import '../../../../prelude';
+
+.congress-items-tags-filter {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+
+    &.has-items {
+        width: 100%;
+        margin-top: 8px;
+    }
+
+    .tag-item {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        border: 1px solid @separator;
+        border-radius: 4px;
+        padding-inline-end: 8px;
+
+        .remove-button {
+            width: 32px;
+            height: 32px;
+        }
+    }
+}

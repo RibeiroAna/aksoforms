@@ -1,0 +1,138 @@
+@import '../../../prelude';
+
+.notif-template-page {
+    .notif-template-detail {
+        .detail-header {
+            padding: 24px;
+
+            .header-title {
+                font-size: 1.5em;
+                font-weight: bold;
+                margin-bottom: 8px;
+
+                .header-org {
+                    margin-right: 8px;
+                }
+
+                .template-name-editor {
+                    width: 100%;
+                }
+            }
+            .header-info {
+                margin-bottom: 8px;
+
+                .notif-template-base {
+                    margin-right: 8px;
+                }
+            }
+
+            .description-label {
+                font-size: small;
+                text-transform: uppercase;
+                font-weight: 600;
+                margin-top: 16px;
+                margin-bottom: 4px;
+            }
+        }
+
+        .template-script {
+            position: relative;
+            margin: 0 24px;
+
+            .template-script-edit-button {
+                position: absolute;
+                top: 16px;
+                right: 16px;
+                z-index: 100;
+
+                animation: notif-template-template-script-edit-button-in 0.3s @easing;
+                @keyframes notif-template-template-script-edit-button-in {
+                    0% { transform: scale(0) }
+                }
+            }
+        }
+
+        .mail-contents {
+            margin: 24px;
+            border-radius: 4px;
+            background: @card1-background;
+            .elevation(6);
+
+            .mail-header {
+                padding: 16px;
+                border-bottom: 1px solid @separator;
+
+                .mail-sender {
+                    margin-bottom: 8px;
+
+                    .sender-name {
+                        font-weight: bold;
+
+                        .template-from-name-editor {
+                            width: 100%;
+                        }
+                    }
+                    .sender-address {
+                        font-size: small;
+
+                        .notif-template-domain-email-editor {
+                            margin-top: 8px;
+                        }
+                    }
+                }
+
+                .mail-subject {
+                    font-size: 1.1em;
+
+                    .template-subject-editor {
+                        margin-top: 16px;
+                        width: 100%;
+                    }
+                }
+
+                .reply-to-label {
+                    margin-top: 8px;
+                    margin-bottom: 4px;
+                    font-size: small;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                }
+            }
+
+            .mail-body {
+                .body-type-banner {
+                    font-size: small;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    padding: 4px 16px;
+                    background: @text-fade-10;
+                }
+
+                .mail-body-html, .mail-body-text {
+                    padding: 16px;
+                    padding-top: 8px;
+
+                    &.is-empty {
+                        text-align: center;
+                    }
+
+                    .inner-code {
+                        margin: 0;
+                        font-family: @monospace;
+                        font-size: 12px;
+                        white-space: pre-wrap;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.notif-template-script-node-root {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 250;
+}

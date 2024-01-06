@@ -1,0 +1,40 @@
+Estimata{{#if intent.customer_name}} {{intent.customer_name}}{{/if}},
+
+Koran dankon pro via {{#if isDonation}}donaco{{else}}mendo{{/if}}.
+
+
+---
+{{#each intent.purposes}}
+{{~#if this.title}}{{this.title}}{{/if}}
+{{~#if_eq this.type "addon"}}Donaco al {{this.paymentAddon.name}}{{/if_eq}}
+{{~#if this.invalid}}
+(nuligita){{/if}}
+{{~#if this.description}}
+: {{this.description}}{{/if}}
+{{~#if_eq this.type "trigger"}}
+{{~#if_eq this.triggers "registration_entry"}}
+
+{{#each (lookup @root.registrationEntryInfo this._registrationEntryIdHex)}}
+: {{this}}
+{{/each}}{{/if_eq}}{{/if_eq}}
+{{currency_fmt this.amount @root.intent.currency}}
+{{~#if this.originalAmount}} (rabatite de {{currency_fmt this.originalAmount @root.intent.currency}}){{/if}}
+---
+{{/each}}
+
+SUME {{currency_fmt totalAmount intent.currency}}
+
+
+Bonvolu sekvi la ĉi-subajn instrukciojn por plenumi vian pagon.{{#if_eq intent.paymentMethod.type manual}} Kiam vi sukcese pagis, bonvolu tion indiki alklakante la butonon » Pago sendita « en la paga paĝo: {{paymentFacilitatorURL}}. Tio sciigos al oficisto, ke oni atendu vian pagon.{{#if validityStr}}
+
+Post {{validityStr}} la mendo estos konsiderata nuligita, se la pago ne estas markita kiel sendita.{{/if}}{{/if_eq}}
+
+
+PAGINSTRUKCIOJ:
+{{intent.paymentMethod.description}}
+
+
+Via {{#if isDonation}}donaco{{else}}mendo{{/if}}-numero estas {{idEncoded}}. Bonvolu ĝin indiki en eventualaj komunikoj kun ni pri via {{#if isDonation}}donaco{{else}}mendo{{/if}}. Vi povas kontakti nin per info@uea.org aŭ rekte kontakti la koncernan fakon per retadreso trovebla ĉe https://uea.org/kontakti.
+
+Salutas
+Universala Esperanto-Asocio

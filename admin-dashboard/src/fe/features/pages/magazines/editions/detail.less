@@ -1,0 +1,79 @@
+@import '../../../../prelude';
+
+.magazine-edition-page {
+    .edition-detail-contents {
+        .edition-header {
+            padding: 16px;
+            display: flex;
+
+            @thumbWidth: 21mm * 2;
+            @thumbHeight: 29.7mm * 2;
+
+            .edition-thumbnail {
+                width: @thumbWidth;
+                height: @thumbHeight;
+
+                .edition-placeholder-thumbnail {
+                    background: linear-gradient(to bottom right, #ccc, #aeaeae);
+                    width: 100%;
+                    height: 100%;
+                    line-height: 1.5;
+                    text-align: center;
+                    font-size: 18px;
+                    overflow: hidden;
+
+                    .th-title {
+                        margin-top: 1em;
+                        font-weight: 900;
+                        font-size: 1.2em;
+                        color: #444;
+                    }
+                    .th-subtitle {
+                        font-weight: 700;
+                        color: #333;
+                    }
+                }
+            }
+
+            .header-details {
+                margin-left: 16px;
+                flex: 1;
+
+                .detail-fields {
+                    margin: 0;
+                    padding: 0;
+                }
+
+                .edition-field-id-human {
+                    font-size: 1.2em;
+                    font-weight: bold;
+                }
+            }
+
+            @media (max-width: @thumbWidth * 4) {
+                display: block;
+                .edition-thumbnail {
+                    width: auto;
+                }
+                .header-details {
+                    margin-top: 16px;
+                    margin-left: 0;
+                }
+            }
+        }
+    }
+
+    .edition-toc-title {
+        padding: 0 16px;
+        margin: 16px 0;
+        margin-top: 32px;
+        font-size: 1.4em;
+        font-weight: bold;
+    }
+
+    .magazine-edition-field-date,
+    .magazine-edition-field-id-human {
+        width: 100%;
+    }
+}
+

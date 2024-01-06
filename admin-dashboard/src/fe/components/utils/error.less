@@ -1,0 +1,44 @@
+@import '../../prelude';
+
+.display-error {
+    text-align: center;
+    margin: 8px;
+    color: @error;
+
+    &.is-invalid-search-query {
+        text-align: left;
+        padding: 8px 16px;
+    }
+
+    pre {
+        font-family: @monospace;
+        font-size: small;
+        white-space: pre-wrap;
+    }
+
+    .schema-error {
+        text-align: left;
+
+        &.data-path {
+            border: 1px solid @separator;
+            padding: 2px 4px;
+            border-radius: 4px;
+            margin: 2px;
+            display: inline-block;
+
+            .path-item {
+                &:not(:last-child)::after {
+                    content: ' ▸ ';
+                    opacity: 0.5;
+                }
+            }
+        }
+
+        &.error-item {
+            background: @text-fade-05;
+            border-radius: 4px;
+            margin: 4px;
+            padding: 4px 8px;
+        }
+    }
+}

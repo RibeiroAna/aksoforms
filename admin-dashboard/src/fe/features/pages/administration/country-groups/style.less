@@ -1,0 +1,66 @@
+@import '../../../../prelude';
+
+.country-groups-page, .country-group-page {
+    .country-group-code {
+        font-family: @monospace;
+        font-size: small;
+        padding: 2px 4px;
+        border: 1px solid @separator;
+        border-radius: 4px;
+        text-transform: uppercase;
+        background: @text-fade-10;
+    }
+}
+
+.country-group-page {
+    .countries-list-container {
+        margin: 16px;
+
+        .countries-list-search {
+            display: flex;
+
+            .countries-list-search-icon {
+                width: 48px;
+                height: 48px;
+                flex-shrink: 0;
+                text-align: center;
+                line-height: 48px;
+            }
+
+            input {
+                flex: 1;
+                margin: 0;
+                border: none;
+                line-height: 48px;
+                height: 48px;
+                padding: 0;
+                font: inherit;
+                color: inherit;
+                background: none;
+
+                &:focus {
+                    outline: none;
+                }
+            }
+        }
+
+        .countries-list {
+            .country-item {
+                display: flex;
+                align-items: center;
+
+                .country-checkbox-container {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 48px;
+                    height: 48px;
+                    flex-shrink: 0;
+                }
+                .country-flag {
+                    margin-right: 8px;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,66 @@
+body {
+    font-family: sans-serif;
+}
+
+@media print {
+    .print-action-container {
+        display: none;
+    }
+}
+
+.report-section {
+    border: 1pt solid rgba(0, 0, 0, 0.3);
+    padding: 1em;
+}
+.report-section .section-title {
+    margin-bottom: 0.5em;
+    font-weight: bold;
+    padding-bottom: 0.2em;
+    border-bottom: 1pt solid rgba(0, 0, 0, 0.3);
+}
+.report-total-total {
+    font-size: 1.1em;
+}
+.currency-table .unrolled-method {
+    margin-top: 1em;
+    padding-bottom: 1em;
+    border-bottom: 1pt solid rgba(0, 0, 0, 0.2);
+}
+.currency-table .unrolled-title {
+    font-weight: bold;
+    margin-bottom: 0.3em;
+}
+.currency-table .unrolled-title a {
+    color: inherit;
+    text-decoration: none;
+}
+.currency-table th {
+    vertical-align: top;
+    text-align: left;
+}
+.currency-table {
+    border-spacing: 0;
+    border-collapse: collapse;
+    width: 100%;
+}
+.currency-table th,
+.currency-table td {
+    border: 1pt solid currentColor;
+    padding: 0.1em;
+}
+.converted-total-sub, .totals-sub {
+    font-size: small;
+}
+.converted-total-sub .converted-total-subfield {
+    display: inline-block;
+}
+.converted-total-sub .converted-total-subfield::after, .totals-sub .totals-subfield::after {
+    content: ',\00a0';
+}
+.converted-total-sub .converted-total-subfield:last-child::after,
+.totals-sub .totals-subfield:last-child::after {
+    content: '';
+}
+.object-id {
+    color: inherit;
+}

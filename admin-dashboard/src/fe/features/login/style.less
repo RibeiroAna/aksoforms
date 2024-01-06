@@ -1,0 +1,359 @@
+@import '../../prelude';
+
+.form-stuff(@hpad: 0px, @bpad: 0px) {
+    p {
+        margin: 0 @hpad 24px;
+    }
+
+    a {
+        color: inherit;
+        opacity: 0.8;
+    }
+
+    button .progress-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    button .progress-overlay + span {
+        transition: opacity 0.3s;
+    }
+    button .progress-overlay.indeterminate + span {
+        opacity: 0;
+    }
+
+    .form-field-container {
+        padding: 0 @hpad 24px;
+    }
+
+    .form-footer {
+        display: flex;
+        padding: 0 @hpad @bpad;
+        align-items: center;
+
+        .help-links {
+            flex: 1;
+            font-size: 0.8em;
+            line-height: 1.5em;
+
+            .help-link {
+                font-weight: 500;
+                text-decoration: none;
+                color: currentColor;
+                opacity: 0.7;
+                transition: opacity 0.3s @easing;
+
+                &:hover {
+                    text-decoration: underline;
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}
+
+.login {
+    position: fixed;
+    display: flex;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    background-image: linear-gradient(to bottom left, #89b2e3, #6a6f2b);
+
+    @media (prefers-color-scheme: dark) {
+        background-image: linear-gradient(to bottom left, #192233, #050f0b);
+    }
+
+    animation: login-in 0.3s;
+
+    @keyframes login-in {
+        0% {
+            opacity: 0;
+        }
+    }
+
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+
+    // width below which the login dialog will be made fullscreen
+    @fullscreen-width: 420px;
+    // height below which the login dialog will be made full-height
+    @fullscreen-height: 420px;
+
+    @media (max-width: @fullscreen-width) {
+        justify-content: stretch;
+        align-items: stretch;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    &.allows-non-admin::before {
+        content: '⌘';
+        position: absolute;
+        top: 1em;
+        left: 1em;
+        z-index: 100;
+    }
+
+    .login-dialog {
+        position: relative;
+        width: 350px;
+        max-width: 100%;
+        max-height: 100%;
+        background: @card-background;
+        border-radius: 4px;
+        transition: transform 0.5s @easing, opacity 0.5s @easing;
+        .elevation(24);
+
+        @media (max-width: @fullscreen-width) {
+            width: 100%;
+        }
+
+        .login-header {
+            background: @primary;
+            color: @text-on-primary;
+            border-radius: inherit;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            user-select: none;
+
+            .login-logo {
+                position: absolute;
+                left: 50%;
+                top: -10px;
+                transform: translate(-50%, -50%);
+                height: 64px;
+                vertical-align: middle;
+                transition: transform 0.3s @easing 0.1s, opacity 0.3s @easing 0.1s;
+            }
+
+            .login-label {
+                text-align: center;
+                height: 32px;
+                margin-bottom: 8px;
+                position: relative;
+
+                @media (max-width: @fullscreen-width) {
+                    margin-top: env(safe-area-inset-top);
+                }
+            }
+
+            .login-small-logo {
+                width: 32px;
+                height: 32px;
+                position: absolute;
+                left: 50%;
+                top: 0;
+                transform: translateX(-37px) translateY(-1px) scale(1.1);
+                opacity: 0;
+                transition: transform 0.3s @easing, opacity 0.3s @easing;
+            }
+
+            .login-logo-label {
+                height: 32px;
+                transform: scale((18 / 24));
+                vertical-align: middle;
+                transition: transform 0.5s @easing;
+            }
+
+            @media (max-width: @fullscreen-width), (max-height: @fullscreen-height) {
+                .login-logo {
+                    transform: translate(-50%, -50%) translateY(8px) scale(0.9);
+                    opacity: 0;
+                    transition: transform 0.3s @easing, opacity 0.3s @easing;
+                }
+                .login-small-logo {
+                    transform: translateX(-83px);
+                    opacity: 1;
+                    transition: transform 0.3s @easing 0.1s, opacity 0.3s @easing 0.1s;
+                }
+                .login-logo-label {
+                    transform: translateX(18px) scale((20 / 24));
+                }
+            }
+        }
+
+        .form-stuff(20px, 20px);
+
+        .totp-setup-loading {
+            text-align: center;
+        }
+
+        .totp-setup {
+            &.is-generating {
+                text-align: center;
+                margin-bottom: 8px;
+            }
+
+            .totp-setup-instruction {
+                text-align: center;
+                margin-bottom: 0.5em;
+                font-weight: 600;
+            }
+            .totp-setup-qr-container {
+                text-align: center;
+                margin-bottom: 0.5em;
+
+                .totp-qr {
+                    border-radius: 4px;
+                }
+            }
+            .totp-setup-otpauth-link {
+                text-align: center;
+                margin-bottom: 1em;
+            }
+        }
+
+        .totp-input {
+            // hide the up/down arrow buttons in the number input
+            // from https://stackoverflow.com/questions/3790935/#answer-4298216
+            input::-webkit-outer-spin-button,
+            input::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+            input {
+                -moz-appearance: textfield;
+            }
+        }
+
+        .totp-bypass-container {
+            text-align: center;
+            position: relative;
+
+            .totp-bypass-switch {
+                vertical-align: middle;
+                margin-right: 12px;
+            }
+
+            .totp-bypass-label {
+                font-size: 0.87em;
+                font-weight: 600;
+                opacity: 0.6;
+                transition: opacity 0.2s;
+            }
+
+            .totp-bypass-switch.is-checked + .totp-bypass-label {
+                opacity: 1;
+            }
+
+            .totp-bypass-description {
+                margin-top: 4px;
+                transition: visibility 0.2s, opacity 0.2s;
+                font-size: 0.87em;
+                width: calc(100% - 40px);
+                box-sizing: border-box;
+
+                &.hidden {
+                    visibility: hidden;
+                    opacity: 0;
+                    position: absolute;
+                }
+            }
+        }
+
+        .logged-in-page {
+            height: 200px;
+        }
+
+        .login-meta {
+            left: 20px;
+            text-align: center;
+            right: 20px;
+            color: @text-fade-60;
+            display: none;
+            padding: 0;
+
+            @media (max-width: @fullscreen-width), (max-width: 850px) and (max-height: @fullscreen-height) {
+                display: block;
+            }
+
+            @media (max-height: @fullscreen-height) {
+                position: relative;
+                left: auto;
+                right: auto;
+            }
+
+            @media (max-width: @fullscreen-width), (max-width: 850px) and (max-height: @fullscreen-height) {
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+
+            a:hover {
+                color: @text;
+            }
+        }
+    }
+
+    .login-meta {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        color: @text-on-primary-fade-60;
+        font-size: 0.8em;
+        // can’t use bottom: max(..) because it’s broken in Firefox (checked version 67)
+        padding-bottom: env(safe-area-inset-bottom);
+        padding-right: env(safe-area-inset-right);
+
+        a {
+            color: inherit;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+                color: @text-on-primary;
+            }
+        }
+
+        @media (max-width: @fullscreen-width), (max-width: 850px) and (max-height: @fullscreen-height) {
+            display: none;
+        }
+        @media (max-width: 600px) {
+            right: auto;
+            left: 10px;
+            padding-right: 0;
+            padding-left: env(safe-area-inset-left);
+        }
+    }
+
+    .login-version {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        font-size: 0.6em;
+        color: @text-on-primary-fade-60;
+        padding-left: env(safe-area-inset-left);
+        padding-bottom: env(safe-area-inset-bottom);
+
+        @media (max-width: 600px) and (min-height: @fullscreen-height) {
+            bottom: 32px;
+            opacity: 0.6;
+        }
+    }
+
+    &.logged-in {
+        perspective: 1000px;
+
+        .login-dialog {
+            transform: translateZ(100px);
+            opacity: 0;
+        }
+    }
+}
+
+.login-task-init-create-password {
+    width: 100%;
+    max-width: 350px;
+
+    .form-stuff();
+
+    .form-footer .footer-spacer {
+        flex: 1;
+    }
+}

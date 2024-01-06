@@ -1,0 +1,55 @@
+@import '../../../prelude';
+
+.magazine-edition-picker {
+    border: 1px solid @separator;
+    border-radius: 4px;
+    display: flex;
+
+    .pick-magazine {
+        flex: 1;
+        margin: -1px;
+        border: 1px solid @secondary;
+    }
+
+    .selected-magazine {
+        display: flex;
+        flex: 1;
+        align-items: center;
+
+        .remove-picked {
+            flex-shrink: 0;
+            margin: 4px 8px;
+            .md-gray-button();
+        }
+
+        .magazine-item, .edition-item {
+            align-self: stretch;
+            color: inherit;
+            text-transform: none;
+            letter-spacing: 0;
+            font: inherit;
+            flex: 2;
+            width: 0;
+            border-radius: 0;
+            .md-gray-button();
+        }
+
+        .edition-item {
+            border-radius: 0 3px 3px 0;
+        }
+
+        .selected-edition-chevron {
+            flex-shrink: 0;
+            line-height: 0;
+            margin: 0 8px;
+        }
+
+        .edition-item {
+            flex: 3;
+        }
+        .pick-edition {
+            flex: 3;
+            align-self: stretch;
+        }
+    }
+}

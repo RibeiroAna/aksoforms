@@ -1,0 +1,83 @@
+@import '../../../../prelude';
+
+.member-files-page {
+    width: 100%;
+    height: 100%;
+    container: files-page / inline-size;
+
+    .files-list {
+        position: relative;
+        height: 100%;
+        overflow-y: scroll;
+
+        .data-list-item {
+            .elevation(4);
+            background: @card1-background;
+            border-radius: 4px;
+            margin: 8px 16px;
+            width: calc(100% - 32px);
+
+            .list-item-contents {
+                max-width: calc(100% - 56px);
+            }
+        }
+
+        .member-file {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+
+            .file-thumbnail {
+                width: 48px;
+                height: 48px;
+                flex-shrink: 0;
+                background: @text-fade-10;
+                border-radius: 50%;
+                text-align: center;
+                line-height: 48px;
+                margin-right: 16px;
+            }
+
+            .file-details {
+                flex: 1;
+
+                .file-id {
+                    font-size: small;
+                    padding: 1px 4px;
+                    border-radius: 4px;
+                    background: @text-fade-20;
+                    margin-right: 4px;
+                }
+
+                .file-description, .file-meta {
+                    font-size: small;
+                    opacity: 0.8;
+                }
+
+                .file-description {
+                    font-size: 0.9em;
+                    width: calc(100% - 4em);
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .file-description:not(:empty), .file-meta {
+                    margin-top: 4px;
+                }
+
+                .mime-type {
+                    .mime-subtype {
+                        text-transform: uppercase;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@container files-page (width < 350px) {
+    .member-files-page .member-file .file-thumbnail {
+        display: none;
+    }
+}

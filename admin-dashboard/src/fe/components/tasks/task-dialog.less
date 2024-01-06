@@ -1,0 +1,40 @@
+@import '../../prelude';
+
+.task-dialog {
+    .task-dialog-footer {
+        display: flex;
+        justify-content: space-between;
+        padding: 0;
+        margin-top: 16px;
+
+        button .progress-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        button .progress-overlay + span {
+            transition: opacity 0.3s;
+        }
+        button .progress-overlay.indeterminate + span {
+            opacity: 0;
+        }
+    }
+
+    .task-dialog-form {
+        .form-validator {
+            display: flex;
+            justify-content: center;
+
+            .form-field {
+                margin: 0 20px 32px;
+            }
+        }
+    }
+
+    .task-dialog-error {
+        text-align: center;
+        color: @error;
+        font-size: small;
+    }
+}

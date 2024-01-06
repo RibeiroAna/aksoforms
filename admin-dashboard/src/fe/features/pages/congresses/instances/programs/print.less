@@ -1,0 +1,23 @@
+.congress-program-print-dialog {
+    width: 100%;
+    max-width: 600px;
+
+    .print-load-button {
+        position: relative;
+
+        .button-inner-label {
+            transition: opacity 0.1s;
+        }
+
+        .button-inner-progress {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            & + .button-inner-label {
+                opacity: 0;
+            }
+        }
+    }
+}

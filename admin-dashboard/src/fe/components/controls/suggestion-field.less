@@ -1,0 +1,29 @@
+@import '../../prelude';
+
+.suggestion-field-suggestions {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10000;
+    background: @card-background;
+    border-radius: 4px;
+    max-height: 70vh;
+    overflow-y: auto;
+    .elevation(4);
+
+    .suggestion {
+        .md-gray-button();
+        color: @text;
+        text-transform: none;
+        font: inherit;
+        line-height: 2.5;
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+        text-align: left;
+
+        &.is-highlighted {
+            background: @hover-background;
+        }
+    }
+}

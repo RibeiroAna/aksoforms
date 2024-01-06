@@ -1,0 +1,5 @@
+{{#each columns}}{{this}}
+
+{{/each}}{{#if button}}
+
+{{button.text}} <{{button.href}}>{{/if}}

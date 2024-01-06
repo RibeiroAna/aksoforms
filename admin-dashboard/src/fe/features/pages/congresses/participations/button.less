@@ -1,0 +1,20 @@
+@import '../../../../prelude';
+
+.codeholder-congress-participations-button-container {
+    .codeholder-congress-participations-button {
+        .md-gray-button();
+        color: inherit;
+        background: @card-background;
+        padding-left: 16px;
+        padding-right: 16px;
+
+        @media (prefers-color-scheme: dark) {
+            background: @text-fade-10;
+        }
+
+        .inner-icon-container {
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+    }
+}

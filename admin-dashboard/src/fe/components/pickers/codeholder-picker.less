@@ -1,0 +1,99 @@
+@import '../../prelude';
+
+.codeholder-picker {
+    border: 1px solid @control-idle;
+    border-radius: 4px;
+    padding: 0 8px;
+    box-sizing: border-box;
+
+    .selected-codeholders {
+        padding: 4px 0;
+
+        .codeholder-item {
+            display: inline-block;
+            background: @text-fade-10;
+            border-radius: 4px;
+            padding-right: 4px;
+            margin-right: 8px;
+
+            .remove-button {
+                vertical-align: middle;
+                width: 24px;
+                height: 24px;
+                margin-right: 4px;
+                border-radius: 4px;
+                .md-gray-button();
+            }
+
+            .uea-code {
+                border: none;
+                background: none;
+            }
+        }
+    }
+
+    .selected-empty {
+        color: @text-fade-60;
+    }
+
+    .add-button {
+        margin-left: 8px;
+    }
+
+    &[data-limit="1"] {
+        padding: 0;
+
+        .selected-codeholders {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+
+            .codeholder-item {
+                flex: 1;
+                padding: 8px;
+                margin-right: 0;
+            }
+
+            .add-button {
+                margin-left: 0;
+            }
+        }
+    }
+}
+
+.codeholder-picker-add-dialog {
+    width: 400px;
+    max-width: 100%;
+
+    .codeholder-picker-search {
+        display: flex;
+        width: 100%;
+        margin-bottom: 8px;
+
+        .search-icon-container {
+            display: flex;
+            flex-shrink: 0;
+            width: 56px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .search-inner {
+            flex: 1;
+            background: none;
+            font: inherit;
+            color: inherit;
+            border: none;
+            margin: 0;
+            padding: 8px 16px;
+            padding-left: 0;
+            box-sizing: border-box;
+
+            &:focus {
+                outline: none;
+            }
+        }
+    }
+}

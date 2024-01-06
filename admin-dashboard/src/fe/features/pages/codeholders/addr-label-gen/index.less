@@ -1,0 +1,155 @@
+@import '../../../../prelude.less';
+
+.codeholders-addr-label-gen-dialog {
+    width: 100%;
+    max-width: 1000px;
+    height: 100%;
+}
+
+.codeholders-addr-label-gen {
+    .addr-label-gen-desc,
+    .cursed-notice {
+        margin: 16px;
+    }
+
+    .cursed-notice {
+        padding: 8px;
+        border-radius: 4px;
+        background: @text-fade-10;
+    }
+
+    .addr-label-gen-inner {
+        display: flex;
+
+        @media (max-width: 600px) {
+            display: block;
+        }
+
+        .gen-preview {
+            flex: 1;
+            max-width: 400px;
+            padding: 16px;
+            padding-left: 24px;
+
+            .gen-preview-inner {
+                background: white; // paper is white
+                .elevation(4);
+            }
+
+            .stats {
+                margin-top: 16px;
+            }
+        }
+
+        .gen-settings {
+            flex: 1;
+            padding-top: 8px;
+            padding-right: 8px;
+
+            .gen-presets {
+                padding: 8px;
+                padding-bottom: 4px;
+                background: @text-fade-10;
+                border-radius: 4px;
+                margin-bottom: 8px;
+                .md-gray-button();
+
+                .presets-title {
+                    font-size: smaller;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    letter-spacing: 0.06em;
+                }
+
+                .presets-inner {
+                    display: flex;
+                    justify-content: space-between;
+                }
+
+                .loaded-preset {
+                    margin-right: 8px;
+
+                    .preset-unlink-button {
+                        margin-right: 8px;
+                    }
+                }
+            }
+
+            .settings-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 8px 16px;
+
+                .item-label {
+                    margin-right: 16px;
+                }
+
+                .paper-text-field {
+                    width: 6em;
+
+                    &.is-mm {
+                        width: 8em;
+                    }
+                }
+
+                &[data-id="margins"] {
+                    display: block;
+
+                    .margins-line {
+                        display: flex;
+                        justify-content: center;
+
+                        &.is-line-two {
+                            justify-content: space-between;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .addr-label-gen-request-settings {
+        margin: 16px 0;
+        padding: 0 16px;
+        padding-top: 8px;
+        border-top: 1px solid @separator;
+    }
+
+    .addr-label-gen-footer {
+        margin-top: 8px;
+        padding: 16px 24px;
+        padding-bottom: 32px;
+        display: flex;
+        justify-content: space-between;
+
+        .extra-desc {
+            flex: 1;
+            margin-right: 16px;
+        }
+
+        .generate-btn {
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 500px) {
+            flex-direction: column;
+
+            .extra-desc {
+                align-self: flex-start;
+                margin-bottom: 8px;
+            }
+
+            .generate-btn {
+                align-self: flex-end;
+            }
+        }
+    }
+}
+
+.address-label-preset-picker {
+    width: 400px;
+    height: 600px;
+    max-width: 100%;
+    max-height: 100%;
+}

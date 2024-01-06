@@ -1,0 +1,26 @@
+@import '../../../prelude';
+
+.newsletter-picker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+
+    .newsletter-item {
+        border: 1px solid @separator;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        padding-right: 4px;
+        gap: 4px;
+
+        .remove-button {
+            .md-gray-button();
+            min-width: 0;
+            width: 24px;
+            height: 24px;
+            line-height: 1;
+            padding: 0;
+        }
+    }
+}

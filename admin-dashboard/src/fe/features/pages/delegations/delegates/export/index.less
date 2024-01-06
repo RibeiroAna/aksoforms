@@ -1,0 +1,65 @@
+@import '../../../../../prelude';
+
+.delegates-export-dialog {
+    width: 400px;
+    max-width: 100%;
+
+    .export-error-container {
+        margin: 8px 0;
+    }
+
+    .export-action-container {
+        margin: 8px 0;
+        text-align: center;
+    }
+
+    .progress-display {
+        background: @text-fade-10;
+        border-radius: 4px;
+        padding: 8px 16px;
+        overflow: hidden;
+
+        .progress-icon {
+            position: relative;
+
+            .check-icon {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) scale(0.0000001);
+            }
+
+            .progress-circle, .check-icon {
+                transition: transform 0.3s @easing;
+            }
+
+            &[data-done] {
+                .progress-circle {
+                    transform: scale(0);
+                }
+
+                .check-icon {
+                    transform: translate(-50%, -50%);
+                }
+            }
+        }
+
+        .progress-item {
+            display: flex;
+            align-items: center;
+            padding: 4px 0;
+
+            .item-label {
+                flex: 1;
+                margin-left: 8px;
+            }
+
+            .item-value {
+                min-width: 4em;
+                text-align: right;
+                font-feature-settings: 'tnum' 1;
+                margin-left: 8px;
+            }
+        }
+    }
+}

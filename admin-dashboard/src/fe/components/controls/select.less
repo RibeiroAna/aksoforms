@@ -1,0 +1,100 @@
+@import '../../prelude';
+
+.paper-select {
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    border-radius: 4px;
+    white-space: nowrap;
+
+    &.is-multi {
+        width: 200px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        // fix background in firefox
+        option {
+            background: @card-background;
+        }
+    }
+
+    & > select, & > .multi-select {
+        display: inline-block;
+        background: none;
+        border: none;
+        font: inherit;
+        color: inherit;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        padding: 0 16px;
+        padding-right: 24px;
+        line-height: 2.5em;
+        box-sizing: border-box;
+        margin: 0;
+        border-radius: 0;
+        vertical-align: middle;
+        max-width: 100%;
+        width: 100%;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    & > .multi-select {
+        display: inline-flex;
+        cursor: default;
+        -webkit-user-select: none;
+        user-select: none;
+
+        .inner-select-label {
+            flex: 1;
+            flex-basis: 0;
+            width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    &:not(.p-outline).is-disabled {
+        color: @text-fade-60;
+    }
+
+    &.p-outline {
+        border: 1px solid rgb(var(--md-text-field-idle) / var(--md-text-field-idle-opacity));
+        padding: 1px;
+
+        &.is-focused {
+            padding: 0;
+            border-width: 2px;
+            border-color: @secondary;
+        }
+
+        &.is-disabled {
+            border-color: rgb(var(--md-text-field-disabled) / var(--md-text-field-disabled-opacity));
+            color: @text-fade-60;
+        }
+    }
+
+    &:not(.p-outline) {
+        box-shadow: 0 0 0 0 transparent;
+        transition: box-shadow 0.3s @easing;
+
+        .simple-focus-ring-idle();
+        &.is-focused {
+            .simple-focus-ring-focused();
+        }
+    }
+
+    .p-select-icon {
+        margin-left: -24px;
+        width: 24px;
+        height: 24px;
+        vertical-align: middle;
+        pointer-events: none;
+
+        path {
+            fill: currentColor;
+        }
+    }
+}

@@ -1,0 +1,4 @@
+[mysqld]
+innodb_ft_min_token_size = 3
+group_concat_max_len = 1000000
+event_scheduler = on

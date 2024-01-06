@@ -1,0 +1,62 @@
+@import '../../../prelude';
+
+.codeholder-validated-email-editor {
+    .trailing-validation-status {
+        width: 24px;
+        height: 24px;
+
+        .is-taken {
+            color: @danger;
+        }
+        .is-valid {
+            color: @positive;
+        }
+    }
+}
+
+.codeholder-address-invalid-warning {
+    background: @warning;
+    color: @text-on-warning;
+    padding: 8px 16px;
+    border-radius: 4px;
+    margin: 8px 0;
+    display: flex;
+    align-items: flex-start;
+    .elevation(2);
+
+    .inner-icon-container {
+        margin-right: 8px;
+        flex-shrink: 0;
+    }
+    .inner-content {
+        width: 0;
+        flex: 1;
+
+        .inner-title {
+            font-weight: bold;
+        }
+    }
+}
+
+.member-header-container {
+    .member-info {
+        .info-membership-roles {
+            margin-top: 8px;
+        }
+
+        .info-buttons {
+            display: grid;
+            gap: 8px;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+
+            .info-button-container {
+                display: flex;
+
+                .info-button {
+                    flex: 1;
+                    text-align: left;
+                }
+            }
+        }
+    }
+}

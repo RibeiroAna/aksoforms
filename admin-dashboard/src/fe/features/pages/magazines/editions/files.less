@@ -1,0 +1,90 @@
+@import '../../../../prelude';
+
+.magazine-edition-files {
+    margin: 16px;
+    padding: 0 8px;
+    background: @text-fade-10;
+    border-radius: 4px;
+
+    &.is-loading {
+        padding: 8px;
+    }
+
+    .inner-progress {
+        width: 100%;
+    }
+
+    .edition-file-slot {
+        display: block;
+        vertical-align: top;
+        padding: 16px;
+
+        &:not(:last-child) {
+            border-bottom: 1px solid @separator;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+
+            .file-icon {
+                width: 32px;
+                height: 32px;
+                margin-left: 4px;
+                margin-right: 4px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .file-format {
+                font-weight: bold;
+
+                &.is-download {
+                    color: inherit;
+
+                    .external-icon {
+                        width: 20px;
+                        height: 20px;
+                    }
+                }
+            }
+
+            .fi-spacer {
+                flex: 1;
+            }
+
+            .file-actions {
+                .upload-fab {
+                    background: none;
+                    color: rgb(var(--md-button-color));
+                    --md-ripple-color: var(--md-button-color);
+                    --md-ripple-highlight: var(--md-button-color);
+                    --md-ripple-highlight-opacity: 0.15;
+                }
+
+                .file-replace, .file-delete {
+                    .md-gray-button();
+                }
+            }
+        }
+
+        .file-details {
+            font-size: 0.9em;
+
+            .file-downloads {
+                display: inline-block;
+                margin-left: 8px;
+                opacity: 0.8;
+            }
+        }
+
+        &:not(.file-exists) {
+            .file-info {
+                .file-icon, .file-format {
+                    opacity: 0.5;
+                }
+            }
+        }
+    }
+}

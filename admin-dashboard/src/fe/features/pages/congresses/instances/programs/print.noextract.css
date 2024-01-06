@@ -1,0 +1,100 @@
+@media print {
+    .print-action-container {
+        display: none;
+    }
+}
+
+.congress-program-print-layout {
+    font-family: sans-serif;
+}
+
+.congress-program-print-layout .print-day {
+    break-after: page;
+}
+.congress-program-print-layout .inner-layout {
+    position: relative;
+    display: flex;
+    padding-left: 6em;
+}
+
+.congress-program-print-layout .hour-item {
+    left: 0;
+    width: 100%;
+    border-top: 1pt solid lightgray;
+    position: absolute;
+    break-inside: avoid;
+}
+.congress-program-print-layout .hour-item.has-header {
+    margin-top: 2em;
+}
+.congress-program-print-layout .hour-item .inner-label {
+    width: 6em;
+    text-align: right;
+    box-sizing: border-box;
+    padding: 0.5em;
+}
+
+.congress-program-print-layout .location-header {
+    height: 2em;
+    line-height: 2em;
+    padding: 0 0.5em;
+    font-weight: bold;
+}
+
+.congress-program-print-layout .day-view-column {
+    position: relative;
+    flex: var(--max-region-width);
+    border-left: 1pt solid currentColor;
+}
+
+.congress-program-print-layout .day-view-region {
+    position: relative;
+}
+
+.congress-program-print-layout .program-event {
+    background: white;
+    position: absolute;
+    border: 1pt solid currentColor;
+    overflow: hidden;
+    border-radius: 0.5em;
+    box-sizing: border-box;
+    padding: 0.5em;
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+    print-color-adjust: exact;
+}
+.congress-program-print-layout .program-event[data-color="0"] {
+    background: rgb(255 119 238 / 0.5);
+}
+.congress-program-print-layout .program-event[data-color="1"] {
+    background: rgb(238 119 187 / 0.5);
+}
+.congress-program-print-layout .program-event[data-color="2"] {
+    background: rgb(170 119 238 / 0.5);
+}
+.congress-program-print-layout .program-event[data-color="3"] {
+    background: rgb(119 153 238 / 0.5);
+}
+.congress-program-print-layout .program-event[data-color="4"] {
+    background: rgb(119 238 170 / 0.5);
+}
+.congress-program-print-layout .program-event[data-color="5"] {
+    background: rgb(187 238 119 / 0.5);
+}
+.congress-program-print-layout .program-event[data-color="6"] {
+    background: rgb(238 204 119 / 0.5);
+}
+.congress-program-print-layout .program-event[data-color="7"] {
+    background: rgb(238 136 119 / 0.5);
+}
+.congress-program-print-layout .program-event .inner-title {
+    font-weight: bold;
+    margin-bottom: 0.3em;
+}
+.congress-program-print-layout .program-event .inner-loc {
+    font-size: 0.9em;
+}
+.congress-program-print-layout .congress-location-icon svg {
+    width: 1.5em;
+    height: 1.5em;
+}

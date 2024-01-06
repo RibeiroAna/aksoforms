@@ -1,0 +1,195 @@
+@import '../../../prelude';
+
+.statistics-demographics {
+    height: calc(128px + 24px);
+    box-sizing: border-box;
+    transition: opacity 0.5s;
+
+    &.is-loading {
+        text-align: center;
+        padding: 16px;
+    }
+
+    &.is-dimmed {
+        opacity: 0.5;
+    }
+
+    .bucket-bars {
+        display: flex;
+
+        .bucket-bar {
+            flex: var(--weight, 1);
+
+            .bar-container {
+                height: 128px;
+                position: relative;
+
+                .bar-value {
+                    height: calc(var(--value) / var(--max) * 100%);
+                    background: @text-fade-40;
+                    position: absolute;
+                    left: 1px;
+                    right: 1px;
+                    bottom: 0;
+                    transform-origin: 0 100%;
+                    animation: statistics-demographics-bar-in 0.3s backwards calc(var(--index) * 0.02s);
+                    transition: height 0.2s;
+
+                    @keyframes statistics-demographics-bar-in {
+                        0% {
+                            transform: scaleY(0);
+                        }
+                    }
+                }
+            }
+            .bar-label {
+                text-align: center;
+                line-height: 24px;
+            }
+        }
+    }
+}
+
+.statistics-memberships-and-roles {
+    .hist-date-selector {
+        padding: 8px;
+    }
+
+    .hist-date-selector,
+    .display-selector {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .inner-view {
+        &.is-loading, &.is-empty {
+            text-align: center;
+        }
+
+        .view-controls {
+            padding: 8px;
+            text-align: center;
+
+            .category-selection {
+                font-weight: bold;
+            }
+        }
+        .view-demographics {
+            padding: 16px;
+
+            & > .inner-card {
+                background: @card-background;
+                padding: 8px 16px;
+                border-radius: 8px;
+                margin: 0 auto;
+                max-width: 800px;
+
+                & > .inner-title {
+                    text-align: center;
+                    margin-bottom: 8px;
+                }
+            }
+        }
+    }
+
+    .statistics-memberships-and-roles-items {
+        overflow: auto;
+
+        .count-table {
+            background: @card-background;
+            border-radius: 4px;
+            width: 100%;
+
+            border-collapse: collapse;
+
+            thead {
+                position: sticky;
+                top: 0;
+                background: @card-background;
+            }
+
+            .members-th-item {
+                padding-right: 0;
+
+                .inner-contents {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    height: 24px;
+                    gap: 4px;
+
+                    .inner-label {
+                        white-space: nowrap;
+                    }
+
+                    .inner-sorting {
+                        width: 24px;
+                        line-height: 0;
+                    }
+                }
+            }
+
+            th {
+                text-align: left;
+            }
+            th, td {
+                padding: 2px 8px;
+                border: 1px solid @separator;
+            }
+            .is-count {
+                text-align: right;
+                font-feature-settings: 'tnum' 1;
+            }
+
+            .count-row {
+                &:hover {
+                    background: @text-fade-05;
+                }
+                &.is-total {
+                    font-weight: bold;
+                }
+            }
+
+            .list-title {
+                padding-top: 12px;
+                padding-bottom: 4px;
+            }
+
+            .category-label {
+                font-weight: inherit;
+            }
+            .category-link {
+                text-decoration: underline;
+                cursor: pointer;
+            }
+        }
+
+        .details-line-chart {
+            overflow: visible;
+
+            .chart-line {
+                stroke: @secondary;
+                stroke-width: 2px;
+                fill: none;
+            }
+
+            .grid-line {
+                stroke: @text-fade-10;
+                stroke-width: 1px;
+            }
+            .axis-line {
+                stroke: currentColor;
+                stroke-width: 2px;
+                stroke-linecap: square;
+            }
+
+            .date-label text, .count-label text {
+                font-size: 0.9em;
+                text-anchor: end;
+                dominant-baseline: middle;
+            }
+        }
+    }
+}

@@ -1,0 +1,124 @@
+@import '../../../../../prelude';
+
+.congress-participant-identity {
+    .identity-form-data {
+        .fd-name {
+            margin-right: 8px;
+        }
+        .fd-name + .fd-email {
+            &::before {
+                content: '<';
+            }
+            &::after {
+                content: '>';
+            }
+        }
+
+        margin-right: 8px;
+    }
+}
+
+.congress-participant-data-id {
+    .inner-data-id {
+        font-family: @monospace;
+        font-size: small;
+        padding: 2px 4px;
+        border-radius: 4px;
+        background: @text-fade-10;
+    }
+
+    .id-copy-button {
+        margin-left: 8px;
+        .md-gray-button();
+    }
+}
+
+.congress-participant-paid {
+    .has-paid-minimum {
+        margin-left: 4px;
+        background: @text-fade-10;
+        font-size: small;
+        padding: 2px 4px;
+        text-transform: uppercase;
+        border-radius: 4px;
+        font-weight: 600;
+
+        .check-icon {
+            font-size: inherit;
+            width: 1em;
+            height: 1em;
+            vertical-align: -0.2em;
+        }
+    }
+}
+
+.congress-participant-form-data {
+    .data-allow-invalid {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 8px 16px;
+        margin-bottom: 8px;
+        background: @card1-background;
+        border-radius: 8px;
+        border: 1px solid @subtle-separator;
+
+        label {
+            margin-left: 8px;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        &.is-active label {
+            opacity: 1;
+        }
+    }
+}
+
+.congress-participant-custom-form-vars {
+    .vars-empty {
+        text-align: center;
+        font-style: italic;
+        color: @text-fade-60;
+    }
+
+    .custom-var-item {
+        background: @text-fade-10;
+        border-radius: 8px;
+        padding: 8px 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 16px;
+
+        .item-enabled {
+            flex-shrink: 0;
+        }
+
+        &.is-enabled .item-name {
+            font-weight: bold;
+        }
+
+        .item-name, .item-value {
+            flex: 1;
+        }
+
+        .inner-editor {
+            width: 100%;
+        }
+    }
+
+    &[data-slot="table"] {
+        .custom-var-item {
+            background: none;
+            padding: 0;
+            justify-content: space-between;
+            margin: 0;
+
+            &.is-enabled .item-name {
+                font-weight: inherit;
+                font-size: smaller;
+            }
+        }
+    }
+}

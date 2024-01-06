@@ -1,0 +1,13 @@
+.akso-logo {
+    .corner {
+        fill: rgb(var(--akso-logo-a));
+
+        &:nth-child(1), &:nth-child(3) {
+            fill: rgb(var(--akso-logo-b));
+        }
+    }
+
+    &.is-monochrome .corner {
+        fill: currentColor;
+    }
+}

@@ -1,0 +1,22 @@
+@import '../../prelude';
+
+.paper-list {
+    position: relative;
+    box-sizing: border-box;
+    --paper-list-horiz-padding: 0px;
+
+    .paper {
+        position: absolute;
+        width: calc(100% - var(--paper-list-horiz-padding));
+        background: @card-background;
+        border-radius: 4px;
+        .elevation(3);
+    }
+
+    .paper-list-item {
+        position: absolute;
+        transform-origin: 0 0;
+        width: calc(100% - var(--paper-list-horiz-padding));
+        border-radius: 4px;
+    }
+}

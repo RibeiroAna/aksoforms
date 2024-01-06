@@ -1,0 +1,98 @@
+@import '../../prelude';
+
+.json-filter-editor, .json-editor {
+    position: relative;
+    max-width: 800px;
+    margin: 16px auto;
+    --editor-height: 300px;
+
+    .json-editor-help-button {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        z-index: 10;
+        --md-button-color: 255 255 255;
+        transition: transform 0.4s @easing;
+    }
+
+    .cm-theme, .cm-editor {
+        height: var(--editor-height);
+    }
+
+    .cm-scroller {
+        font-family: @monospace;
+        font-size: 14px;
+    }
+
+    .json-error-line, .json-error-mark {
+        background: var(--editor-error-background);
+    }
+    .json-error-message {
+        background: var(--editor-error-background);
+        padding: 2px 4px;
+        font-family: Roboto, sans-serif;
+        font-size: smaller;
+    }
+
+    &.collapsed {
+        --editor-height: 64px;
+
+        .json-editor-help-button {
+            transform: scale(0);
+            transition: none; // due to the way PaperList works the animation is kinda jarring
+        }
+
+        .json-templates-container {
+            display: none;
+        }
+    }
+}
+
+.json-filter-editor {
+    .json-templates-container {
+        background: var(--editor-background);
+        color: var(--editor-text);
+        padding: 4px;
+        border-top: 1px solid var(--editor-selection);
+
+        .json-templates {
+            border: 1px solid var(--editor-selection);
+            border-radius: 4px;
+            padding: 4px 8px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+
+            &:hover {
+                opacity: 1;
+            }
+
+            .inner-title {
+                font-size: smaller;
+                text-transform: uppercase;
+                font-weight: 600;
+                letter-spacing: 0.06em;
+            }
+
+            .inner-buttons {
+                .expr-button {
+                    font-size: smaller;
+                    text-transform: none;
+                    line-height: 1.5;
+                }
+            }
+        }
+    }
+
+    .akso-json-marked-atom {
+        font-size: 0.9em;
+        font-family: Roboto, sans-serif;
+        background: var(--editor-template-background);
+        border: 1px solid var(--editor-template-delimiter);
+        border-radius: 4px;
+        padding: 0 2px;
+
+        &.is-invalid {
+            background: var(--editor-error);
+        }
+    }
+}

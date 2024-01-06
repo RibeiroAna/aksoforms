@@ -1,0 +1,54 @@
+@import '../../prelude';
+
+.detail-view {
+    .detail-view-loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        padding: 16px 0;
+    }
+
+    .detail-view-error {
+        text-align: center;
+        font-size: small;
+        padding: 16px;
+    }
+
+    .detail-view-not-found {
+        padding: 24px;
+    }
+
+    .history-link {
+        color: @gray-button-color;
+        margin-left: 8px;
+        transition: opacity 0.3s;
+
+        &:active {
+            opacity: 0.5;
+            transition: none;
+        }
+    }
+    .history-link-placeholder {
+        display: inline-block;
+        margin-left: 8px;
+        width: 24px;
+    }
+
+    &.p-inline {
+        display: inline-block;
+
+        .detail-view-loading, .detail-view-error {
+            display: inline-block;
+            vertical-align: middle;
+            padding: 4px;
+            height: auto;
+        }
+    }
+}
+
+.akso-app .app-header.detail-view-editing-app-bar {
+    background: #222;
+    --bar-fg: 255 255 255;
+    --md-button-ripple-opacity: 1;
+}

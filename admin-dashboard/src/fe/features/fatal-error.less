@@ -1,0 +1,22 @@
+@import '../prelude';
+
+.fatal-error-contents {
+    text-align: center;
+    padding: 16px;
+    box-sizing: border-box;
+
+    .error-details {
+        font-size: 10px;
+
+        summary {
+            color: @text-fade-40;
+        }
+
+        pre {
+            font-family: @monospace;
+            text-align: left;
+            padding: 8px;
+            white-space: pre-wrap;
+        }
+    }
+}

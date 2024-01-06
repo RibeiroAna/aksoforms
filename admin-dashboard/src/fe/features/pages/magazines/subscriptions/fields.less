@@ -1,0 +1,31 @@
+@import '../../../../prelude';
+
+.magazine-subscription-codeholder-id-link,
+.magazine-subscription-magazine-id-link {
+    color: inherit;
+}
+
+.magazine-subscription-magazine-picker {
+    outline: 1px solid @separator;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .selected-item {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+
+        .remove-button {
+            .md-gray-button();
+        }
+
+        .magazine-id-container {
+            text-align: center;
+            flex: 1;
+            margin-left: 16px;
+        }
+    }
+}

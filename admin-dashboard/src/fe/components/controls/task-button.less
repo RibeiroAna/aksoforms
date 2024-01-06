@@ -1,0 +1,27 @@
+@import '../../prelude';
+
+.task-button {
+    position: relative;
+
+    .task-button-loading {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .task-button-label {
+        transition: opacity 0.3s @easing;
+    }
+
+    &.is-loading .task-button-label {
+        opacity: 0;
+    }
+
+    &.raised {
+        &.is-loading {
+            box-shadow: none;
+            background: rgb(var(--md-button-disabled-bg) / var(--md-button-disabled-bg-opacity));
+        }
+    }
+}

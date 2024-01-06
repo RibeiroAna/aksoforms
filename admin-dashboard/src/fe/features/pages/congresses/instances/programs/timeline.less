@@ -1,0 +1,117 @@
+@import '../../../../../prelude';
+
+.congress-program-timeline {
+    .timeline-date-picker {
+        display: flex;
+        white-space: nowrap;
+        overflow: auto;
+        padding: 8px;
+
+        .picker-date {
+            flex: 1;
+            font: inherit;
+            color: inherit;
+            border: none;
+            background: none;
+            padding: 8px 16px;
+            margin: 0;
+            border-radius: 4px;
+            box-sizing: border-box;
+
+            &:disabled {
+                // selected
+                background: @text-fade-10;
+            }
+        }
+    }
+
+    .timeline-day-view {
+        .day-view-bottom-padding {
+            padding-bottom: 64px;
+        }
+
+        .day-view-status {
+            padding: 16px;
+            text-align: center;
+        }
+
+        .day-view-contents {
+            display: flex;
+            --hour-header-width: 70px;
+            padding-left: var(--hour-header-width);
+            position: relative;
+            overflow-x: scroll;
+            overflow-y: hidden;
+
+            .hour-item {
+                position: absolute;
+                display: flex;
+                align-items: stretch;
+                left: 0;
+                width: 100%;
+                border-top: 1px solid @separator;
+                pointer-events: none;
+
+                &.has-header {
+                    margin-top: 32px;
+                }
+
+                .inner-label {
+                    width: var(--hour-header-width);
+                    padding: 4px;
+                    text-align: right;
+                    pointer-events: auto;
+                    box-sizing: border-box;
+                    border-right: 1px solid @separator;
+                }
+            }
+
+            .location-header {
+                height: 32px;
+                font-weight: bold;
+                padding: 4px;
+                box-sizing: border-box;
+                border-bottom: 1px solid @separator;
+            }
+
+            .day-view-column {
+                position: relative;
+                width: 100%;
+                border-left: 1px solid @separator;
+            }
+
+            .day-view-region {
+                position: relative;
+
+                .timeline-item {
+                    position: absolute;
+                    display: flex;
+                    align-items: stretch;
+                    border-left: 4px solid @secondary;
+                    overflow: hidden;
+                    background: @secondary-fade-50;
+                    border-radius: 4px;
+                    box-sizing: border-box;
+
+                    .paper-button {
+                        align-items: flex-start;
+                    }
+
+                    .gen-col(@col, @color) {
+                        &[data-color="@{col}"] {
+                            --secondary: @color;
+                        }
+                    }
+                    .gen-col(0, 255 119 238);
+                    .gen-col(1, 238 119 187);
+                    .gen-col(2, 170 119 238);
+                    .gen-col(3, 119 153 238);
+                    .gen-col(4, 119 238 170);
+                    .gen-col(5, 187 238 119);
+                    .gen-col(6, 238 204 119);
+                    .gen-col(7, 238 136 119);
+                }
+            }
+        }
+    }
+}

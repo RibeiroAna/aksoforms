@@ -1,0 +1,93 @@
+@import '../../../../../prelude';
+
+.magazine-snapshot-footer {
+    .compare-control {
+        padding: 16px 24px;
+
+        .compare-check-container {
+            .inner-checkbox {
+                margin-right: 8px;
+            }
+        }
+
+        .pick-snapshot {
+            margin-top: 8px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 4px;
+            border: 1px solid @separator;
+            max-width: 100%;
+            width: 400px;
+            min-height: 48px;
+
+            .item-preview {
+                flex: 1;
+                display: flex;
+                align-items: center;
+
+                .item-remove {
+                    margin-right: 8px;
+                    padding-left: 4px;
+                    .md-gray-button();
+                }
+
+                .snapshot-item {
+                    .snapshot-name {
+                        font-size: smaller;
+                    }
+                }
+            }
+        }
+    }
+
+    .comparing-note {
+        padding: 0 24px;
+        margin-bottom: 16px;
+        font-weight: bold;
+    }
+
+    .snapshot-codeholder {
+        padding: 8px 16px;
+
+        [data-id="code"] {
+            float: left;
+            margin-right: 4px;
+        }
+        [data-id="address"] {
+            font-size: smaller;
+        }
+
+        &.is-missing {
+            padding: 0;
+            font-size: 0.7em;
+            opacity: 0.7;
+        }
+    }
+}
+
+.magazine-snapshot-members-inclusion-info {
+    .inner-field {
+        margin-bottom: 8px;
+
+        .inner-label {
+            font-weight: 600;
+            font-size: smaller;
+        }
+    }
+
+    .inner-verdict {
+        background: @text-fade-05;
+        border-radius: 4px;
+        padding: 8px;
+    }
+
+    .inner-edit-info {
+        margin-top: 8px;
+        font-size: smaller;
+
+        a {
+            color: @secondary;
+        }
+    }
+}

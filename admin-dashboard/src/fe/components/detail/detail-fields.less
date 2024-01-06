@@ -1,0 +1,119 @@
+@import '../../prelude';
+
+.detail-fields {
+    container: detail-fields / inline-size;
+
+    & > .inner-detail-fields {
+        grid-area: 1 / 1;
+        display: grid;
+        padding: 16px;
+        grid-template-columns: 1fr 56px 3fr;
+        grid-row-gap: 16px; // we here at material design invest big in white space
+
+        &.wide-extra {
+            grid-template-columns: 1fr 96px 3fr;
+        }
+    }
+
+    .detail-fields-section-marker {
+        font-weight: 600;
+        font-size: 1.1em;
+        border-bottom: 1px solid @separator;
+        padding-top: 12px;
+        padding-bottom: 8px;
+        text-align: right;
+        color: @text-fade-80;
+    }
+    .detail-fields-section-marker-pad {
+        border-bottom: 1px solid @separator;
+    }
+
+    .detail-field-id {
+        text-align: right;
+        text-transform: uppercase;
+        font-weight: 600;
+        font-size: small;
+
+        &.is-empty {
+            opacity: 0.5;
+        }
+
+        &.has-diff {
+            color: @secondary;
+        }
+    }
+
+    .detail-field-extra {
+        text-align: right;
+        padding-right: 16px;
+    }
+
+    .detail-field-editor {
+        padding: 0;
+
+        .form-validator {
+            width: 100%;
+        }
+    }
+
+    .detail-field-loading {
+        vertical-align: middle;
+        opacity: 0.7;
+    }
+
+    .detail-field-empty {
+        opacity: 0.5;
+    }
+}
+
+.compact-detail-fields() {
+    display: block;
+    padding: 24px;
+
+    .detail-fields-section-marker {
+        margin-top: 4px;
+        margin-bottom: 8px;
+        text-align: left;
+    }
+    .detail-fields-section-marker-pad {
+        display: none;
+    }
+
+    .detail-field-id {
+        display: inline-block;
+        text-align: left;
+        width: calc(100% - 56px);
+        margin-bottom: 8px;
+    }
+
+    .detail-field-extra {
+        display: inline-block;
+        width: 56px;
+        padding-right: 0;
+    }
+
+    &.wide-extra {
+        .detail-field-id {
+            width: calc(100% - 96px);
+        }
+        .detail-field-extra {
+            width: 96px;
+        }
+    }
+
+    .detail-field-editor:not(:last-of-type) {
+        padding-bottom: 16px;
+        border-bottom: 1px solid @separator;
+        margin-bottom: 16px;
+    }
+}
+
+.detail-fields > .inner-detail-fields.is-compact {
+    .compact-detail-fields();
+}
+
+@container detail-fields (width <= 600px) {
+    .detail-fields > .inner-detail-fields {
+        .compact-detail-fields();
+    }
+}

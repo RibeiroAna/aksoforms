@@ -1,0 +1,95 @@
+@import '../../../prelude';
+
+.vote-creator-wizard {
+    width: 420px;
+    max-width: 100%;
+    height: 100%;
+
+    .dialog-progress-indicator {
+        margin-bottom: 0;
+    }
+
+    .wizard-title {
+        text-align: center;
+        margin: 8px 0;
+
+        &::before, &::after {
+            content: '';
+            display: inline-block;
+            background: currentColor;
+            height: 1px;
+            width: 2em;
+            vertical-align: middle;
+            margin: 0 4px;
+            opacity: 0.3;
+        }
+
+        &:empty {
+            display: none;
+        }
+    }
+
+    .votes-wizard-selector {
+        .selector-items {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+        }
+
+        .wizard-selector-item {
+            margin: 2px 8px;
+            border: 2px solid @secondary;
+
+            &:not(.selected) {
+                .md-gray-button();
+                border-color: transparent;
+                animation: none;
+            }
+
+            animation: votes-wizard-selector-item-in 0.3s 0.1s @easing backwards;
+            @keyframes votes-wizard-selector-item-in {
+                0% {
+                    border-color: transparent;
+                }
+                100% {
+                    border-color: @secondary;
+                }
+            }
+
+            &.icon-container {
+                padding: 16px;
+                line-height: 0;
+                border-radius: 8px;
+
+                & > svg {
+                    width: 48px;
+                    height: 48px;
+                }
+            }
+        }
+
+        &.is-vertical .selector-items {
+            flex-direction: column;
+        }
+    }
+
+    .name-editor {
+        width: auto;
+        display: block;
+    }
+
+    .error-message-container {
+        text-align: center;
+        color: @danger;
+        font-size: small;
+        height: 1em;
+        margin-bottom: 16px;
+    }
+
+    .page-footer {
+        margin-top: 8px;
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: space-between;
+    }
+}

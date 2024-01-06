@@ -1,0 +1,41 @@
+@import '../../prelude';
+
+:where(.creation-task) {
+    width: 400px;
+    max-width: 100%;
+
+    .creation-description {
+        margin-bottom: 1em;
+    }
+
+    .creation-label {
+        display: block;
+        font-size: 0.875em;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+    }
+
+    .form-validator > .paper-text-field {
+        width: 100%;
+    }
+}
+
+.delete-task {
+    width: 400px;
+    max-width: 100%;
+
+    .delete-type-confirmation {
+        margin-top: 16px;
+        padding-top: 8px;
+        border-top: 1px solid @separator;
+
+        .inner-desc {
+            margin-bottom: 8px;
+        }
+
+        .inner-field {
+            width: 100%;
+        }
+    }
+}

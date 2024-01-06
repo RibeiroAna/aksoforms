@@ -1,0 +1,56 @@
+@import '../../../prelude';
+
+.a-map-container {
+    margin: 0 24px;
+    height: 300px;
+    border-radius: 8px;
+    overflow: hidden;
+    .elevation(2);
+
+    .a-map-pin-icon {
+        pointer-events: none;
+
+        // this marker will have a size of 12 px
+        // (might this change in future versions of leaflet? we do not know)
+
+        .map-pin-inner {
+            position: relative;
+            width: 0;
+            height: 0;
+            margin-top: 6px;
+            margin-left: 6px;
+
+            .pin-shape {
+                position: absolute;
+                bottom: -2px;
+                left: -18px;
+                overflow: visible;
+                z-index: initial;
+
+                .pin-shape-path {
+                    pointer-events: all;
+                    fill: @secondary;
+                    stroke: @primary;
+                    stroke-width: 2px;
+                }
+            }
+
+            .pin-icon-container {
+                position: absolute;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                top: -80px;
+                @containerRadius: 14px;
+                margin-left: -@containerRadius;
+                margin-top: -@containerRadius;
+                border-radius: 50%;
+                width: @containerRadius * 2;
+                height: @containerRadius * 2;
+
+                background: @card-background;
+                color: @text;
+            }
+        }
+    }
+}

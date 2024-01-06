@@ -1,0 +1,15 @@
+@import '../../../../../prelude';
+
+.congress-locations-open-filter {
+    display: contents;
+
+    .inner-date-input {
+        width: 100%;
+        margin-top: 8px;
+        text-align: right;
+    }
+
+    &[data-enabled="false"] > * {
+        filter: grayscale(1);
+    }
+}

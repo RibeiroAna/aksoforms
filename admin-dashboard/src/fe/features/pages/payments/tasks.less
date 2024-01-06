@@ -1,0 +1,103 @@
+@import '../../../prelude';
+
+.payment-method-task-create {
+    max-width: 100%;
+    width: 400px;
+
+    &.is-intermediary {
+        width: 700px;
+    }
+
+    .form-field-container {
+        & > .paper-text-field, & > .form-validator .paper-text-field {
+            width: 100%;
+        }
+
+        .creation-label {
+            font-size: small;
+
+            &::after {
+                content: ': ';
+            }
+        }
+    }
+}
+
+.payments-task-create-intent {
+    max-width: 100%;
+    width: 480px;
+
+    .paper-text-field, .status-select, .currency-select {
+        width: 100%;
+    }
+
+    .notes-field {
+        margin: 0;
+        width: 100%;
+        background: none;
+        border: 1px solid @separator;
+        border-radius: 4px;
+        padding: 8px;
+        font: inherit;
+        color: inherit;
+        box-sizing: border-box;
+
+        &:focus {
+            outline: none;
+            border-color: @secondary;
+        }
+    }
+
+    .create-intent-subtitle {
+        font-weight: bold;
+
+        &:not(:first-child) {
+            padding: 8px;
+        }
+    }
+
+    .create-intent-total {
+        .total-note {
+            margin-top: 4px;
+            font-size: 0.8em;
+            opacity: 0.8;
+        }
+    }
+
+    .create-intent-auto-submit {
+        margin-top: 8px;
+    }
+
+    .total-above-max-amount {
+        border: 1px solid @error;
+        border-radius: 4px;
+        color: @error;
+        margin-top: 8px;
+        padding: 8px 16px;
+    }
+}
+
+.payments-task-intent-action {
+    max-width: 100%;
+    width: 350px;
+
+    .input-container {
+        margin-top: 16px;
+
+        .form-validator, .paper-text-field {
+            width: 100%;
+        }
+    }
+}
+
+.payments-task-set-purpose-validity {
+    max-width: 100%;
+    width: 400px;
+
+    .inner-field {
+        .inner-value {
+            margin: 0;
+            margin-left: 8px;
+        }
+    }
+}

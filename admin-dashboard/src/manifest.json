@@ -1,0 +1,34 @@
+{
+    "short_name": "AKSO",
+    "name": "AKSO-Administranto",
+    "icons": [
+        {
+            "src": "assets/icon-192.png",
+            "type": "image/png",
+            "sizes": "192x192",
+            "purpose": "any"
+        },
+        {
+            "src": "assets/icon-512.png",
+            "type": "image/png",
+            "sizes": "512x512",
+            "purpose": "any"
+        },
+        {
+            "src": "assets/icon-maskable-192.png",
+            "type": "image/png",
+            "sizes": "192x192",
+            "purpose": "maskable"
+        },
+        {
+            "src": "assets/icon-maskable-1024.png",
+            "type": "image/png",
+            "sizes": "1024x1024",
+            "purpose": "maskable"
+        }
+    ],
+    "start_url": "/",
+    "theme_color": "#004c3f",
+    "background_color": "#fff",
+    "display": "standalone"
+}

@@ -1,0 +1,126 @@
+@import '../../../prelude';
+
+.vote-config-cannot-edit-notice {
+    display: inline-block;
+    font-size: smaller;
+    border: 1px solid @separator;
+    border-radius: 4px;
+    padding: 2px 4px;
+}
+
+.vote-config {
+    .config-field {
+        padding: 8px 16px;
+        border-bottom: 1px solid @separator;
+        text-align: right;
+
+        .config-field-label {
+            float: left;
+        }
+
+        .config-field-value {
+            display: inline-block;
+            text-align: left;
+
+            & > .form-validator {
+                width: 100%;
+            }
+        }
+
+        &.is-vertical {
+            text-align: left;
+
+            .config-field-label {
+                float: none;
+            }
+            .config-field-value {
+                display: block;
+            }
+        }
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+
+    .vote-config-inclusive-relational {
+        .inclusive-relation {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .inclusive-checkbox {
+            margin-top: 8px;
+            text-align: right;
+
+            label {
+                margin-left: 8px;
+            }
+        }
+    }
+
+    .vote-options {
+        .options-item {
+            padding: 8px 16px;
+            border-radius: 4px;
+            margin: 8px 0;
+            box-sizing: border-box;
+
+            .option-name {
+                font-weight: bold;
+            }
+            .option-description:not(:empty) {
+                margin-top: 8px;
+                font-size: 0.9em;
+            }
+        }
+
+        &:not(.is-editing) .options-item {
+            .elevation(2);
+        }
+    }
+
+    .vote-options.is-editing {
+        .options-item {
+            display: flex;
+            flex-direction: column;
+            height: 196px;
+            margin: 0;
+
+            .option-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-shrink: 0;
+                font-size: small;
+
+                .option-remove-button {
+                    .md-gray-button();
+                }
+            }
+            .option-description-editor {
+                margin: 0;
+                margin-top: 8px;
+                flex: 1;
+                display: block;
+                background: none;
+                color: inherit;
+                font: inherit;
+                padding: 8px 16px;
+                min-height: 0;
+                border: 1px solid @separator;
+                border-radius: 4px;
+                resize: none;
+
+                &:focus {
+                    outline: none;
+                    border-color: @secondary;
+                }
+            }
+        }
+
+        .options-add-item {
+            // TODO
+        }
+    }
+}

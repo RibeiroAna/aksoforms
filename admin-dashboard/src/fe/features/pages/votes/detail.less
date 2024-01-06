@@ -1,0 +1,84 @@
+@import '../../../prelude';
+
+.vote-detail-page {
+    .vote-header {
+        padding: 16px 24px;
+
+        .vote-org-icon {
+            margin-right: 16px;
+
+            & > * {
+                width: 48px;
+                height: 48px;
+                vertical-align: middle;
+            }
+        }
+
+        .vote-header-items {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .vote-cast-ballot {
+            background: @text-fade-05;
+            border-radius: 4px;
+            margin: 16px 0;
+            padding: 8px 16px;
+            display: flex;
+            gap: 8px 16px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+    }
+
+    .name-field {
+        width: 100%;
+    }
+
+    .block-validator {
+        display: block;
+    }
+
+    .viewer-codeholders {
+        .viewer-codeholders-switch {
+            label {
+                margin-left: 8px;
+            }
+        }
+    }
+
+    .json-editor {
+        .CodeMirror {
+            height: 150px;
+        }
+        .elevation(2);
+    }
+
+    &.template-page {
+        .vote-fields {
+            padding: 8px;
+            background: @text-fade-10;
+            border-radius: 4px;
+
+            .vote-field {
+                padding: 8px 0;
+                border-bottom: 1px solid @separator;
+
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                .vote-field-label {
+                    font-weight: bold;
+                    font-size: small;
+                }
+
+                .vote-field-editor {
+                    margin-top: 8px;
+                }
+            }
+        }
+    }
+}

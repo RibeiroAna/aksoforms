@@ -1,0 +1,27 @@
+@import '../../../../prelude';
+
+.admin-client-secret-dialog {
+    .secret-api-key-description {
+        margin-top: 0;
+    }
+    .secret-api-key-container {
+        border-radius: 4px;
+        background: inherit;
+        color: inherit;
+        font: inherit;
+        font-family: @monospace;
+        padding: 8px 16px;
+        margin: 0;
+        box-sizing: border-box;
+        border: 1px solid @separator;
+        resize: vertical;
+        width: 100%;
+        display: block;
+        margin-bottom: 32px;
+
+        &:focus {
+            outline: none;
+            border-color: @secondary;
+        }
+    }
+}

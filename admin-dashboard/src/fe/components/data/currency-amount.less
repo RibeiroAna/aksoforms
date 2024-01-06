@@ -1,0 +1,162 @@
+@import '../../prelude.less';
+
+.data-currency-amount-editor-trailing {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+    border: none;
+    position: relative;
+    transition: opacity 0.2s;
+
+    &:active {
+        opacity: 0.5;
+        transition: none;
+    }
+
+    & > .inner-arrow {
+        position: absolute;
+        left: calc(50% - 4px);
+        width: 8px;
+        height: 8px;
+
+        &::before, &::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 2px;
+            top: 50%;
+            margin-top: -1px;
+            margin-left: -1px;
+            transform-origin: 1px 1px;
+            background: currentColor;
+        }
+
+        &.p-above {
+            bottom: 100%;
+        }
+        &.p-below {
+            top: 100%;
+        }
+
+        &.p-above::before {
+            transform: rotate(45deg);
+        }
+        &.p-above::after {
+            transform: rotate(135deg);
+        }
+        &.p-below::before {
+            transform: rotate(-45deg);
+        }
+        &.p-below::after {
+            transform: rotate(-135deg);
+        }
+    }
+
+    & > .inner-arrow {
+        opacity: 0;
+        transition: all 0.2s;
+
+        &.p-above {
+            transform: translateY(2px);
+        }
+        &.p-below {
+            transform: translateY(-2px);
+        }
+    }
+    &[data-editing="true"] > .inner-arrow {
+        opacity: 0.5;
+        transform: none;
+    }
+    &:hover > .inner-arrow {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.data-currency-amount-editor-conversion-popover {
+    position: fixed;
+    inset: 0;
+
+    .inner-backdrop {
+        position: absolute;
+        inset: 0;
+    }
+
+    .inner-anchor {
+        position: absolute;
+        z-index: 1;
+    }
+
+    .inner-popover {
+        position: absolute;
+        background: @card2-background;
+        border-radius: 8px;
+        transform: translateX(-50%);
+        padding: 16px;
+        width: 240px;
+        box-sizing: border-box;
+        border: 1px solid @separator;
+        .elevation(8);
+
+        animation: currency-amount-editor-conversion-popover-in 0.3s cubic-bezier(.3, 1.3, .3, 1);
+        @keyframes currency-amount-editor-conversion-popover-in {
+            0% {
+                transform: translateX(-50%) scale(0);
+            }
+        }
+
+        &::before, &::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+            background: @card2-background;
+            width: 8px;
+            height: 8px;
+        }
+        &::before {
+            background: @separator;
+        }
+
+        .inner-title {
+            margin: 0;
+            font: inherit;
+            font-size: smaller;
+            font-weight: 600;
+        }
+
+        .inner-input {
+            width: 100%;
+        }
+        input {
+            text-align: right;
+        }
+    }
+
+    .inner-anchor[data-anchor="below"] .inner-popover {
+        top: 4px;
+        transform-origin: 50% 0;
+
+        &::before {
+            top: 0;
+        }
+        &::after {
+            top: 1px;
+        }
+    }
+
+    .inner-anchor[data-anchor="above"] .inner-popover {
+        bottom: 4px;
+        transform-origin: 50% 100%;
+
+        &::before {
+            top: 100%;
+        }
+        &::after {
+            top: calc(100% - 1px);
+        }
+    }
+}

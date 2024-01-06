@@ -1,0 +1,35 @@
+@import '../../prelude';
+
+.multicol-list {
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    justify-content: stretch;
+
+    .column {
+        position: relative;
+        flex: 1;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .list-item {
+        position: absolute;
+
+        &.floating {
+            z-index: 2;
+        }
+    }
+
+    @media (max-aspect-ratio: 3 / 4) and (max-width: 600px) {
+        flex-direction: column;
+
+        .column {
+            min-width: 100%;
+
+            & + .column {
+                border-top: 1px solid @separator;
+            }
+        }
+    }
+}

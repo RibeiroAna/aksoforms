@@ -1,0 +1,113 @@
+@import '../../../prelude';
+
+.codeholder-memberships-or-roles-page {
+    width: 100%;
+    height: 100%;
+
+    .data-list {
+        position: relative;
+        height: 100%;
+        overflow-y: scroll;
+
+        .data-list-empty {
+            position: absolute;
+            top: 24px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        .data-list-item {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: calc(100% - 8px);
+            height: 56px;
+            padding-left: 24px;
+            padding-right: 24px;
+            display: flex;
+            align-items: center;
+            box-sizing: border-box;
+            margin: 4px;
+            background: @text-fade-05;
+            border-radius: 4px;
+
+            .list-item-contents {
+                flex: 1;
+            }
+
+            .list-item-overflow {
+                .md-gray-button();
+            }
+        }
+    }
+
+    .membership-item {
+        .item-title {
+            .item-chip {
+                margin-right: 4px;
+            }
+        }
+
+        .item-desc {
+            margin-top: 4px;
+
+            .item-attr {
+                font-size: small;
+                padding: 1px 2px;
+                border: 1px solid @separator;
+                border-radius: 4px;
+                margin-right: 4px;
+                --activated-color: @secondary;
+
+                &.attr-lifetime {
+                    --activated-color: @membership-is-lifetime-background;
+                }
+                &.attr-gives-membership {
+                    --activated-color: @membership-gives-membership-background;
+                }
+                &.attr-canuto {
+                    --activated-color: @membership-canuto-background;
+                }
+
+                &[data-value="true"] {
+                    border-color: currentColor;
+                    color: var(--activated-color);
+                }
+            }
+        }
+    }
+
+    .role-item {
+        .item-name {
+            font-weight: 600;
+        }
+
+        .item-desc {
+            .additional-details {
+                margin-left: 0.5em;
+                border-left: 1px solid @separator;
+                padding-left: 0.1em;
+
+                &:empty {
+                    display: none;
+                }
+
+                .detail-icon {
+                    font-size: inherit;
+                    vertical-align: middle;
+                    margin-right: 0.2em;
+                }
+
+                & > span {
+                    background: @text-fade-05;
+                    border-radius: 4px;
+                    padding: 1px 2px;
+                    margin-left: 0.5em;
+                    font-size: 0.9em;
+                    box-sizing: border-box;
+                }
+            }
+        }
+    }
+}

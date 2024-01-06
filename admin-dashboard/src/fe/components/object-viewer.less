@@ -1,0 +1,81 @@
+@import '../prelude';
+
+.object-viewer {
+    font-family: @monospace;
+    font-size: 12px;
+    background: var(--editor-background);
+    color: #fff;
+    padding: 1em;
+    border-radius: 4px;
+
+    .obj-copy-button {
+        font: inherit;
+        font-size: 0.7em;
+        border: 1px solid currentColor;
+        margin: 0;
+        margin-right: 4px;
+        padding: 2px 4px;
+        border-radius: 4px;
+        background: none;
+        color: inherit;
+
+        &:active {
+            opacity: 0.5;
+        }
+    }
+
+    .obj-disclosure {
+        background: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+        color: inherit;
+    }
+
+    .o-ident {
+        color: white;
+    }
+    .o-string {
+        color: @secondary;
+    }
+    .o-number, .o-array-index {
+        color: #f90;
+    }
+    .o-boolean {
+        color: #f40
+    }
+    .o-array-comment {
+        color: #aaa;
+    }
+
+    .o-array-inline, .o-object-inline {
+        padding: 0;
+        margin: 0;
+        display: inline;
+        list-style-type: none;
+
+        li {
+            display: inline;
+        }
+    }
+
+    .o-array, .o-object {
+        padding: 0;
+        margin: 0;
+        display: inline;
+        list-style-type: none;
+
+        & > li {
+            padding-left: 2em;
+        }
+    }
+
+    @media (prefers-color-scheme: light) {
+        background: @text-fade-05;
+        color: black;
+
+        .o-ident {
+            color: black;
+        }
+    }
+}

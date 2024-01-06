@@ -1,0 +1,199 @@
+@import '../../../../prelude';
+
+.intermediary-report-detail {
+    padding: 24px;
+
+    .report-title {
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+    .report-subtitle {
+        font-size: smaller;
+        margin-top: 4px;
+    }
+
+    .report-status {
+        text-transform: uppercase;
+        opacity: 0.9;
+        font-size: smaller;
+        margin-top: 8px;
+        font-weight: 600;
+    }
+
+    .report-actions {
+        margin-top: 8px;
+    }
+
+    .section-title {
+        font-weight: bold;
+        margin-top: 16px;
+    }
+
+    .report-entries {
+        .report-entry-data {
+            padding: 8px 16px;
+            margin: 8px 0;
+            border-radius: 8px;
+            background: @card2-background;
+            .elevation(2);
+
+            &.is-loading {
+                text-align: center;
+            }
+
+            &.is-error {
+                color: @error;
+            }
+
+            .entry-header {
+                display: flex;
+
+                .entry-header-info {
+                    flex: 1;
+
+                    .header-info-status, .header-info-issue {
+                        font-size: smaller;
+                        margin-top: 4px;
+                    }
+                }
+            }
+
+            .entry-expanded {
+                margin-top: 4px;
+            }
+
+            .entry-actions-container {
+                text-align: right;
+            }
+        }
+    }
+
+    .report-addons {
+        .entry-addon {
+            padding: 8px 16px;
+            border-radius: 8px;
+            margin: 8px 0;
+            background: @card2-background;
+            .elevation(2);
+
+            .addon-header {
+                display: flex;
+                justify-content: space-between;
+
+                .addon-name {
+                    .addon-invalid {
+                        vertical-align: middle;
+                        margin-right: 4px;
+                    }
+                }
+            }
+
+            .addon-description {
+                font-size: smaller;
+            }
+        }
+    }
+    .report-expenses {
+        .entry-expense {
+            padding: 8px 16px;
+            border-radius: 8px;
+            margin: 8px 0;
+            background: @card2-background;
+            .elevation(2);
+
+            .expense-header {
+                display: flex;
+                justify-content: space-between;
+
+                .expense-title {
+                    .expense-invalid {
+                        vertical-align: middle;
+                        margin-right: 4px;
+                    }
+                }
+            }
+            .expense-description {
+                margin-top: 4px;
+                font-size: smaller;
+            }
+        }
+    }
+
+    .report-final-total {
+        margin-top: 1em;
+    }
+}
+
+.intermediary-report-totals {
+    .totals-item {
+        display: flex;
+        padding: 4px 0;
+
+        & + .totals-item {
+            border-top: 1px solid @separator;
+        }
+
+        .item-commission {
+            width: 3.5rem;
+            text-align: right;
+            margin-right: 0.5rem;
+        }
+
+        .item-count {
+            min-width: 3.5rem;
+            text-align: right;
+            margin-right: 1rem;
+        }
+        .item-title {
+            flex: 1;
+
+            &.is-final {
+                font-weight: bold;
+            }
+        }
+
+        .item-price-per,
+        .item-price.has-net {
+            opacity: 0.7;
+        }
+
+        .item-price-per,
+        .item-price.has-net,
+        .item-net-price {
+            min-width: 6rem;
+            text-align: right;
+            margin-left: 0.5rem;
+        }
+
+        &.is-header {
+            font-size: smaller;
+            font-weight: 600;
+        }
+    }
+}
+
+.intermediary-report-entry-selected-offer {
+    margin: 2px;
+}
+.intermediary-report-entry-selected-magazine {
+    font-size: smaller;
+    border: 1px solid @separator;
+    border-radius: 4px;
+    padding: 2px 4px;
+
+    .version-tag {
+        font-size: smaller;
+        font-weight: 600;
+        margin-left: 4px;
+        text-transform: uppercase;
+    }
+}
+
+.intermediary-report-delete-redraft-progress-dialog {
+    width: 100%;
+    max-width: 400px;
+
+    .inner-progress-bar {
+        width: 100%;
+    }
+}

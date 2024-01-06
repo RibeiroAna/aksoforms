@@ -1,0 +1,81 @@
+@import '../../../../prelude';
+
+.congress-location-picker {
+    display: inline-block;
+    margin: 0 4px;
+
+    &:not(.is-editing) {
+        .picker-selected-inner {
+            .md-gray-button();
+            text-transform: inherit;
+            font: inherit;
+            color: inherit;
+            letter-spacing: inherit;
+            padding: 4px 8px;
+            min-width: 0;
+        }
+        &:not(.is-disabled) .picker-selected-inner {
+            background: @text-fade-10;
+        }
+    }
+
+    &.is-editing {
+        display: inline-flex;
+        border: 1px solid @control-idle;
+        border-radius: 4px;
+        align-items: center;
+
+        &:focus {
+            outline: none;
+            border-color: @secondary;
+        }
+
+        .picker-selected {
+            flex: 1;
+            padding: 8px;
+            line-height: 24px;
+        }
+
+        .clear-button, .editable-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 8px;
+        }
+        .clear-button {
+            align-self: stretch;
+
+            &:hover {
+                background: @text-fade-10;
+            }
+        }
+    }
+}
+
+.congress-location-picker-dialog {
+    width: 400px;
+    max-width: 100%;
+
+    .picker-search {
+        display: flex;
+        align-items: center;
+        
+        .search-icon-container {
+            padding: 16px;
+            padding-right: 8px;
+        }
+        .search-inner {
+            padding: 16px;
+            font: inherit;
+            color: inherit;
+            background: none;
+            border: none;
+            margin: 0;
+            flex: 1;
+
+            &:focus {
+                outline: none;
+            }
+        }
+    }
+}

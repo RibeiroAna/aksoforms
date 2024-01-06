@@ -1,0 +1,218 @@
+@import 'prelude';
+
+body {
+    font-family: Roboto, -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', Helvetica, Ubuntu, sans-serif;
+    background: @card-background;
+    color: @text;
+    accent-color: @secondary;
+    overflow: hidden;
+}
+
+noscript {
+    position: fixed;
+    background: #fff;
+    color: #000;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+#app-loading-indicator {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: @card-background;
+    border-radius: 50%;
+    padding: 8px;
+    line-height: 0;
+    z-index: 10;
+    .elevation(8);
+
+    animation: app-loading-in 0.3s 0.5s backwards;
+
+    @keyframes app-loading-in {
+        0% {
+            // using scale(0) breaks the animation in Safari
+            transform: translate(-50%, -50%) scale(0.0001);
+            animation-timing-function: @easing;
+        }
+        50% {
+            transform: translate(-50%, -50%) scale(1.1);
+            animation-timing-function: cubic-bezier(0.5, 0.2, 0.5, 0.8);
+        }
+    }
+
+    &.animate-out {
+        animation: app-loading-out 0.3s;
+        transform: translate(-50%, -50%) scale(0);
+
+        @keyframes app-loading-out {
+            0% {
+                transform: translate(-50%, -50%);
+                animation-timing-function: cubic-bezier(0.5, 0.2, 0.5, 0.8);
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.1);
+                animation-timing-function: @easing;
+            }
+            100% {
+                // using scale(0) breaks the animation in Safari
+                transform: translate(-50%, -50%) scale(0.0001);
+            }
+        }
+    }
+}
+
+#app-small-loading-indicator {
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding-top: env(safe-area-inset-top);
+    background: @card-background;
+    width: 100%;
+    line-height: 0;
+    z-index: 1000;
+    .elevation(8);
+
+    animation: app-small-loading-in 0.3s 0.5s backwards;
+
+    @keyframes app-small-loading-in {
+        0% {
+            transform: translateY(-100%);
+            animation-timing-function: @easing;
+            opacity: 0;
+        }
+        100% {
+            transform: translateX(0px);
+        }
+    }
+
+    .inner-progress-indicator {
+        width: 100%;
+    }
+
+    &.animate-out {
+        animation: app-small-loading-out 0.3s;
+        transform: translateY(-100%);
+        opacity: 0;
+
+        @keyframes app-small-loading-out {
+            0% {
+                transform: translateY(0);
+                animation-timing-function: cubic-bezier(0.5, 0.2, 0.5, 0.8);
+                opacity: 1;
+            }
+        }
+    }
+}
+
+#get-auth-sure-is-taking-a-while {
+    position: fixed;
+    left: 50%;
+    bottom: 32px;
+    max-width: 50ch;
+    margin-bottom: env(safe-area-inset-bottom);
+    text-align: center;
+    transform: translateX(-50%);
+    animation: get-auth-sitaw-in 2s;
+
+    @keyframes get-auth-sitaw-in {
+        0% {
+            opacity: 0;
+            transform: translateX(-50%);
+        }
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+}
+#get-auth-sitaw-backend-url {
+    position: fixed;
+    left: 16px;
+    bottom: 16px;
+    opacity: 0.5;
+    font-size: 10px;
+    animation: get-auth-sitaw-url-in 2s;
+    @keyframes get-auth-sitaw-url-in {
+        0% {
+            opacity: 0;
+        }
+    }
+    .inner-prog-box {
+        position: relative;
+        .next-try-ind {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+    .inner-progress {
+        transform: scale(0.7);
+        --md-progress-color: @text-fade-50;
+    }
+    a {
+        margin-left: 2px;
+        color: inherit;
+    }
+    .try-counter {
+        margin-left: 4px;
+    }
+}
+
+.akso-logo-transition {
+    position: fixed;
+    top: -32px;
+    left: -32px;
+    width: 64px;
+    height: 64px;
+    z-index: 221;
+
+    svg {
+        overflow: visible;
+    }
+
+    .corner {
+        animation: logo-transition-corner-white 0.5s;
+
+        @keyframes logo-transition-corner-white {
+            from {
+                fill: #fff;
+            }
+        }
+    }
+}
+
+.root-container,
+.global-error-container,
+#unsupported {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overscroll-behavior: contain;
+}
+body.is-ios-standalone {
+    .root-container,
+    .global-error-container,
+    #unsupported {
+        height: 100vh;
+    }
+}
+
+.global-error-container {
+    z-index: 100;
+    background: fade(#fff, 80%);
+    overflow: auto;
+    padding: 16px;
+    margin: 0;
+    box-sizing: border-box;
+    font-size: 12px;
+}

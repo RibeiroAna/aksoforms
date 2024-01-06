@@ -1,0 +1,47 @@
+@import '../../prelude';
+
+.rearranging-list {
+    position: relative;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    --rearranging-list-background: @card-background;
+
+    .rearranging-list-item {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        will-change: transform;
+        display: flex;
+        border-radius: 4px;
+        transition: box-shadow 0.3s @easing;
+        z-index: 0;
+
+        &.dragging {
+            background: var(--rearranging-list-background);
+            .elevation(5);
+            z-index: 2;
+        }
+
+        .rearranging-list-item-content {
+            flex: 1;
+            flex-basis: 0;
+            width: 0;
+        }
+
+        .rearranging-list-item-drag-handle {
+            width: 56px;
+            display: flex;
+            flex-shrink: 0;
+            justify-content: center;
+            align-items: center;
+            cursor: move;
+            -webkit-tap-highlight-color: transparent;
+
+            .rearranging-list-item-drag-icon {
+                opacity: 0.6;
+            }
+        }
+    }
+}

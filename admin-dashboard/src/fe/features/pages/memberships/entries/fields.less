@@ -1,0 +1,310 @@
+@import '../../../../prelude';
+
+.registration-entry-header {
+    padding: 16px;
+
+    .entry-top {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        margin-bottom: 4px;
+
+        .inner-status {
+            text-transform: uppercase;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+
+            &[data-status="canceled"] {
+                color: @error;
+            }
+            &[data-status="pending"],
+            &[data-status="processing"],
+            &[data-status="submitted"] {
+                color: @warning-text;
+            }
+            &[data-status="succeeded"] {
+                color: @secondary;
+            }
+        }
+    }
+    .entry-title {
+        font-size: 1.3em;
+        margin-bottom: 8px;
+
+        .title-year {
+            font-weight: bold;
+        }
+    }
+    .entry-status-time {
+        font-size: 0.9em;
+        opacity: 0.8;
+    }
+    .entry-actions {
+        margin-top: 16px;
+    }
+}
+
+.registration-entry-id {
+    font-family: @monospace;
+    font-size: 0.8em;
+    border: 1px solid @separator;
+    border-radius: 4px;
+    padding: 2px 4px;
+}
+
+.registration-entry-status {
+    &[data-status="pending"] {
+        color: @warning-text;
+    }
+}
+
+.registration-entry-codeholder-data-preview {
+    .new-codeholder {
+        border: 1px solid @separator;
+        padding: 2px 4px;
+        border-radius: 4px;
+        margin-right: 4px;
+        font-size: 0.8em;
+        font-weight: 500;
+        text-transform: uppercase;
+        display: inline-block;
+        white-space: nowrap;
+
+        .codeholder-card-inner {
+            display: inline-block;
+            text-transform: initial;
+        }
+    }
+    .codeholder-card {
+        color: inherit;
+        pointer-events: none;
+        text-decoration: none;
+    }
+}
+.registration-entry-codeholder-data {
+    &:not(.is-linked):not(.is-editing) {
+        border: 1px solid @separator;
+        border-radius: 4px;
+    }
+
+    .data-type-switch-container {
+        padding: 8px;
+        text-align: center;
+    }
+
+    .codeholder-card {
+        color: inherit;
+        text-decoration: inherit;
+    }
+
+    .new-codeholder-id {
+        padding: 16px;
+        border-top: 2px solid @secondary;
+
+        label {
+            font-weight: bold;
+            margin-right: 16px;
+        }
+
+        .codeholder-card {
+            display: inline-block;
+        }
+    }
+
+    .member-name {
+        .editor-line {
+            margin-bottom: 8px;
+        }
+    }
+
+    .basic-address {
+        .address-pseudoline {
+            display: block;
+        }
+    }
+}
+
+.registration-entry-offers {
+    .offers-currency {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+        font-size: 0.8em;
+
+        .offers-currency-label {
+            font-size: 1.1em;
+            font-weight: 500;
+
+            &::after {
+                content: ': ';
+            }
+        }
+    }
+
+    .selected-offers {
+        .add-offer-container {
+            padding: 16px;
+            padding-top: 0;
+        }
+    }
+}
+
+.registration-entry-offers-add-offer-dialog {
+    width: 100%;
+    max-width: 600px;
+
+    .progress-container {
+        padding: 16px;
+        text-align: center;
+    }
+
+    .offer-group {
+        .group-title {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+
+            .disclosure-button {
+                margin: 0 16px;
+            }
+
+            .inner-title {
+                flex: 1;
+            }
+        }
+
+        .group-contents {
+            overflow: hidden;
+
+            .contents-empty {
+                text-align: center;
+            }
+        }
+    }
+}
+
+.registration-entry-offer-item {
+    border: 1px solid @separator;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    &.is-selectable {
+        transition: background 0.2s @easing, box-shadow 0.2s @easing;
+
+        &:hover {
+            background: @text-fade-10;
+            .elevation(4);
+        }
+
+        &:active {
+            transition: box-shadow 0.2s @easing;
+            background: @text-fade-20;
+        }
+    }
+
+    &.is-disabled {
+        opacity: 0.5;
+    }
+
+    .inner-addon-offer {
+        .inner-note {
+            color: @warning-text;
+            font-size: smaller;
+        }
+    }
+
+    .item-remove {
+        padding: 16px;
+        padding-right: 0;
+    }
+
+    .item-label {
+        flex: 1;
+        padding: 16px;
+        max-width: 240px;
+        overflow: hidden;
+
+        .offer-type {
+            font-size: 0.8em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .offer-version-tag {
+            font-size: smaller;
+            font-weight: 600;
+            text-transform: uppercase;
+            border: 1px solid @separator;
+            padding: 1px 2px;
+            border-radius: 4px;
+            margin: 0 2px;
+        }
+
+        a {
+            color: inherit;
+        }
+    }
+    .item-amount {
+        padding: 16px;
+        min-width: 72px;
+
+        @media (min-width: 500px) {
+            max-width: 50%;
+        }
+    }
+
+    .item-availability-conflict {
+        font-size: smaller;
+    }
+}
+
+.registration-entry-issue {
+    border: 1px solid @warning-text;
+    border-radius: 4px;
+    padding: 8px;
+
+    .issue-title {
+        color: @warning-text;
+        margin-bottom: 8px;
+
+        .inner-title {
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            margin-left: 8px;
+        }
+    }
+
+    &.is-resolved {
+        border-color: @gray-button-color;
+
+        .issue-title {
+            color: @gray-button-color;
+        }
+    }
+
+    .issue-description {
+        .registration-issue-offer-container {
+            margin-top: 8px;
+        }
+    }
+
+    .issue-fishy-check {
+        margin-top: 8px;
+        --md-button-color: @warning-text-rgb;
+
+        .fishy-marked-okay {
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        &.is-okay {
+            .md-gray-button();
+        }
+    }
+}

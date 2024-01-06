@@ -1,0 +1,17 @@
+version: '3'
+services:
+  db:
+    build: db
+    image: aforms-mysql
+    container_name: aforms-mysql-container
+    command: mysqld --default-authentication-plugin=mysql_native_password
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${AKSO_MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${AKSO_MYSQL_DATABASE}
+    ports:
+      - "3306:3306"
+    volumes:
+      - "./db/db.sql:/docker-entrypoint-initdb.d/1.sql"

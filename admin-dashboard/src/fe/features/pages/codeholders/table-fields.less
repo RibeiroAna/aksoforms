@@ -1,0 +1,74 @@
+@import '../../../prelude';
+
+.codeholder-type {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    vertical-align: middle;
+
+    .codeholder-type-label {
+        display: none;
+    }
+
+    &.with-label {
+        width: auto;
+
+        .codeholder-type-icon {
+            margin-right: 4px;
+
+            & > * {
+                vertical-align: middle;
+            }
+        }
+        .codeholder-type-label {
+            display: inline;
+        }
+    }
+}
+
+.codeholder-type.disabled {
+    color: @error;
+}
+
+.codeholder-name {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    justify-content: flex-start;
+    max-width: 100%;
+    vertical-align: -webkit-baseline-middle;
+    vertical-align: -moz-middle-with-baseline;
+
+    .honorific, .first-name, .last-name, .org-full-name, .org-abbrev {
+        display: inline-block;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    &.is-dead {
+        &::before {
+            content: '';
+            position: absolute;
+            bottom: 50%;
+            background: @danger;
+            height: 1px;
+            width: 100%;
+        }
+    }
+}
+
+.codeholder-address {
+    .address-pseudoline {
+        &:not(:first-of-type)::before {
+            content: ', ';
+        }
+    }
+}
+
+.codeholder-memberships {
+    .membership-item + .membership-item {
+        margin-left: 4px;
+    }
+}
+

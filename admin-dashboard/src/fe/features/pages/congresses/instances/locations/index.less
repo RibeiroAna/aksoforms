@@ -1,0 +1,101 @@
+@import '../../../../../prelude';
+
+.congresses-instance-locations {
+    position: relative;
+
+    .show-map-container {
+        margin: 8px 16px;
+        text-align: right;
+    }
+
+    .map-list {
+        height: 80vh;
+    }
+
+    .list-view-transition {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 99999;
+        background: #ddd;
+        box-shadow: 0 24px 0 #ddd;
+        animation: congresses-instance-locations-to-list-view-outer 1s;
+
+        @keyframes congresses-instance-locations-to-list-view-outer {
+            0% {
+                opacity: 0;
+            }
+            25% {
+                opacity: 1;
+            }
+            75% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .transition-left {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            box-shadow: 0 24px 0 @card-background;
+            background: @card-background;
+            width: 300px;
+            transform-origin: 0 0;
+            animation: congresses-instance-locations-to-list-view-left 1s @easing;
+
+            @keyframes congresses-instance-locations-to-list-view-left {
+                0% {
+                    transform: scaleX(1);
+                }
+                25% {
+                    transform: scaleX(1);
+                }
+                75% {
+                    transform: scaleX(var(--scale-dest));
+                }
+                100% {
+                    transform: scaleX(var(--scale-dest));
+                }
+            }
+        }
+
+        &.to-map .transition-left {
+            animation-name: congresses-instance-locations-from-list-view-left;
+
+            @keyframes congresses-instance-locations-from-list-view-left {
+                0% {
+                    transform: scaleX(var(--scale-dest));
+                }
+                25% {
+                    transform: scaleX(var(--scale-dest));
+                }
+                75% {
+                    transform: scaleX(1);
+                }
+                100% {
+                    transform: scaleX(1);
+                }
+            }
+        }
+    }
+
+    .congress-address {
+        margin: 8px;
+        border-radius: 4px;
+        padding: 8px;
+        background: @text-fade-10;
+
+        label {
+            font-size: small;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+    }
+}

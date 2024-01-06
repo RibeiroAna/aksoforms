@@ -1,0 +1,216 @@
+@import '../../../../../prelude';
+
+.congress-location-icon {
+    & > * {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    &[data-slot='icon'], &[data-slot='detail'] {
+        // this element only appears in 2 locations and both require a right margin
+        margin-right: 16px;
+        width: 24px;
+        height: 24px;
+    }
+}
+
+.congress-location-icon-picker {
+    font-size: 1rem;
+    font-weight: normal;
+    text-transform: none;
+    border: 1px solid @control-idle;
+    border-radius: 4px;
+    .md-gray-button();
+    color: inherit;
+    display: inline-flex;
+    align-items: center;
+    padding: 0;
+    letter-spacing: inherit;
+    min-width: 0;
+
+    .picker-preview {
+        padding-left: 8px;
+    }
+    .expand-icon {
+        padding: 0 8px;
+    }
+}
+.congress-location-icon-picker-dialog {
+    width: 400px;
+    max-width: 100%;
+
+    .picker-item {
+        display: flex;
+        width: 100%;
+        padding: 16px;
+        box-sizing: border-box;
+        margin: 0;
+        min-width: 0;
+        font: inherit;
+        text-transform: inherit;
+        letter-spacing: inherit;
+        text-align: left;
+        .md-gray-button();
+        color: inherit;
+        align-items: center;
+
+        .picker-label {
+            flex: 1;
+        }
+        .picker-check {
+            transform: scale(0);
+            transition: transform 0.3s @easing;
+        }
+        &.is-selected .picker-check {
+            transform: none;
+        }
+    }
+}
+
+.congress-location-description {
+    &[data-slot=body] {
+        font-size: small;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        max-width: 200px;
+    }
+}
+
+.congress-location-rating {
+    .inner-rating {
+        display: inline-flex;
+        white-space: nowrap;
+        align-items: center;
+        vertical-align: middle;
+        margin-right: 8px;
+    }
+
+    .rating-cell {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        transition: opacity 0.3s @easing;
+
+        &:first-child {
+            margin-left: 0;
+        }
+
+        .rating-cell-blend {
+            display: inline-block;
+            position: relative;
+
+            .blend-top {
+                position: absolute;
+                top: 0;
+                left: 0;
+                overflow: hidden;
+                height: 100%;
+            }
+        }
+
+        &[data-null] {
+            opacity: 0.5;
+        }
+
+        &[data-type="stars"] {
+            color: @rating-stars;
+        }
+        &[data-type="hearts"] {
+            color: @rating-hearts;
+        }
+    }
+
+    .rating-numeric {
+        margin-left: 4px;
+        color: @text-fade-60;
+    }
+
+    .rating-editor {
+        flex: 1;
+        margin-top: 8px;
+        display: inline-flex;
+        align-items: center;
+        vertical-align: middle;
+
+        .editor-infix {
+            margin: 0 4px;
+        }
+
+        .paper-text-field {
+            max-width: 8em;
+        }
+    }
+}
+
+.congress-location-open-hours {
+    .open-hours-day {
+        .day-date {
+            display: inline-block;
+            width: 10em;
+        }
+
+        &.is-editing {
+            margin-top: 8px;
+
+            .day-date {
+                display: block;
+                width: auto;
+                font-weight: bold;
+                margin-bottom: 8px;
+            }
+
+            &.is-empty {
+                display: flex;
+                align-items: center;
+
+                .day-date {
+                    font-weight: normal;
+                    flex: 1;
+                    opacity: 0.5;
+                    transition: opacity 0.2s;
+                }
+
+                .add-container {
+                    margin-left: 8px;
+                }
+
+                &:hover {
+                    .day-date {
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+
+        .open-hours-range {
+            display: inline-block;
+            &:not(:last-child)::after {
+                content: ', \200b';
+            }
+
+            &.is-editing {
+                flex: 1;
+                display: flex;
+                align-items: center;
+                margin-bottom: 8px;
+
+                .remove-button {
+                    margin-right: 8px;
+                }
+
+                &::after {
+                    content: none;
+                }
+
+                .hours-slider {
+                    margin-left: 16px;
+                    margin-right: 16px;
+                    width: 0;
+                    flex: 1;
+                }
+            }
+        }
+
+    }
+}

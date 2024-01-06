@@ -1,0 +1,123 @@
+@import '../../../prelude';
+
+.list-detail-page {
+    .detail-header {
+        margin: 0 24px;
+
+        .detail-header-field {
+            margin: 16px 0;
+
+            .header-field-label {
+                font-size: 0.8em;
+                font-weight: 500;
+                text-transform: uppercase;
+                opacity: 0.7;
+                padding-left: 16px;
+                margin-bottom: 4px;
+            }
+
+            .paper-text-field {
+                width: 100%;
+            }
+        }
+    }
+
+    .detail-filters {
+        margin: 0 24px;
+        margin-top: 24px;
+
+        .filter-item {
+            border-radius: 4px;
+            padding-bottom: 4px;
+            margin: 8px 0;
+            background: var(--editor-background);
+            color: var(--editor-text);
+            overflow: hidden;
+            .elevation(4);
+
+            .filter-item-header {
+                display: flex;
+                align-items: center;
+                padding: 8px 16px;
+                background: var(--editor-text-fade-10);
+
+                .filter-item-remove-container {
+                    display: inline-block;
+                    height: 24px;
+                    margin-right: 16px;
+                    vertical-align: middle;
+
+                    .filter-item-remove {
+                        --md-button-color: currentColor;
+                        margin-top: -12px;
+                    }
+                }
+
+                .filter-item-title {
+                    font-weight: 600;
+                    line-height: 24px;
+                    flex: 1;
+                }
+
+                .load-saved-filter-button {
+                    font-size: smaller;
+                }
+            }
+
+            .json-editor {
+                .CodeMirror {
+                    height: 150px;
+                }
+            }
+
+            @media (prefers-color-scheme: dark) {
+                --editor-background: @card1-background;
+            }
+        }
+
+        .add-filter-item {
+            text-align: center;
+            margin: 8px 0;
+        }
+
+        &.is-editing {
+            .filter-item {
+                margin: 0;
+                box-shadow: none;
+            }
+
+            .rearranging-list-item {
+                border: 1px solid @separator;
+                background: @card1-background;
+            }
+        }
+    }
+
+    .detail-preview {
+        .codeholder-item {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+
+            .codeholder-picture {
+                flex-shrink: 0;
+                margin-right: 16px;
+                width: 48px;
+                height: 48px;
+                border-radius: 50%;
+                overflow: hidden;
+
+                img {
+                    max-width: 100%;
+                    max-height: 100%;
+                }
+            }
+
+            .codeholder-name {
+                a {
+                    color: inherit;
+                }
+            }
+        }
+    }
+}

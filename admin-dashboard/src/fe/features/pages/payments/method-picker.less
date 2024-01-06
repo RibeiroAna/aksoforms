@@ -1,0 +1,43 @@
+@import '../../../prelude';
+
+.payment-method-picker {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    border: 1px solid @separator;
+    border-radius: 4px;
+    box-sizing: border-box;
+
+    .picker-content-wrapper {
+        display: flex;
+
+        .remove-button {
+            .md-gray-button();
+            margin: 0;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+    }
+
+    .picker-placeholder-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 64px;
+    }
+}
+
+.payment-method-picker-dialog {
+    max-width: 100%;
+    width: 400px;
+
+    .picker-org-item-container {
+        overflow: hidden;
+    }
+
+    .picker-chosen-org {
+        display: flex;
+        align-items: center;
+    }
+}

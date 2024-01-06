@@ -1,0 +1,61 @@
+@import '../../../prelude';
+
+.codeholder-change-request-codeholder-link {
+    color: inherit;
+}
+
+.codeholder-change-request-page {
+    .change-request-detail-contents {
+        .request-header {
+            padding: 24px;
+
+            .request-status {
+                float: right;
+            }
+
+            .request-codeholder {
+                margin-bottom: 8px;
+            }
+            .request-description {
+                font-size: 1.2em;
+                font-weight: bold;
+                margin-bottom: 8px;
+            }
+
+            .request-time {
+                font-size: smaller;
+            }
+        }
+
+        .request-field-title {
+            padding: 0 24px;
+            margin-bottom: 8px;
+            font-size: smaller;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: @text-fade-80;
+        }
+
+        .request-data {
+            margin-bottom: 16px;
+        }
+
+        .request-approval {
+            text-align: center;
+            margin-bottom: 16px;
+
+            .approve-button, .deny-button {
+                margin: 0 16px;
+                border: 1px solid rgb(var(--md-button-color));
+            }
+            .deny-button {
+                --md-button-color: var(--danger);
+            }
+        }
+
+        .internal-notes-container {
+            padding: 0 24px;
+        }
+    }
+}

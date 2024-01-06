@@ -1,0 +1,89 @@
+@import '../prelude';
+
+.cm-templating-popup {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    transition: transform 0.3s @easing;
+    z-index: 140;
+
+    &.is-hidden {
+        transform: scale(0);
+    }
+}
+
+.cm-templating-popup-portal {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 20000000; // above the md field editor bar
+    overflow-x: hidden;
+    overflow-y: scroll;
+    // pointer-events: none; // breaks scrolling in safari :/
+
+    .items-sheet {
+        pointer-events: all;
+        margin-top: 60vh;
+        width: 100%;
+        max-width: 600px;
+        min-height: 30vh;
+        background: @card1-background;
+        .elevation(24);
+        border-radius: 8px;
+        padding-bottom: 64px;
+
+        .items-top-bar {
+            background: @card1-background;
+            border-radius: 8px;
+            box-shadow: none;
+            color: inherit;
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            .md-gray-button();
+        }
+
+        .templating-items {
+            .templating-item {
+                display: block;
+                border-radius: 0;
+                width: 100%;
+                font: inherit;
+                padding: 8px 16px;
+                text-transform: inherit;
+                text-align: left;
+                letter-spacing: normal;
+
+                color: inherit;
+                .md-gray-button();
+
+                .item-preview {
+                    font-family: Roboto, sans-serif;
+                    font-size: smaller;
+                    font-weight: 500;
+                    border-radius: 4px;
+                    background: var(--editor-template-background);
+                    border: 1px solid var(--editor-template-delimiter);
+                    padding: 0 2px;
+
+                    &.is-script-var {
+                        background: white;
+                        border-color: #f48;
+                        color: black;
+                    }
+
+                    &.is-condition {
+                        border-color: #999;
+                        background: none;
+                        color: inherit;
+                    }
+                }
+            }
+        }
+    }
+}

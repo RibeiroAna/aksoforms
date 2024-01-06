@@ -1,0 +1,68 @@
+@import '../../prelude';
+
+.data-list {
+    position: relative;
+    overflow-y: auto;
+
+    .data-list-empty {
+        padding: 24px;
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+        opacity: 0.7;
+    }
+
+    .data-list-item {
+        padding-left: 24px;
+        padding-right: 24px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        box-sizing: border-box;
+
+        &.paper-button {
+            .md-gray-button();
+            color: inherit;
+            font: inherit;
+            text-transform: none;
+            letter-spacing: inherit;
+            text-align: left;
+        }
+
+        .list-item-contents {
+            flex: 1;
+        }
+
+        .list-item-extra {
+            flex-shrink: 0;
+            margin-left: 16px;
+
+            .list-item-overflow {
+                .md-gray-button();
+            }
+        }
+    }
+
+    .data-list-loading-indicator {
+        padding: 12px;
+        text-align: center;
+    }
+
+    .show-more-button {
+        display: block;
+        width: 100%;
+        margin-bottom: 32px;
+    }
+
+    &.is-flat {
+        overflow: visible;
+
+        .vlist-spacer {
+            display: none;
+        }
+
+        .data-list-empty, .data-list-item {
+            position: relative;
+        }
+    }
+}

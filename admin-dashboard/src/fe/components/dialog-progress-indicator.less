@@ -1,0 +1,35 @@
+@import '../prelude';
+
+.dialog-progress-indicator {
+    position: relative;
+    height: 2em;
+    margin-bottom: -1em;
+    overflow: hidden;
+
+    .dialog-progress-item {
+        position: absolute;
+        left: 50%;
+        transform-origin: 50% 80%;
+        will-change: transform, opacity;
+        white-space: nowrap;
+        cursor: default;
+
+        span {
+            display: inline-block;
+            transition: transform 0.5s, opacity 0.5s;
+
+            &.is-hidden {
+                transform: scale(0);
+                opacity: 0;
+            }
+        }
+    }
+
+    .dialog-progress-back {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        .md-gray-button();
+    }
+}

@@ -1,0 +1,232 @@
+@import 'prelude';
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('/assets/roboto/RobotoFlex.woff2') format('woff2');
+    font-weight: 100 900;
+    font-style: oblique 0deg 10deg;
+}
+
+.paper-dialog-container .paper-dialog .p-app-bar-placeholder {
+    padding-top: env(safe-area-inset-top);
+}
+
+.akso-app {
+    // position: absolute; breaks z-ordering the app header above full screen dialogs
+    display: flex;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: @text;
+    background: @page-background;
+    overflow: hidden;
+    overflow: clip;
+    font-family: Roboto, sans-serif;
+    color-scheme: light dark;
+    z-index: 1;
+
+    & > span {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        max-height: 100%;
+    }
+
+    @perma-sidebar-width: 250px;
+
+    .app-header {
+        --md-app-bar-bg: var(--primary);
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+        z-index: 201;
+        max-width: 100vw;
+        --md-progress-color: #fff;
+        --md-app-bar-extra-padding-top: env(safe-area-inset-top);
+
+        &.paper-dialog-app-bar {
+            --md-app-bar-bg: 51 51 51;
+            --md-app-bar-ink: 255 255 255;
+        }
+
+        .header-progress {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    }
+
+    .app-sidebar-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 100%;
+        z-index: 2000;
+
+        .app-sidebar-backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            bottom: 0;
+            background: fade(#000, 40%);
+            pointer-events: none;
+            -webkit-tap-highlight-color: transparent;
+            will-change: opacity;
+        }
+
+        .app-sidebar {
+            position: relative;
+            width: 300px;
+            height: 100%;
+            max-width: 80vw;
+            background: @sidebar-background;
+            overflow-x: hidden;
+            overflow-y: auto;
+            z-index: 1;
+            will-change: transform, box-shadow;
+            transition: box-shadow 0.3s @easing;
+            transform-origin: 0 0;
+            scrollbar-width: thin;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+            box-sizing: border-box;
+        }
+
+        &:not(.permanent).open {
+            .app-sidebar-backdrop {
+                pointer-events: all;
+            }
+
+            .app-sidebar {
+                .elevation(10);
+            }
+        }
+
+        &.permanent {
+            position: relative;
+            width: auto;
+            z-index: 10;
+
+            .app-sidebar {
+                border-right: 1px solid @sidebar-border;
+                width: @perma-sidebar-width;
+            }
+        }
+    }
+
+    .navigation-view-container {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        flex: 1;
+        min-height: 0;
+
+        .navigation-view {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            flex: 1;
+            background: @page-background;
+            height: 0;
+            min-height: 0;
+            z-index: 1;
+            padding-right: env(safe-area-inset-right);
+
+            &.error {
+                display: block;
+            }
+
+            .bottom-page-container {
+                display: flex;
+                position: relative;
+                flex: 1;
+                height: 0;
+                min-height: 0;
+
+                & > * {
+                    flex: 1;
+                    width: 0;
+                    overflow: auto;
+                    padding-bottom: env(safe-area-inset-bottom);
+                    -webkit-overflow-scrolling: touch;
+                }
+            }
+
+            .navigation-card-stack {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 13;
+            }
+
+            .page-loading-indicator {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .forbidden-page, .not-found-page {
+                text-align: center;
+
+                .error-title {
+                    margin: 1em;
+                }
+            }
+
+            .local-page-header {
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 201;
+                width: 100%;
+                border-top-left-radius: 8px;
+                border-top-right-radius: 8px;
+            }
+            :where(.local-page-header) {
+                background: @card-background;
+                --bar-fg: @text-rgb;
+                transition-property: all;
+                .elevation(1);
+
+                &.is-scrolled {
+                    .elevation(2);
+                }
+            }
+            .page-app-bar-spacer {
+                height: 56px;
+            }
+        }
+    }
+
+    &:not(.perma-sidebar) .app-contents .navigation-view {
+        padding-left: env(safe-area-inset-left);
+    }
+
+    &.animate-in {
+        .app-header {
+            animation: app-header-in 0.5s 0.1s @easing backwards;
+
+            @keyframes app-header-in {
+                from {
+                    transform: translateY(-100%);
+                }
+            }
+        }
+
+        .navigation-view {
+            animation: app-page-container-in 0.8s 0.1s @easing backwards;
+
+            @keyframes app-page-container-in {
+                from {
+                    opacity: 0;
+                }
+            }
+        }
+    }
+}

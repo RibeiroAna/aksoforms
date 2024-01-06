@@ -1,0 +1,102 @@
+@import '../../../../prelude';
+
+.congress-instance-detail-page {
+    .instance-inner {
+        .instance-header {
+            background: @text-fade-10;
+
+            .header-title {
+                font-size: 1.4em;
+                font-weight: 600;
+                padding: 24px;
+                padding-bottom: 0;
+
+                .org-icon {
+                    display: inline-block;
+                    vertical-align: middle;
+                    margin-right: 8px;
+
+                    & > * {
+                        width: 1.5em;
+                        height: 1.5em;
+                    }
+                }
+
+                .title-editor {
+                    width: 100%;
+                    font-weight: normal;
+
+                    input {
+                        font-weight: 600;
+                    }
+                }
+            }
+
+            @lpad: calc(2.1rem + 32px);
+
+            .header-id {
+                padding-left: @lpad;
+                padding-bottom: 8px;
+                font-weight: bold;
+
+                &.is-editing {
+                    padding: 16px 24px;
+                }
+            }
+
+            .header-timespan {
+                font-style: italic;
+                padding-left: @lpad;
+                padding-right: 24px;
+
+                &.is-editing {
+                    font-style: normal;
+                    padding: 16px 24px;
+                    display: flex;
+                    justify-content: space-between;
+
+                    .date-editor {
+                        width: 45%;
+                    }
+                }
+            }
+
+            .header-location, .header-time-zone {
+                padding-left: @lpad;
+                padding-bottom: 16px;
+            }
+
+            .header-time-zone {
+                font-size: small;
+            }
+
+            .header-links {
+                padding: 16px;
+            }
+        }
+
+        .instance-location-editor {
+            padding: 24px;
+
+            .location-editor-top {
+                margin-bottom: 16px;
+
+                .address-field {
+                    margin-top: 16px;
+
+                    .paper-text-field {
+                        width: 100%;
+                    }
+
+                    & > label {
+                        display: block;
+                        margin-bottom: 4px;
+                        font-size: small;
+                        text-transform: uppercase;
+                        font-weight: 600;
+                    }
+                }
+            }
+        }
+    }
+}

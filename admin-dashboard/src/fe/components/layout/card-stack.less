@@ -1,0 +1,176 @@
+@import '../../prelude';
+
+.card-stack-renderer {
+    position: relative;
+
+    .card-stack-backdrop {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.2);
+        animation: card-stack-backdrop-in 0.5s @easing forwards;
+
+        @keyframes card-stack-backdrop-in {
+            0% {
+                opacity: 0;
+            }
+        }
+
+        &.is-phantom {
+            pointer-events: none;
+            animation: card-stack-backdrop-out 0.5s @easing forwards;
+
+            @keyframes card-stack-backdrop-out {
+                100% {
+                    opacity: 0;
+                }
+            }
+        }
+    }
+
+    &.is-empty {
+        visibility: hidden;
+    }
+
+    .card-stack-item {
+        position: absolute;
+        top: 32px;
+        left: 16px;
+        right: 16px;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+        max-width: 800px;
+        background: @card-background;
+        .elevation(4);
+        border-radius: 8px 8px 0 0;
+        transition: transform 0.5s @easing;
+        animation: card-stack-item-in 0.5s @easing;
+        transform-origin: 50% 0;
+        transform: translateY(var(--card-dy)) scale(var(--card-s));
+
+        @keyframes card-stack-item-in {
+            0% {
+                transform: translateY(calc(var(--card-dy) + 100%)) scale(var(--card-s));
+            }
+            100% {
+                transform: translateY(var(--card-dy)) scale(var(--card-s));
+            }
+        }
+
+        .card-stack-item-header {
+            flex-shrink: 0;
+        }
+
+        .card-stack-item-contents {
+            position: relative;
+            flex: 1;
+            border-radius: inherit;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        .card-stack-item-header + .card-stack-item-contents {
+            border-radius: 0;
+        }
+
+        &:not(.is-top) {
+            isolation: isolate;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 100%;
+            right: 0;
+            height: 50vh;
+            background: @card-background;
+        }
+
+        &.is-phantom {
+            transition: none;
+            animation: card-stack-item-out 0.5s @easing forwards;
+            pointer-events: none;
+
+            @keyframes card-stack-item-out {
+                0% {
+                    transform: translateY(0);
+                }
+                100% {
+                    transform: translateY(100%);
+                }
+            }
+        }
+
+        @media (max-width: 1100px) {
+            top: -8px;
+            left: 0;
+            right: 0;
+            max-width: none;
+            animation-name: card-stack-item-in-fs;
+            transform: translateX(calc(var(--card-dx) * 100%));
+
+            @keyframes card-stack-item-in-fs {
+                0% {
+                    transform: translateX(100%);
+                }
+                100% {
+                    transform: translateX(0);
+                }
+            }
+
+            .card-stack-item-contents {
+                top: 8px;
+            }
+
+            &.is-phantom {
+                animation-name: card-stack-item-out-fs;
+
+                @keyframes card-stack-item-out-fs {
+                    0% {
+                        transform: translateX(0);
+                    }
+                    100% {
+                        transform: translateX(100%);
+                    }
+                }
+            }
+        }
+        @media (min-width: 1200px) {
+            &.is-wide {
+                transform: none;
+                top: 8px;
+                max-width: 95%;
+                animation-name: card-stack-item-in-wide;
+
+                @keyframes card-stack-item-in-wide {
+                    0% {
+                        transform: translateY(64px);
+                        opacity: 0;
+                    }
+                    100% {
+                        transform: none;
+                    }
+                }
+
+                &.is-phantom {
+                    animation-name: card-stack-item-out-wide;
+
+                    @keyframes card-stack-item-out-wide {
+                        0% {
+                            transform: none;
+                        }
+                        100% {
+                            transform: translateY(64px);
+                            opacity: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

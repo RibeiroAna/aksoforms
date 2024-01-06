@@ -1,0 +1,331 @@
+@import '../../yamdl/src/prelude';
+
+@__primary--internal: 0 76 63; // #004c3f
+@__secondary--internal: 49 166 79; // #31a64f
+@__warning--internal: 255 227 48; // #ffe330
+@__danger--internal: 244 67 54; // #f44336
+
+// TODO remove Legacy Variables
+
+.__gen-text(@text--internal, @text-on-primary--internal) {
+    --text: @text--internal;
+    --text-on-primary: @text-on-primary--internal;
+    --text-on-secondary: var(--text-on-primary);
+}
+
+.force-dark-theme() {
+    .md-dark-theme(@__primary--internal, @__secondary--internal, @__danger--internal);
+
+    .__gen-text(255 255 255, 255 255 255);
+    color: rgb(var(--text));
+
+    --LV-warning-text: rgb(@__warning--internal);
+    --warning-text: @__warning--internal;
+
+    --LV-page-background: #1a1a1a;
+    --LV-card-background: #222;
+    --LV-card1-background: #2a2a2a;
+    --LV-card2-background: #333;
+    --LV-sidebar-background: #222;
+    --LV-sidebar-border: #333;
+
+    --gray-button-color: var(--text);
+    --gray-button-color-opacity: 0.6;
+
+    --akso-logo-a: var(--text);
+    --akso-logo-b: var(--text);
+    --akso-logo-bg: 55 55 55;
+}
+
+:root, html, body {
+    // this selector also targets html and body because FOR SOME REASON yamdl’s default styles are
+    // *appended* to this stylesheet, meaning they get higher priority
+
+    --primary: @__primary--internal;
+    --LV-primary: rgb(var(--primary));
+    --secondary: @__secondary--internal;
+    --LV-secondary-lighten-10: lighten(rgb(@__secondary--internal), 10%);
+    --warning: @__warning--internal;
+    --LV-warning: rgb(var(--warning));
+    --text-on-warning: 0 0 0;
+    --LV-text-on-warning: rgb(var(--text-on-warning));
+    --warning-text: 207 157 32;
+    --LV-warning-text: rgb(var(--warning-text));
+    --danger: @__danger--internal;
+    --LV-danger: rgb(var(--danger));
+    --LV-danger-fade-20: rgb(var(--danger) / .2);
+    .__gen-text(0 0 0, 255 255 255);
+
+    --LV-page-background: #eee;
+    --LV-card-background: #fff;
+    --LV-card1-background: #fff;
+    --LV-card2-background: #fff;
+    --LV-sidebar-background: #f9f9f9;
+    --LV-sidebar-border: #ddd;
+    --LV-golden-background: fade(#fee12a, 20%);
+
+    --gray-button-color: var(--text);
+    --gray-button-color-opacity: 0.4;
+
+    --LV-membership-gives-membership-background: #51c64f;
+    --LV-membership-is-lifetime-background: #ca891a;
+    --LV-membership-gives-lifetime-membership-background: mix(#51c64f, #ca891a, 40%);
+    --LV-membership-canuto-background: #716abf;
+    --LV-rating-stars: #faaa44;
+    --LV-rating-hearts: #fe3a43;
+
+    --akso-logo-a: 54 54 54;
+    --akso-logo-b: 49 166 79;
+    --akso-logo-bg: 255 255 255;
+
+    .md-light-theme(@__primary--internal, @__secondary--internal, @__danger--internal);
+
+    @media (prefers-color-scheme: dark) {
+        .force-dark-theme();
+    }
+
+    --editor-background: #222;
+    --editor-selection: fade(#fff, 35%);
+    --editor-line-number: #aaa;
+    --editor-text: #ddd;
+    --editor-text-fade-10: fade(#ddd, 10%);
+    --editor-error: @error;
+    --editor-error-background: @error-fade-20;
+    --editor-match: #9ce;
+
+    --editor-template-background: fade(#75f, 40%);
+    --editor-template-delimiter: #77f;
+}
+
+.md-gray-button() {
+    --md-button-color: var(--gray-button-color);
+    --md-button-color-opacity: var(--gray-button-color-opacity);
+    --md-button-ripple-opacity: var(--gray-button-color-opacity);
+    --md-button-raised-ripple: var(--gray-button-color);
+    --md-button-raised-ripple-opacity: var(--gray-button-color-opacity);
+}
+
+.editor-text() {
+    --editor-background: #fff;
+    --editor-selection: @secondary-fade-50;
+    --editor-line-number: #333;
+    --editor-text: #222;
+    --editor-text-fade-10: fade(#222, 10%);
+    --editor-syntax-string: #273;
+    --editor-syntax-atom: #931;
+    --editor-syntax-number: #931;
+    --editor-syntax-property: #921;
+    --editor-syntax-comment: #666;
+    --editor-error: @error;
+    --editor-error-background: @error-fade-20;
+    --editor-match: #159;
+
+    --editor-template-background: fade(#75f, 40%);
+    --editor-template-delimiter: #77f;
+
+    @media (prefers-color-scheme: dark) {
+        --editor-background: #222;
+        --editor-text: #ddd;
+        --editor-text-fade-10: fade(#ddd, 10%);
+        --editor-syntax-string: @secondary;
+        --editor-syntax-atom: #e95;
+        --editor-syntax-number: #e95;
+        --editor-syntax-property: #f5a;
+        --editor-syntax-comment: #999;
+        --editor-match: #fac;
+    }
+}
+
+@primary: var(--LV-primary);
+@secondary: rgb(var(--secondary));
+@secondary-rgb: var(--secondary);
+@secondary-lighten-10: var(--LV-secondary-lighten-10);
+@secondary-fade-50: rgb(var(--secondary) / 0.5);
+@warning: var(--LV-warning);
+@text-on-warning: var(--LV-text-on-warning);
+@warning-text: var(--LV-warning-text);
+@warning-text-rgb: var(--warning-text);
+@danger: var(--LV-danger);
+@danger-rgb: var(--danger);
+@error: @danger;
+@danger-fade-20: var(--LV-danger-fade-20);
+@error-fade-20: @danger-fade-20;
+@positive: @secondary;
+@positive-fade-20: rgb(var(--secondary) / 0.2);
+@positive-fade-50: rgb(var(--secondary) / 0.5);
+@text: rgb(var(--text));
+@text-rgb: var(--text);
+@text-fade-05: rgb(var(--text) / .05);
+@text-fade-10: rgb(var(--text) / .1);
+@text-fade-20: rgb(var(--text) / .2);
+@text-fade-40: rgb(var(--text) / .4);
+@text-fade-50: rgb(var(--text) / .5);
+@text-fade-60: rgb(var(--text) / .6);
+@text-fade-80: rgb(var(--text) / .8);
+@text-on-secondary-rgb: var(--text-on-secondary);
+@text-on-positive-rgb: var(--text-on-secondary);
+@text-on-positive: rgb(@text-on-positive-rgb);
+@gray-button-color: rgb(var(--gray-button-color) / var(--gray-button-opacity));
+@picture-outline: @text-fade-20;
+@text-on-primary: rgb(var(--text-on-primary));
+@text-on-primary-fade-60: rgb(var(--text-on-primary) / .6);
+@hover-background: @text-fade-10;
+@control-idle: @text-fade-50;
+@separator: @text-fade-20;
+@subtle-separator: @text-fade-10;
+@page-background: var(--LV-page-background);
+@card-background: var(--LV-card-background);
+@card1-background: var(--LV-card1-background);
+@card2-background: var(--LV-card2-background);
+@sidebar-background: var(--LV-sidebar-background);
+@sidebar-border: var(--LV-sidebar-border);
+@sidebar-text: inherit;
+@golden-background: var(--LV-golden-background);
+@membership-gives-membership-background: var(--LV-membership-gives-membership-background);
+@membership-is-lifetime-background: var(--LV-membership-is-lifetime-background);
+@membership-gives-lifetime-membership-background: var(--LV-membership-gives-lifetime-membership-background);
+@membership-canuto-background: var(--LV-membership-canuto-background);
+@rating-stars: var(--LV-rating-stars);
+@rating-hearts: var(--LV-rating-hearts);
+@monospace: Menlo, Roboto Mono, Consolas, monospace;
+
+@easing: cubic-bezier(0.2, 0.3, 0, 1);
+
+@regular-min-width: 600px;
+@compact-max-width: @regular-min-width - 1px;
+
+// adapted from https://github.com/material-components/material-components-web/tree/
+//              a865ef5a31724bb97989b463cfe77a1b41044b32/packages/mdc-elevation
+@mdc-elevation-umbra-map:
+    "0px 0px 0px 0px",
+    "0px 2px 1px -1px",
+    "0px 3px 1px -2px",
+    "0px 3px 3px -2px",
+    "0px 2px 4px -1px",
+    "0px 3px 5px -1px",
+    "0px 3px 5px -1px",
+    "0px 4px 5px -2px",
+    "0px 5px 5px -3px",
+    "0px 5px 6px -3px",
+    "0px 6px 6px -3px",
+    "0px 6px 7px -4px",
+    "0px 7px 8px -4px",
+    "0px 7px 8px -4px",
+    "0px 7px 9px -4px",
+    "0px 8px 9px -5px",
+    "0px 8px 10px -5px",
+    "0px 8px 11px -5px",
+    "0px 9px 11px -5px",
+    "0px 9px 12px -6px",
+    "0px 10px 13px -6px",
+    "0px 10px 13px -6px",
+    "0px 10px 14px -6px",
+    "0px 11px 14px -7px",
+    "0px 11px 15px -7px";
+@mdc-elevation-penumbra-map:
+    "0px 0px 0px 0px",
+    "0px 1px 1px 0px",
+    "0px 2px 2px 0px",
+    "0px 3px 4px 0px",
+    "0px 4px 5px 0px",
+    "0px 5px 8px 0px",
+    "0px 6px 10px 0px",
+    "0px 7px 10px 1px",
+    "0px 8px 10px 1px",
+    "0px 9px 12px 1px",
+    "0px 10px 14px 1px",
+    "0px 11px 15px 1px",
+    "0px 12px 17px 2px",
+    "0px 13px 19px 2px",
+    "0px 14px 21px 2px",
+    "0px 15px 22px 2px",
+    "0px 16px 24px 2px",
+    "0px 17px 26px 2px",
+    "0px 18px 28px 2px",
+    "0px 19px 29px 2px",
+    "0px 20px 31px 3px",
+    "0px 21px 33px 3px",
+    "0px 22px 35px 3px",
+    "0px 23px 36px 3px",
+    "0px 24px 38px 3px";
+@mdc-elevation-ambient-map:
+    "0px 0px 0px 0px",
+    "0px 1px 3px 0px",
+    "0px 1px 5px 0px",
+    "0px 1px 8px 0px",
+    "0px 1px 10px 0px",
+    "0px 1px 14px 0px",
+    "0px 1px 18px 0px",
+    "0px 2px 16px 1px",
+    "0px 3px 14px 2px",
+    "0px 3px 16px 2px",
+    "0px 4px 18px 3px",
+    "0px 4px 20px 3px",
+    "0px 5px 22px 4px",
+    "0px 5px 24px 4px",
+    "0px 5px 26px 4px",
+    "0px 6px 28px 5px",
+    "0px 6px 30px 5px",
+    "0px 6px 32px 5px",
+    "0px 7px 34px 6px",
+    "0px 7px 36px 6px",
+    "0px 8px 38px 7px",
+    "0px 8px 40px 7px",
+    "0px 8px 42px 7px",
+    "0px 9px 44px 8px",
+    "0px 9px 46px 8px";
+.elevation(@z-value, @color: black, @opacity-boost: 0) {
+    @umbra-z-value: extract(@mdc-elevation-umbra-map, @z-value);
+    @penumbra-z-value: extract(@mdc-elevation-penumbra-map, @z-value);
+    @ambient-z-value: extract(@mdc-elevation-ambient-map, @z-value);
+
+    @umbra-color: fade(@color, 20% + @opacity-boost);
+    @penumbra-color: fade(@color, 14% + @opacity-boost);
+    @ambient-color: fade(@color, 12% + @opacity-boost);
+
+    box-shadow: ~"@{umbra-z-value} @{umbra-color}",
+        ~"@{penumbra-z-value} @{penumbra-color}",
+        ~"@{ambient-z-value} @{ambient-color}";
+}
+
+.log-gradient-mask(@direction: to bottom, @color: black, @least: 0%, @most: 100%) {
+    mask-image: linear-gradient(@direction,
+        fade(@color, @most - (@most - @least) * 0.00) 0%,
+        fade(@color, @most - (@most - @least) * 0.01) 13%,
+        fade(@color, @most - (@most - @least) * 0.05) 25%,
+        fade(@color, @most - (@most - @least) * 0.12) 38%,
+        fade(@color, @most - (@most - @least) * 0.22) 50%,
+        fade(@color, @most - (@most - @least) * 0.36) 63%,
+        fade(@color, @most - (@most - @least) * 0.53) 75%,
+        fade(@color, @most - (@most - @least) * 0.75) 88%,
+        fade(@color, @most - (@most - @least) * 1.00) 100%);
+}
+
+.log-gradient-background(@direction: to bottom, @color: black, @least: 0%, @most: 100%) {
+    background-image: linear-gradient(@direction,
+        fade(@color, (@most - @least) * 0.00 + @least) 0%,
+        fade(@color, (@most - @least) * 0.01 + @least) 13%,
+        fade(@color, (@most - @least) * 0.05 + @least) 25%,
+        fade(@color, (@most - @least) * 0.12 + @least) 38%,
+        fade(@color, (@most - @least) * 0.22 + @least) 50%,
+        fade(@color, (@most - @least) * 0.36 + @least) 63%,
+        fade(@color, (@most - @least) * 0.53 + @least) 75%,
+        fade(@color, (@most - @least) * 0.75 + @least) 88%,
+        fade(@color, (@most - @least) * 1.00 + @least) 100%);
+}
+
+.simple-focus-ring-idle() {
+    box-shadow: 0 0 0 0 transparent;
+    transition: box-shadow 0.3s @easing;
+}
+.simple-focus-ring-focused(@color: @secondary-fade-50) {
+    animation: simple-focus-ring-in 0.3s @easing;
+    box-shadow: 0 0 0 4px @color;
+    transition: none;
+
+    @keyframes simple-focus-ring-in {
+        0% {
+            box-shadow: 0 0 0 30px transparent;
+        }
+    }
+}

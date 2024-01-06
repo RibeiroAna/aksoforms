@@ -1,0 +1,31 @@
+@import '../../../../prelude';
+
+.payment-intent-foreign-id {
+    font-family: @monospace;
+}
+
+.payment-intent-intermediary {
+    .inner-country {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 4px;
+
+        label {
+            margin-right: 16px;
+        }
+        .data {
+            flex: 1;
+        }
+    }
+}
+
+.payment-intent-status {
+    &[data-status="submitted"],
+    &[data-status="disputed"] {
+        color: @warning-text;
+    }
+    &[data-status="succeeded"] {
+        color: @positive;
+    }
+}

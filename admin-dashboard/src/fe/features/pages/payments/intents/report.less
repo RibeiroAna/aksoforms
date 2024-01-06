@@ -1,0 +1,103 @@
+@import '../../../../prelude';
+
+.payments-balance-report-page {
+    .report-time-range {
+        padding-top: 16px;
+        display: block;
+        display: flex;
+        justify-content: space-around;
+        align-items: flex-end;
+
+        @media (max-width: @compact-max-width) {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .range-field {
+            padding: 16px;
+        }
+    }
+
+    .report-total-currency {
+        text-align: right;
+        margin-right: 24px;
+    }
+
+    .report-loading {
+        text-align: center;
+        padding: 24px;
+    }
+
+    .payments-report {
+        margin: 24px;
+
+        .report-section {
+            margin-top: 16px;
+
+            .section-title {
+                font-size: small;
+                font-weight: bold;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                margin-bottom: 8px;
+            }
+            .section-contents {
+                background: @text-fade-10;
+                padding: 16px;
+                border-radius: 4px;
+                overflow: auto;
+            }
+        }
+
+        .converted-totals {
+            .converted-total-total {
+                font-size: 24px;
+            }
+            .converted-total-sub {
+                .converted-total-earned, .converted-total-refunded {
+                    display: inline-block;
+                }
+                .converted-total-earned, {
+                    margin-right: 32px;
+                }
+            }
+        }
+
+        table {
+            min-width: 100%;
+            border-spacing: 0;
+
+            th, td {
+                text-align: left;
+                padding: 4px;
+            }
+
+            thead tr {
+                background: @text-fade-10;
+            }
+
+            tr:nth-child(2n) {
+                background: @text-fade-10;
+            }
+
+            .totals-set {
+                .totals-sub {
+                    font-size: 0.8em;
+
+                    .totals-subfield {
+                        &::before {
+                            content: ' · ';
+                        }
+                        &:first-child::before {
+                            content: '';
+                        }
+                    }
+                }
+            }
+        }
+
+        .object-id {
+            color: inherit;
+        }
+    }
+}

@@ -1,0 +1,54 @@
+@import '../../../prelude';
+
+.magazines-task-create,
+.magazines-task-create-edition,
+.magazines-task-create-toc-entry {
+    width: 400px;
+    max-width: 100%;
+
+    .creation-label {
+        display: block;
+        font-size: 0.875em;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+    }
+
+    .paper-text-field {
+        width: 100%;
+    }
+}
+
+.magazines-task-update-edition-file {
+    width: 400px;
+    max-width: 100%;
+
+    .file-preview {
+        display: flex;
+        align-items: center;
+
+        .file-icon-container {
+            width: 48px;
+            height: 48px;
+            background: @text-fade-10;
+            margin-right: 8px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .file-name {
+            .file-type {
+                display: inline-block;
+                background: @text-fade-10;
+                border-radius: 4px;
+                padding: 2px 4px;
+                margin-left: 4px;
+                font-size: 0.8em;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+        }
+    }
+}

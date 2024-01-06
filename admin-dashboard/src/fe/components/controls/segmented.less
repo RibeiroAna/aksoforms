@@ -1,0 +1,115 @@
+@import '../../prelude';
+
+.segmented-control {
+    position: relative;
+    display: inline-flex;
+    align-items: stretch;
+    border-radius: 4px;
+
+    .segmented-control-background {
+        position: absolute;
+        border-radius: inherit;
+        background: @secondary;
+        color: @text-on-primary;
+        .elevation(4);
+        will-change: transform, width;
+        transition: background 0.2s;
+    }
+
+    .segmented-control-option {
+        padding: 8px 16px;
+        color: inherit;
+        font: inherit;
+        background: none;
+        border: none;
+        margin: 0;
+        display: inline-block;
+        border-radius: inherit;
+        .simple-focus-ring-idle();
+        transition: color 0.3s @easing;
+        z-index: 1;
+        -webkit-tap-highlight-color: transparent;
+
+        &.selected {
+            color: @text-on-primary;
+        }
+
+        &::-moz-focus-inner {
+            border: 0;
+        }
+
+        &:focus {
+            outline: none;
+            .simple-focus-ring-focused();
+            transition: color 0.3s @easing;
+        }
+
+        &.selected:not(.hidden-background) {
+            background: @secondary;
+            .elevation(4);
+
+            &:focus {
+                .simple-focus-ring-focused();
+                transition: color 0.3s @easing;
+            }
+        }
+
+        &[disabled] {
+            opacity: 0.5;
+        }
+    }
+
+    // these classes are kind of hacks
+    &.smaller {
+        .segmented-control-background {
+            box-sizing: border-box;
+            border: 1px solid @secondary;
+            transition: background 0.3s @easing, box-shadow 0.3s @easing;
+
+            &.bordered {
+                background: none;
+                box-shadow: none;
+            }
+        }
+
+        .segmented-control-option {
+            padding: 4px 8px;
+
+            &.bordered {
+                border: 1px solid transparent;
+                color: @text-fade-80;
+            }
+
+            &.selected.bordered {
+                color: inherit;
+            }
+            &.selected:not(.hidden-background) {
+                &.bordered {
+                    background: none;
+                    border-color: @secondary;
+                    box-shadow: none;
+                }
+            }
+        }
+    }
+
+    &.minimal {
+        .segmented-control-background {
+            background: @text-fade-40;
+            box-shadow: none;
+        }
+
+        .segmented-control-option {
+            padding: 4px 8px;
+
+            &.selected:not(.hidden-background) {
+                background: @text-fade-40;
+                box-shadow: none;
+
+                &:focus {
+                    .simple-focus-ring-focused();
+                }
+            }
+        }
+    }
+}

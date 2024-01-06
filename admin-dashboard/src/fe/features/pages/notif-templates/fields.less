@@ -1,0 +1,140 @@
+@import '../../../prelude';
+
+.notif-template-base, .notif-template-intent {
+    font-size: small;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 2px 4px;
+    border-radius: 4px;
+    border: 1px solid @separator;
+}
+.notif-template-intent {
+    background: @text-fade-10;
+    border-color: transparent;
+}
+
+.notif-template-domain-email-editor {
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    border: 1px solid @separator;
+
+    &:focus-within {
+        border-color: @secondary;
+    }
+
+    .domain-email-editor-address {
+        font: inherit;
+        color: inherit;
+        background: none;
+        border: none;
+        padding: 0 8px;
+        flex: 1;
+        margin: 0;
+        align-self: stretch;
+        outline: none;
+        text-align: right;
+    }
+
+    .domain-email-editor-domain {
+        flex: 1;
+    }
+}
+
+.notif-template-modules-editor {
+    .module-bar {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        align-items: center;
+    }
+
+    .text-module {
+        padding: 16px;
+
+        .text-columns {
+            display: flex;
+
+            .markdown-text-field {
+                flex: 1;
+            }
+
+            img {
+                max-width: 100%;
+            }
+        }
+        .text-button {
+            margin-top: 8px;
+            border-radius: 4px;
+            background: @text-fade-10;
+            padding: 16px;
+
+            .button-title {
+                font-weight: bold;
+            }
+
+            .button-bar {
+                .button-title {
+                    margin-left: 8px;
+                }
+            }
+
+            .button-field {
+                width: 100%;
+                margin-top: 16px;
+            }
+
+            .button-prototype {
+                margin-top: 8px;
+
+                .prototype-inner {
+                    display: inline-block;
+                    background: @text-fade-10;
+                    border-radius: 4px;
+                    padding: 8px 16px;
+                }
+                .prototype-link {
+                    margin-top: 4px;
+                    font-family: @monospace;
+                    font-size: small;
+                }
+            }
+        }
+    }
+
+    .image-module {
+        padding: 16px;
+
+        .image-field {
+            width: 100%;
+            margin-top: 16px;
+        }
+
+        .image-details {
+            .image-alt {
+                margin-left: 8px;
+            }
+        }
+        .image-source {
+            font-family: @monospace;
+            font-size: small;
+        }
+    }
+
+    .add-template-module {
+        text-align: center;
+        padding: 8px;
+    }
+}
+
+.cm-notif-template-editor {
+    .cm-editor {
+        height: 300px;
+    }
+
+    .cm-scroller {
+        font-family: @monospace;
+        font-size: 14px;
+    }
+}
+

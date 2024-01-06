@@ -1,0 +1,28 @@
+.paper-dialog {
+    .dialog-sheet-close-button {
+        &.highlight-focus {
+            &::after {
+                content: '';
+                position: absolute;
+                inset: 0;
+                border-radius: inherit;
+
+                animation: dialog-sheet-close-highlight 0.5s cubic-bezier(.2, .3, 0, 1);
+                @keyframes dialog-sheet-close-highlight {
+                    0% {
+                        box-shadow: 0 0 0 40px rgb(var(--md-button-color));
+                        opacity: 0;
+                    }
+                    75% {
+                        box-shadow: 0 0 0 4px rgb(var(--md-button-color));
+                        opacity: 0.5;
+                    }
+                    100% {
+                        box-shadow: 0 0 0 0 rgb(var(--md-button-color));
+                        opacity: 0;
+                    }
+                }
+            }
+        }
+    }
+}

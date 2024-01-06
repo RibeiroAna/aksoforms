@@ -1,0 +1,123 @@
+@import '../../../prelude';
+
+.payment-purposes-picker {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    border: 1px solid @separator;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+
+    .purposes-picker-inner {
+        .payment-purpose {
+            border-bottom: 1px solid @separator;
+            display: flex;
+
+            .purpose-inner {
+                flex: 1;
+
+                .purpose-details {
+                    padding: 16px;
+
+                    .trigger-details {
+                        margin-bottom: 8px;
+
+                        .purpose-type {
+                            font-size: small;
+                            font-weight: 600;
+                            text-transform: uppercase;
+                            padding: 2px 4px;
+                            border-radius: 4px;
+                            border: 1px solid @separator;
+                            margin-right: 8px;
+                        }
+                    }
+
+                    .purpose-title {
+                        font-weight: bold;
+                        margin-bottom: 4px;
+                    }
+                    .purpose-description {
+                        font-size: 0.9em;
+                    }
+
+                    .purpose-data-id {
+                        font-family: @monospace;
+                        font-size: small;
+                        padding: 2px 4px;
+                        border-radius: 4px;
+                        background: @text-fade-10;
+                    }
+                }
+
+                .overview-list-item {
+                    border-bottom: none;
+                }
+
+                .purpose-amount-container {
+                    padding: 16px;
+                    padding-top: 0;
+
+                    .discount, .trigger-amount {
+                        .discount-switch, .trigger-amount-switch {
+                            margin-top: 16px;
+
+                            .switch-box {
+                                margin-right: 8px;
+                            }
+                        }
+                        .discount-editor, .trigger-amount-editor {
+                            margin-top: 12px;
+                        }
+                    }
+                    .trigger-amount-editor-inner {
+                        margin-top: 12px;
+                    }
+                }
+            }
+
+            .remove-button {
+                flex-shrink: 0;
+                width: 64px;
+                margin: 0;
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+                .md-gray-button();
+            }
+        }
+    }
+
+    .purposes-picker-add {
+        display: block;
+        width: 100%;
+        margin: 0;
+        line-height: 64px;
+        .md-gray-button();
+    }
+}
+
+.payment-purposes-picker-dialog {
+    max-width: 100%;
+    width: 400px;
+
+    .type-selection {
+        text-align: center;
+        margin-bottom: 16px;
+    }
+
+    .manual-purpose, .trigger-purpose {
+        .form-validator, .paper-text-field {
+            width: 100%;
+        }
+        .form-footer {
+            text-align: right;
+        }
+    }
+
+    .no-org {
+        text-align: center;
+        padding: 16px;
+    }
+}

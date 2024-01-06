@@ -1,0 +1,161 @@
+@import '../../../prelude';
+
+.home-task-badge() {
+    display: inline-block;
+    text-align: center;
+    background: @secondary;
+    color: @text-on-primary;
+    padding: 2px 4px;
+    line-height: 1;
+    min-width: 1em;
+    border-radius: 100px;
+    margin-left: 8px;
+
+    &[data-n="0"] {
+        background: @text-fade-50;
+        opacity: 0.5;
+    }
+}
+
+.home-page {
+    .inner-grid {
+        display: grid;
+        padding: 24px;
+        gap: 16px;
+        grid-template-columns: 100%;
+        box-sizing: border-box;
+
+        @media (min-width: 1270px) {
+            grid-template-columns: calc(50% - 8px) calc(50% - 8px);
+            grid-template-rows: masonry;
+        }
+    }
+
+    .home-card {
+        border-radius: 8px;
+        background: @card1-background;
+        width: 100%;
+        .elevation(7);
+
+        .hc-title {
+            padding: 16px;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .hc-content-box {
+            padding: 16px;
+            padding-top: 0;
+        }
+    }
+
+    .hc-system-info {
+        padding: 16px;
+
+        textarea {
+            display: block;
+            width: 100%;
+            height: 4em;
+            resize: none;
+        }
+    }
+
+    .home-tasks {
+        .tasks-loading {
+            display: block;
+            width: 100%;
+        }
+        .loading-placeholder-padding {
+            padding-bottom: 8px;
+        }
+
+        .tasks-list-loading {
+            text-align: center;
+            margin: 8px;
+        }
+
+        .tasks-empty {
+            text-align: center;
+            opacity: 0.7;
+            padding: 16px;
+        }
+
+        .home-tasks-header {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid @separator;
+
+            .additional-count {
+                margin-left: 8px;
+                border-left: 1px solid @separator;
+                padding-left: 8px;
+
+                .task-badge {
+                    .home-task-badge();
+                    margin-right: 8px;
+                }
+            }
+        }
+
+        .home-task {
+            display: block;
+            width: 100%;
+            text-align: left;
+            text-transform: none;
+            font: inherit;
+            color: inherit;
+            margin: 0;
+            border-radius: 0;
+            border-bottom: 1px solid @separator;
+            letter-spacing: inherit;
+            .md-gray-button();
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            box-sizing: border-box;
+
+            .task-icon, .task-alt-icon {
+                flex-shrink: 0;
+                width: 64px;
+                text-align: center;
+            }
+            .task-details {
+                flex: 1;
+
+                .task-title {
+                    margin-bottom: 4px;
+
+                    .uea-code {
+                        display: inline-block;
+                        vertical-align: middle;
+                    }
+                }
+
+                .task-badge {
+                    display: inline-block;
+                    color: @warning-text;
+                    padding: 2px 4px;
+                    border-radius: 4px;
+                    border: 1px solid currentColor;
+                    text-transform: uppercase;
+                    font-weight: 500;
+                    font-size: 0.8em;
+                    letter-spacing: 0.06em;
+                }
+            }
+
+            &:last-of-type {
+                border-bottom: none;
+            }
+        }
+    }
+}
+
+.home-task-tab-label {
+    pointer-events: none;
+
+    .task-badge {
+        .home-task-badge();
+        margin-right: 8px;
+    }
+}

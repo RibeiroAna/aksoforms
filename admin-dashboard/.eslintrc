@@ -1,0 +1,114 @@
+{
+    "parser": "@babel/eslint-parser",
+    "env": {
+        "browser": true,
+        "node": true,
+        "es6": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended"
+    ],
+    "rules": {
+        "no-console": "warn",
+        "no-unused-vars": "warn",
+        // semicolons
+        "semi": "error",
+        // dangling commas
+        "comma-dangle": ["warn", "always-multiline"],
+        // consistent newlines around array brackets
+        "array-bracket-newline": ["warn", "consistent"],
+        // no spaces around array brackets: [a]
+        "array-bracket-spacing": ["warn", "never"],
+        // pad same-line { ... } with whitespace
+        "block-spacing": "warn",
+        // if () {\n } else {\n }
+        "brace-style": ["warn", "1tbs"],
+        // no space before, space after
+        "comma-spacing": "warn",
+        // commas should be at the end of the current line
+        "comma-style": "warn",
+        // compute properties should look like indexing: [a]
+        "computed-property-spacing": "warn",
+        // no spaces after function names: something()
+        "func-call-spacing": "warn",
+        // consistent newlines around function arguments
+        "function-paren-newline": ["warn", "consistent"],
+        // indent with 4 spaces
+        "indent": "warn",
+        // prefer double quotes in JSX
+        "jsx-quotes": "warn",
+        // object key: spacing
+        "key-spacing": "warn",
+        // space before and after keywords
+        "keyword-spacing": "warn",
+        // use \n for line breaks
+        "linebreak-style": "warn",
+        // one statement per line
+        "max-statements-per-line": "warn",
+        // disallow `new Object;`
+        "new-parens": "warn",
+        // disallow if as the only statement inside else
+        "no-lonely-if": "warn",
+        // disallow trailing spaces
+        "no-trailing-spaces": "warn",
+        // disallow whitespace before the property dot
+        "no-whitespace-before-property": "warn",
+        // consistent newlines around object constructors
+        "object-curly-newline": "warn",
+        // operators on the next line
+        "operator-linebreak": ["warn", "before", { "overrides": { "=": "after" } }],
+        // no line padding inside { ... }
+        "padded-blocks": ["warn", "never"],
+        // prefer single quotes
+        "quotes": ["warn", "single", { "avoidEscape": true, "allowTemplateLiterals": true }],
+        // no spaces before semicolons
+        "semi-spacing": "warn",
+        // semicolons are at the end
+        "semi-style": "warn",
+        // blocks need a preceding space (e.g. in if (a) { ... } after the condition)
+        "space-before-blocks": "warn",
+        // function definition parens have a space before
+        "space-before-function-paren": "warn",
+        // no spaces in parentheses
+        "space-in-parens": "warn",
+        // spaces around operators
+        "space-infix-ops": "warn",
+        // spaces after word operators (like new)
+        "space-unary-ops": "warn",
+        // colon spacing for switch cases
+        "switch-colon-spacing": "warn",
+        // no space after the template string tag
+        "template-tag-spacing": "warn",
+        // spaces around the =>
+        "arrow-spacing": "warn",
+        // function* name for generator functions
+        "generator-star-spacing": ["warn", "after"],
+        // use let or const
+        "no-var": "warn",
+        // prefer immutability
+        "prefer-const": "warn",
+        // don’t use `arguments`
+        "prefer-rest-params": "error",
+        // no spaces after the ... operator
+        "rest-spread-spacing": "warn",
+        // no spaces in the template string ${expression}
+        "template-curly-spacing": "warn",
+        // yield* value
+        "yield-star-spacing": "warn",
+        // allow `class` and `for` (for preact)
+        "react/no-unknown-property": ["error", {
+            "ignore": ["class", "for"]
+        }],
+        // preact doesn’t care
+        "react/prop-types": "off",
+        // preact doesn’t care
+        "react/display-name": "off",
+    },
+    "settings": {
+        "react": {
+            "version": "16",
+            "pragma": "h",
+        }
+    }
+}

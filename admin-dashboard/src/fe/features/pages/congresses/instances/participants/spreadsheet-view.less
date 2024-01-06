@@ -1,0 +1,34 @@
+@import '../../../../../prelude';
+
+.congress-participants-spreadsheet-dialog {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+
+    & > .paper-dialog-contents {
+        padding: 0 !important;
+    }
+
+    .search-query-notice {
+        margin: 8px;
+        background: @text-fade-05;
+        border-radius: 4px;
+        padding: 4px 8px;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+
+        .inner-icon-container {
+            line-height: 0;
+        }
+    }
+}
+.congress-participants-spreadsheet {
+    height: 100%;
+
+    .spreadsheet-row {
+        &:hover {
+            background: @text-fade-10;
+        }
+    }
+}

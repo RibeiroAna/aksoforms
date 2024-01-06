@@ -1,0 +1,75 @@
+@import '../../../../../prelude';
+
+.payment-method-prices {
+    .price-year {
+        background: @text-fade-10;
+        border-radius: 4px;
+        padding: 8px;
+        margin: 8px 0;
+
+        .year-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .year-label {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 4px;
+        }
+
+        .year-section-label {
+            margin-top: 16px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid @separator;
+            font-weight: bold;
+        }
+
+        .price-membership-category, .price-magazine {
+            background: @text-fade-10;
+            border-radius: 4px;
+            margin: 8px 0;
+            padding: 8px;
+
+            .item-header {
+                display: flex;
+                align-items: center;
+
+                .item-remove {
+                    margin-right: 8px;
+                    .md-gray-button();
+                }
+
+                .item-label {
+                    flex: 1;
+                    font-weight: bold;
+                }
+            }
+        }
+
+        .intermediary-price {
+            .price-commission {
+                &.is-editing {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+            }
+        }
+
+        .magazine-price {
+            .price-label {
+                margin-top: 8px;
+                font-weight: bold;
+                font-size: smaller;
+                text-transform: uppercase;
+            }
+
+            .membership-option-price:first-child {
+                // if disabled (no commission field exists)
+                margin-top: 4px;
+            }
+        }
+    }
+}

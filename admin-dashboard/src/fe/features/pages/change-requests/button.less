@@ -1,0 +1,43 @@
+@import '../../../prelude';
+
+.codeholder-change-requests-button-container {
+    display: inline;
+
+    .change-reqs-button {
+        .md-gray-button();
+        color: inherit;
+        background: @card-background;
+        padding-left: 16px;
+        padding-right: 16px;
+
+        @media (prefers-color-scheme: dark) {
+            background: @text-fade-10;
+        }
+
+        .reqs-icon-container {
+            display: inline-block;
+            position: relative;
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+            margin-right: 8px;
+
+            .req-icon {
+                display: block;
+                transition: opacity 0.3s;
+            }
+
+            &.is-loading .req-icon {
+                opacity: 0;
+            }
+
+            .reqs-loading {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                --md-progress-color: @text-fade-40;
+            }
+        }
+    }
+}

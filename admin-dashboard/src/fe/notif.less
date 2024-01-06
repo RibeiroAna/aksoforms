@@ -1,0 +1,85 @@
+@import './prelude';
+
+.global-notifications {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 5000;
+
+    .global-notification {
+        position: absolute;
+        left: 16px;
+        bottom: 16px;
+        background: @card2-background;
+        border-radius: 4px;
+        padding: 8px;
+        .elevation(12);
+        min-height: 32px;
+        width: 360px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        --accent: @secondary;
+
+        &.is-error {
+            --accent: @danger;
+        }
+
+        .notif-icon-container {
+            padding: 0 8px;
+            margin-right: 8px;
+            flex-shrink: 0;
+            color: var(--accent);
+        }
+
+        .notif-close-container {
+            margin-right: 8px;
+            flex-shrink: 0;
+
+            .notif-close {
+                .md-gray-button();
+            }
+        }
+
+        .notif-timeout-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+
+            .notif-timeout {
+                background: var(--accent);
+                height: 2px;
+            }
+        }
+
+        .notif-contents {
+            flex: 1;
+
+            .inner-error {
+                .error-title {
+                    font-weight: bold;
+                }
+                .error-desc {
+                    font-size: 0.9em;
+                    margin-top: 4px;
+                }
+                .error-link {
+                    margin-top: 8px;
+                    color: @secondary;
+                }
+            }
+        }
+
+        @media (max-width: 420px) {
+            left: 0;
+            bottom: 0;
+            box-shadow: none;
+            border-radius: 0;
+            min-width: 0;
+            width: 100vw;
+            border-top: 1px solid @separator;
+        }
+    }
+}

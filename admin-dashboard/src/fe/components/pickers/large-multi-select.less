@@ -1,0 +1,168 @@
+@import '../../prelude';
+
+.large-multi-select {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin: 8px 0;
+    padding: 8px;
+    cursor: default;
+    border: 1px solid @control-idle;
+    border-radius: 4px;
+    box-sizing: border-box;
+
+    &:hover, &:focus {
+        border-color: @secondary;
+    }
+
+    &:focus {
+        outline: none;
+    }
+
+    .lms-preview {
+        flex: 1;
+        width: 0;
+        height: 1.5em;
+        font-size: small;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+
+        .lms-preview-item {
+            display: inline-block;
+            margin-left: 12px;
+
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+
+        .lms-placeholder {
+            opacity: 0.6;
+        }
+    }
+
+    .lms-expand-icon {
+        flex-shrink: 0;
+    }
+}
+
+.large-multi-select-dialog {
+    width: 100%; // breaks on MS Edge without
+    max-width: 650px;
+    height: 100%;
+
+    &.paper-dialog .paper-dialog-contents {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .multicol-list {
+        width: 100%;
+        height: 100%;
+        flex: 1;
+
+        .column {
+            width: 300px;
+        }
+
+        .list-item {
+            transition: background 0.2s;
+            border-radius: 4px;
+
+            &:hover {
+                background: @hover-background;
+            }
+
+            &.floating {
+                background: var(--md-dialog-background);
+            }
+
+            .lms-item {
+                display: flex;
+                height: 100%;
+                align-items: stretch;
+                cursor: default;
+                height: 48px;
+
+                .lms-contents {
+                    display: flex;
+                    justify-content: stretch;
+                    align-items: stretch;
+                    flex: 1;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .lms-check {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 48px;
+                }
+            }
+
+            &.floating .lms-check.is-checked {
+                animation: large-multi-select-check-in 0.3s @easing 0.2s backwards;
+
+                @keyframes large-multi-select-check-in {
+                    0% {
+                        transform: scale(0);
+                    }
+                }
+            }
+        }
+    }
+
+    .lms-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 8px;
+
+        .lms-selection-controls {
+            display: flex;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+    }
+}
+
+.large-multi-select-search-box-container {
+    // hacky: just hope it aligns with the multicol list
+    position: absolute;
+    display: flex;
+    top: 50%;
+    right: 0;
+    width: 50%;
+    height: 48px;
+    transform: translateY(-50%);
+    padding-left: 16px;
+    background: rgb(var(--md-app-bar-bg));
+
+    .lms-search-icon-container {
+        display: flex;
+        width: 48px;
+        height: 48px;
+        justify-content: center;
+        align-items: center;
+        opacity: 0.7;
+    }
+
+    .lms-search-box {
+        flex: 1;
+        height: 100%;
+        font: inherit;
+        font-size: 16px;
+        font-weight: normal;
+        color: inherit;
+        background: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+
+        &:focus {
+            outline: none;
+        }
+    }
+}

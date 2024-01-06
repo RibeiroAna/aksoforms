@@ -1,0 +1,23 @@
+@import '../../prelude';
+
+.country-picker-inner-country-item {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    flex: 1;
+    line-height: 48px;
+
+    .country-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 48px;
+    }
+
+    .country-name {
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}

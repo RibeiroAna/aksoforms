@@ -1,0 +1,98 @@
+@import '../../../prelude';
+
+.a-map-picker {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+
+    .map-picker-pick-banner {
+        position: absolute;
+        bottom: 8px;
+        left: 8px;
+        z-index: 9999;
+        background: @card-background;
+        border-radius: 4px;
+        padding: 8px 16px;
+        font-size: small;
+        .elevation(6);
+        transform: none;
+        transition: transform 0.7s @easing;
+        pointer-events: none;
+
+        &.is-hidden {
+            transform: translateY(200%);
+        }
+    }
+
+    .map-picker-from-address {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        z-index: 9998;
+        font-size: small;
+        transition: transform 0.7s @easing;
+
+        &.is-hidden {
+            transform: translateY(-200%);
+        }
+    }
+
+    .a-map-picker-map-container {
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+    }
+
+    .a-map-picker-map {
+        margin: 0;
+    }
+
+    .congress-ll-field {
+        margin-top: 16px;
+        padding-bottom: 8px;
+        display: block;
+        text-align: right;
+        font-size: small;
+    }
+}
+
+.congress-map-picker-address-search {
+    width: 100%;
+    height: 100%;
+    max-width: 800px;
+
+    .address-search-query {
+        margin: 8px;
+        border-radius: 4px;
+        padding: 8px;
+        background: @text-fade-10;
+
+        label {
+            font-weight: 600;
+            font-size: small;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+    }
+
+    .address-search-item {
+        padding: 16px;
+    }
+
+    .paper-dialog-contents {
+        display: flex;
+        align-items: stretch;
+        padding: 0 !important;
+
+        .address-search-inner {
+            display: flex;
+            flex: 1;
+            align-items: stretch;
+
+            .map-list {
+                flex: 1;
+                min-height: 0;
+            }
+        }
+    }
+}

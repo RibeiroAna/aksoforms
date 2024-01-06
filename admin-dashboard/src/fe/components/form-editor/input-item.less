@@ -1,0 +1,194 @@
+@import '../../prelude';
+
+.form-editor-input-item {
+    .boolean-table-header-item {
+        text-align: right;
+        padding-right: 16px;
+    }
+
+    .input-rendered-container {
+        display: flex;
+        flex-wrap: wrap;
+
+        .input-rendered {
+            flex: 2;
+            padding: 16px;
+            padding-top: 0;
+            padding-right: 0;
+
+            .input-preview-label {
+                font-size: smaller;
+                font-weight: bolder;
+                margin-top: 0.5em;
+                margin-bottom: 0.3em;
+                text-transform: uppercase;
+                color: @text-fade-60;
+            }
+
+            .input-details {
+                margin-bottom: 4px;
+
+                .input-description {
+                    font-size: 0.9em;
+                }
+            }
+
+            .form-input-label {
+                font-weight: 600;
+                .required-star {
+                    color: @danger;
+                }
+            }
+
+            .input-error {
+                margin-top: 8px;
+                color: @danger;
+            }
+        }
+
+        .input-settings-state {
+            flex: 1;
+            font-size: smaller;
+            margin: 4px;
+            margin-top: 0;
+            border: 1px solid @separator;
+            border-radius: 4px;
+
+            .setting-state {
+                display: flex;
+                align-items: center;
+                padding: 4px 8px;
+                border-bottom: 1px solid @separator;
+
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                .value-label {
+                    font-weight: 500;
+                    flex: 1;
+
+                    &::after {
+                        content: ': ';
+                    }
+                }
+                .value-contents {
+                    margin-left: 4px;
+
+                    .script-value-computed {
+                        display: flex;
+                        align-items: center;
+
+                        .expr-result {
+                            position: relative;
+                            margin-left: 10px;
+                            padding: 4px;
+                            border-radius: 8px;
+                            --result-color: #333;
+                            background: var(--result-color);
+                            border: 1px solid #666;
+                            flex: 1;
+
+                            @media (prefers-color-scheme: dark) {
+                                --result-color: currentColor;
+                            }
+
+                            .er-pointer {
+                                position: absolute;
+                                right: calc(100% - 4px);
+                                top: 50%;
+                                margin-top: -2px;
+                                width: 14px;
+                                height: 4px;
+                                background: var(--result-color);
+
+                                &::before, &::after {
+                                    content: '';
+                                    position: absolute;
+                                    top: 0;
+                                    left: -2px;
+                                    width: 10px;
+                                    height: 4px;
+                                    background: var(--result-color);
+                                    transform-origin: 2px 2px;
+                                    transform: rotate(45deg);
+                                }
+                                &::after {
+                                    transform: rotate(-45deg);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .value-contents + .value-label {
+                    margin-left: 16px;
+                }
+
+                .default-reset {
+                    margin-left: 4px;
+                }
+            }
+        }
+
+        @media (max-width: 600px) {
+            .input-settings-state {
+                display: none;
+            }
+        }
+    }
+
+    .ch-autofill-description {
+        margin-top: 4px;
+    }
+}
+
+.form-editor-input-settings {
+    .form-editor-setting {
+        padding: 8px 16px;
+
+        .form-editor-setting-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .form-editor-setting-label {
+            flex: 1;
+        }
+
+        .setting-description {
+            margin-top: 4px;
+            font-size: small;
+            opacity: 0.7;
+        }
+
+        .wider-text-field {
+            flex: 1;
+        }
+        .input-description-field {
+            height: 6em;
+        }
+
+        &.is-stack {
+            .form-editor-setting-inner {
+                display: block;
+            }
+
+            .form-editor-setting-label {
+                display: block;
+                margin-bottom: 4px;
+            }
+        }
+    }
+}
+
+
+.form-editor-scriptable-value {
+    display: flex;
+    align-items: center;
+
+    .edit-script-button {
+        margin-left: 4px;
+    }
+}

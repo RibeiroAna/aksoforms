@@ -1,0 +1,57 @@
+@import '../../prelude';
+
+.custom-form-vars {
+    margin: 16px 0;
+    border: 1px solid @separator;
+    padding: 16px;
+    border-radius: 8px;
+
+    .inner-title {
+        font-weight: bold;
+    }
+
+    .custom-form-var {
+        background: @text-fade-05;
+        border-radius: 8px;
+        margin: 16px 0;
+        padding: 8px 16px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        .item-header {
+            display: flex;
+            gap: 16px;
+            align-items: baseline;
+
+            .item-name {
+                font-weight: bold;
+            }
+
+            .item-type {
+                font-weight: bold;
+                font-size: smaller;
+                text-transform: uppercase;
+                color: @text-fade-60;
+            }
+        }
+
+        &.is-editing .item-header {
+            align-items: center;
+        }
+
+        .item-default {
+            margin-top: 8px;
+
+            &.is-none {
+                color: @text-fade-60;
+                font-style: italic;
+            }
+
+            .default-enable + * {
+                margin-top: 8px;
+            }
+        }
+    }
+}

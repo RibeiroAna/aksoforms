@@ -1,0 +1,127 @@
+@import '../../../../prelude';
+
+.registration-offer-group {
+    .elevation(2);
+    border: 1px solid @separator;
+    margin: 8px 0;
+    padding: 8px 16px;
+    border-radius: 4px;
+
+    .inner-error {
+        color: @error;
+        margin-bottom: 8px;
+    }
+
+    .offer-group-title {
+        font-weight: bold;
+
+        .inner-input {
+            width: 100%;
+        }
+    }
+    .offer-group-description-label {
+        margin-top: 8px;
+        font-size: 0.8em;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+        opacity: 0.7;
+    }
+    .offer-group-description {
+        font-size: 0.9em;
+    }
+
+    &.is-editing {
+        .offer-group-title {
+            display: flex;
+            padding-top: 8px;
+
+            .remove-button {
+                margin-right: 8px;
+            }
+        }
+        .offer-group-description {
+            max-height: 72px;
+        }
+    }
+
+    .offer-group-expand-button {
+        margin: 8px 0;
+    }
+
+    .offer-group-items {
+        margin-top: 8px;
+    }
+
+    .registration-offer {
+        padding: 8px 0;
+        border-top: 1px solid @separator;
+
+        .offer-details {
+            display: flex;
+
+            .remove-button {
+                margin-right: 8px;
+            }
+
+            .offer-details-inner {
+                flex: 1;
+
+                .offer-type {
+                    font-size: 0.87em;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                }
+            }
+
+            .price-expand-button {
+                margin-left: 8px;
+            }
+        }
+
+        .price-not-available {
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+
+        .paper-version {
+            &.is-editing {
+                margin-left: 56px;
+            }
+            font-size: smaller;
+
+            label {
+                margin-left: 8px;
+            }
+        }
+    }
+}
+
+.registration-options-add-offer-dialog {
+    width: 100%;
+    max-width: 500px;
+
+    .offer-type-picker {
+        text-align: center;
+        margin-bottom: 16px;
+    }
+
+    .add-offer-note {
+        margin-bottom: 16px;
+    }
+}
+
+.registration-options-payment-org-picker {
+    .picker-inner-button {
+        border: 1px solid var(--md-button-color);
+        color: inherit;
+        .md-gray-button();
+    }
+}
+.registration-options-payment-org-picker-dialog {
+    max-width: 400px;
+
+    .picker-note {
+        margin-bottom: 16px;
+    }
+}
