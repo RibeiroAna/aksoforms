@@ -17,8 +17,7 @@ If you want to contribute, either create a issue here or talk to me on telegram 
 
 - [ ] Conteinarization
     - [X] Conteinerize the database
-    - [ ] SMTP Container
-    - [ ] RabbitMQ Container
+    - [X] RabbitMQ Container
     - [ ] Conteinerize the API
     - [ ] Conteinerize the admin-dashboard
     - [ ] Explore about Kurbenetes

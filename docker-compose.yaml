@@ -1,9 +1,20 @@
-version: '3'
+version: '3.2'
 services:
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+        - 5672:5672
+        - 15672:15672
+    volumes:
+        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+        - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+        - rabbitmq_go_net
   db:
     build: db
     image: aforms-mysql
-    container_name: aforms-mysql-container
+    container_name: mysql
     command: mysqld --default-authentication-plugin=mysql_native_password
     restart: always
     env_file:
@@ -15,3 +26,6 @@ services:
       - "3306:3306"
     volumes:
       - "./db/db.sql:/docker-entrypoint-initdb.d/1.sql"
+networks:
+  rabbitmq_go_net:
+    driver: bridge
