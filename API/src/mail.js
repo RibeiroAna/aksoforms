@@ -1,15 +1,15 @@
 import path from 'path';
 import fs from 'fs-extra';
 import { default as deepmerge } from 'deepmerge';
-import tmp from 'tmp-promise';
-import msgpack from 'msgpack-lite';
-import moment from 'moment-timezone';
+import { crush } from 'html-crush';
 
 import { renderTemplate, promiseAllObject } from 'akso/util';
+import { addToQueue, WorkerQueues } from 'akso/queue';
+
 import { formatCodeholderName } from 'akso/workers/http/lib/codeholder-util';
 import AKSOOrganization from 'akso/lib/enums/akso-organization';
 
-export async function getNamesAndEmails (ids, db = AKSO.db) {
+export async function getNamesAndEmailsNew (ids, db = AKSO.db) {
 	const map = {};
 	ids.forEach((id, i) => {
 		map[id] = i;
@@ -24,65 +24,59 @@ export async function getNamesAndEmails (ids, db = AKSO.db) {
 		const index = map[codeholder.id];
 		const name = formatCodeholderName(codeholder);
 		newArr[index] = {
-			email: codeholder.email,
-			name: name
+			address: codeholder.email,
+			name: name,
 		};
 	}
 	return newArr;
 }
 
 /**
- * Renders and schedules an email to a number of recipients
+ * Renders and schedules a built-in notif template to be sent
  * @param  {Object} options
  * @param  {string} options.org                The organization of the email
  * @param  {string} options.tmpl               The name of the notification template
- * @param  {Array}  [options.to]               The recipients, either as codeholder ids (number) or something understood by sendgrid
- * @param  {Array}  [options.personalizations] Sendgrid personalizations with `to` either as codeholder ids (number) or something understood by sendgrid
+ * @param  {Array|Object|Number} [options.to]  The recipient(s), either as codeholder ids (number) or `{ name, address }`
  * @param  {Object} [options.view]             The view
- * @param  {Object} [msgData]                  Additional options to pass to sendgrid
+ * @param  {Object} [options.nodemailer]       Additional args to pass to nodemailer
  * @param  {KnexTrx}[db]                       The knex transaction to use for db queries, defaults to AKSO.db
  */
-export async function renderSendEmail ({
+export async function renderSendNotification ({
 	org,
 	tmpl,
 	to,
-	personalizations = [],
 	view = {},
-	msgData = {},
+	nodemailer = {},
 	db = AKSO.db,
 } = {}) {
 	const notifsDir = path.join(AKSO.dir, 'notifs');
 
-	if (typeof to !== 'undefined') {
-		if (!Array.isArray(to)) { to = [to]; }
-		personalizations.push(...to.map(r => { return { to: r }; }));
-	}
+	if (!Array.isArray(to)) { to = [to]; }
 
 	// Convert codeholder ids in `to` to email addresses
 	const codeholderIds = [];
-	for (let i = 0; i < personalizations.length; i++) {
-		const recipient = personalizations[i].to;
+	for (const [i, recipient] of Object.entries(to)) {
 		if (typeof recipient !== 'number') { continue; }
 		codeholderIds.push({
 			id: recipient,
-			index: i
+			index: i,
 		});
 	}
 	if (codeholderIds.length) {
-		const names = await getNamesAndEmails(codeholderIds.map(x => x.id), db);
+		const names = await getNamesAndEmailsNew(codeholderIds.map(x => x.id), db);
 		for (let i = 0; i < codeholderIds.length; i++) {
 			const index = codeholderIds[i].index;
 			if (!names[i]) {
-				personalizations.splice(index, 1);
+				// The codeholder id does not seem to exist
+				AKSO.log.warn(`Unknown codeholder id ${codeholderIds[i].id} in renderSendNotification (tmpl: ${tmpl})`);
+				to.splice(index, 1);
 				continue;
 			}
-			personalizations[index].to = names[i];
-			if (!('substitutions' in personalizations[index])) { personalizations[index].substitutions = {}; }
-			personalizations[index].substitutions.name = names[i].name;
+			to[index] = names[i];
 		}
 	}
 
-	if (!personalizations.length) { return; }
+	if (!to.length) { return; } // there are no recipients
 
 	const orgDir = path.join(notifsDir, org);
 	const globalDir = path.join(orgDir, '_global', 'email');
@@ -98,54 +92,67 @@ export async function renderSendEmail ({
 		innerMsgData: fs.readFile(path.join(tmplDir, 'notif.json'), 'utf8')
 	});
 
-	// Render inner
 	const msg = deepmerge.all([
 		JSON.parse(templs.outerMsgData),
 		JSON.parse(templs.innerMsgData),
-		{
-			personalizations: personalizations
-		},
-		msgData
-	]);
-
-	// Render subject
-	msg.subject = renderTemplate(msg.subject, view, false);
+		{ to },
+		nodemailer,
+	], { clone: false });
 
 	view.subject = msg.subject;
 	view.domain = AKSOOrganization.getDomain(org);
-	const innerHtml = renderTemplate(templs.innerHtml, view);
-	const innerText = renderTemplate(templs.innerText, view, false);
 
-	// Render outer
-	const outerView = {
-		subject: msg.subject,
-	};
-	msg.html = renderTemplate(templs.outerHtml, {...outerView, ...{ content: innerHtml } });
-	msg.text = renderTemplate(templs.outerText, {...outerView, ...{ content: innerText } }, false);
-
-	// Split the mail into chunks of 100 recipients and schedule
+	// Render and send for each recipient
 	const sendPromises = [];
-	for (let i = 0; i < msg.personalizations.length; i += 100) {
-		const msgChunk = {
+	for (const recipient of msg.to) {
+		const recipientView = {
+			...view,
+			name: recipient?.name,
+		};
+
+		const msgRecipient = {
 			...msg,
 			...{
-				personalizations: msg.personalizations.slice(i, i + 100)
+				to: recipient,
+				subject: renderTemplate(msg.subject, recipientView, false),
 			}
 		};
-		sendPromises.push(sendRawMail(msgChunk));
+		recipientView.subject = msgRecipient.subject;
+
+		// Render inner
+		const innerHtml = renderTemplate(templs.innerHtml, recipientView);
+		const innerText = renderTemplate(templs.innerText, recipientView, false);
+
+		// Render outer
+		const outerView = {
+			subject: recipientView.subject,
+			name: recipientView.subject,
+		};
+		msgRecipient.html = renderTemplate(templs.outerHtml, {...outerView, content: innerHtml });
+		msgRecipient.text = renderTemplate(templs.outerText, {...outerView, content: innerText }, false);
+
+		
+		sendPromises.push(sendRawMail(msgRecipient));
 	}
+
 	await Promise.all(sendPromises);
 }
 
 /**
  * Schedules a raw email for sending
- * @param  {Object} msg A Sendgrid mail object
+ * @param  {Object} msg A nodemailer email object
  */
 export async function sendRawMail (msg) {
-	const scheduleDir = path.join(AKSO.conf.stateDir, 'notifs_mail');
-
-	const tmpName = await tmp.tmpName({ tmpdir: scheduleDir, prefix: 'tmp-' });
-	await fs.writeFile(tmpName, msgpack.encode(msg, { codec: AKSO.msgpack }));
-	const newName = await tmp.tmpName({ tmpdir: scheduleDir, prefix: 'mail-' + moment().unix(), keep: true });
-	await fs.move(tmpName, newName);
+	// Minify the HTML
+	// html-crush is email-safe
+	const msgMinified = { ...msg };
+	if (msg.html) {
+		msgMinified.html = crush(msg.html, {
+			removeLineBreaks: true,
+			lineLengthLimit: 900, // RFC 5322 § 2.1.1 says max is 998, we'll do 900 to be conservative
+			removeHTMLComments: 1, // remove non-outlook comments
+		}).result;
+	}
+	await addToQueue(WorkerQueues.SEND_EMAIL, msgMinified);
 }
+

@@ -1,5 +1,9 @@
 import moment from 'moment-timezone';
 
+import { getSignedURLObjectGET } from 'akso/lib/s3';
+
+import { thumbnailSizes } from './$locationId/thumbnail/schema';
+
 export const schema = {
 	defaultFields: [ 'id' ],
 	fields: {
@@ -14,13 +18,17 @@ export const schema = {
 		'rating.type': '',
 		icon: '',
 		externalLoc: 'f',
-		openHours: ''
+		openHours: '',
+		thumbnail: '',
+		tags: '',
 	},
 	fieldAliases: {
 		'rating.rating': 'rating',
 		'rating.max': 'rating_max',
 		'rating.type': 'rating_type',
-		openHours: () => AKSO.db.raw('1')
+		openHours: () => AKSO.db.raw('1'),
+		thumbnail: 'thumbnailS3Id',
+		tags: () => AKSO.db.raw('1'),
 	},
 	alwaysSelect: [ 'id', 'type', 'rating.rating', 'rating.max', 'rating.type' ],
 	customFilterLogicOps: {
@@ -55,8 +63,20 @@ export const schema = {
 						.where('closeTime', '>', time);
 				});
 			}
-		}
-	}
+		},
+	},
+	customFilterCompOps: {
+		$hasAny: {
+			tags: (query, arr) => {
+				query.whereExists(function () {
+					this.select(1)
+						.from('congresses_instances_locations_tags')
+						.whereRaw('congresses_instances_locations_tags.congressInstanceLocationId = congresses_instances_locations.id')
+						.whereIn('congressInstanceLocationTagId', arr);
+				});
+			},
+		},
+	},
 };
 
 export const icons = [
@@ -70,32 +90,73 @@ export const icons = [
 ];
 
 export async function afterQuery (arr, done) {
-	if (!arr.length || !arr[0].openHours) { return done(); }
+	if (!arr.length) { return done(); }
 
-	const openHoursArr = await AKSO.db('congresses_instances_locations_openHours')
-		.select('*')
-		.whereIn('congressInstanceLocationId', arr.map(row => row.id))
-		.orderBy('date', 'openTime');
+	const ids = arr.map(row => row.id);
 
-	const hoursObj = {};
-	for (const hoursEntry of openHoursArr) {
-		if (!(hoursEntry.congressInstanceLocationId in hoursObj)) {
-			hoursObj[hoursEntry.congressInstanceLocationId] = {};
+	if (arr[0].openHours) {
+		const openHoursArr = await AKSO.db('congresses_instances_locations_openHours')
+			.select('*')
+			.whereIn('congressInstanceLocationId', ids)
+			.orderBy('date', 'openTime');
+
+		const hoursObj = {};
+		for (const hoursEntry of openHoursArr) {
+			if (!(hoursEntry.congressInstanceLocationId in hoursObj)) {
+				hoursObj[hoursEntry.congressInstanceLocationId] = {};
+			}
+			const hoursObjEntry = hoursObj[hoursEntry.congressInstanceLocationId];
+
+			const date = moment(hoursEntry.date).format('YYYY-MM-DD');
+			if (!(date in hoursObjEntry)) {
+				hoursObjEntry[date] = [];
+			}
+
+			const openTime = hoursEntry.openTime.substring(0, 5);
+			const closeTime = hoursEntry.closeTime.substring(0, 5);
+			const interval = `${openTime}-${closeTime}`;
+			hoursObjEntry[date].push(interval);
 		}
-		const hoursObjEntry = hoursObj[hoursEntry.congressInstanceLocationId];
-
-		const date = moment(hoursEntry.date).format('YYYY-MM-DD');
-		if (!(date in hoursObjEntry)) {
-			hoursObjEntry[date] = [];
+		for (const row of arr) {
+			row.openHours = hoursObj[row.id] || null;
 		}
-
-		const openTime = hoursEntry.openTime.substring(0, 5);
-		const closeTime = hoursEntry.closeTime.substring(0, 5);
-		const interval = `${openTime}-${closeTime}`;
-		hoursObjEntry[date].push(interval);
 	}
-	for (const row of arr) {
-		row.openHours = hoursObj[row.id] || null;
+
+	if ('thumbnailS3Id' in arr[0]) {
+		for (const row of arr) {
+			if (!row.thumbnailS3Id) {
+				row.thumbnail = null;
+				continue;
+			}
+			row.thumbnail = Object.fromEntries(await Promise.all(thumbnailSizes.map(async size => {
+				const key = `congresses-locations-thumbnails-${row.thumbnailS3Id}-${size}`;
+				const url = await getSignedURLObjectGET({ key, expiresIn: 10 * 60 });
+				return [ size, url ]; // key, val
+			})));
+		}
+	}
+
+	if (arr[0].tags) {
+		const tagsArr = await AKSO.db('congresses_instances_locations_tags')
+			.innerJoin('congresses_instances_locationTags', 'congresses_instances_locations_tags.congressInstanceLocationTagId', 'congresses_instances_locationTags.id')
+			.select('congresses_instances_locationTags.id', 'name', 'congressInstanceLocationId')
+			.whereIn('congressInstanceLocationId', ids)
+			.orderBy('congressInstanceLocationId');
+		for (const row of arr) {
+			row.tags = [];
+			let foundFirstTag = false;
+			for (const locationTag of tagsArr) {
+				if (locationTag.congressInstanceLocationId !== row.id) {
+					if (foundFirstTag) { break; }
+					continue;
+				}
+				foundFirstTag = true;
+				row.tags.push({
+					id: locationTag.id,
+					name: locationTag.name,
+				});
+			}
+		}
 	}
 
 	done();

@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.33, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.34, for Linux (x86_64)
 --
 -- Host: localhost    Database: akso
 -- ------------------------------------------------------
--- Server version	8.0.33-0ubuntu0.20.04.1
+-- Server version	8.0.34-0ubuntu0.20.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -246,8 +246,8 @@ DROP TABLE IF EXISTS `codeholderRoles_codeholders`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `codeholderRoles_codeholders` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `durationFrom` bigint unsigned DEFAULT NULL,
-  `durationTo` bigint unsigned DEFAULT NULL,
+  `durationFrom` bigint DEFAULT NULL,
+  `durationTo` bigint DEFAULT NULL,
   `roleId` int unsigned NOT NULL,
   `codeholderId` int unsigned NOT NULL,
   `dataCountry` char(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -277,11 +277,11 @@ DROP TABLE IF EXISTS `codeholders`;
 CREATE TABLE `codeholders` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `codeholderType` enum('human','org') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `creationTime` bigint unsigned NOT NULL,
+  `creationTime` bigint NOT NULL,
   `oldCode` char(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `newCode` char(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'bcrypt',
-  `createPasswordTime` bigint unsigned DEFAULT NULL,
+  `createPasswordTime` bigint DEFAULT NULL,
   `createPasswordKey` binary(16) DEFAULT NULL,
   `email` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `publicEmail` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -293,6 +293,7 @@ CREATE TABLE `codeholders` (
   `isDead` tinyint(1) NOT NULL DEFAULT '0',
   `deathdate` date DEFAULT NULL,
   `profilePictureHash` binary(20) DEFAULT NULL,
+  `profilePictureS3Id` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `addressPublicity` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'private',
   `addressInvalid` tinyint(1) NOT NULL DEFAULT '0',
   `emailPublicity` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'private',
@@ -370,7 +371,7 @@ DROP TABLE IF EXISTS `codeholders_changeRequests`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `codeholders_changeRequests` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `time` bigint unsigned NOT NULL,
+  `time` bigint NOT NULL,
   `codeholderId` int unsigned NOT NULL,
   `data` json NOT NULL,
   `codeholderDescription` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -397,15 +398,15 @@ CREATE TABLE `codeholders_delegations` (
   `codeholderId` int unsigned NOT NULL,
   `org` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `approvedBy` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `approvedTime` bigint unsigned NOT NULL,
+  `approvedTime` bigint NOT NULL,
   `tos_docDataProtectionUEA` tinyint(1) NOT NULL,
-  `tos_docDataProtectionUEA_time` bigint unsigned NOT NULL,
+  `tos_docDataProtectionUEA_time` bigint NOT NULL,
   `tos_docDelegatesUEA` tinyint(1) NOT NULL,
-  `tos_docDelegatesUEA_time` bigint unsigned NOT NULL,
+  `tos_docDelegatesUEA_time` bigint NOT NULL,
   `tos_docDelegatesDataProtectionUEA` tinyint(1) NOT NULL,
-  `tos_docDelegatesDataProtectionUEA_time` bigint unsigned NOT NULL,
+  `tos_docDelegatesDataProtectionUEA_time` bigint NOT NULL,
   `tos_paperAnnualBook` tinyint(1) NOT NULL,
-  `tos_paperAnnualBook_time` bigint unsigned NOT NULL,
+  `tos_paperAnnualBook_time` bigint NOT NULL,
   PRIMARY KEY (`codeholderId`,`org`),
   KEY `tos_docDataProtectionUEA_time` (`tos_docDataProtectionUEA_time`),
   KEY `tos_docDataProtectionUEA` (`tos_docDataProtectionUEA`),
@@ -513,12 +514,14 @@ DROP TABLE IF EXISTS `codeholders_files`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `codeholders_files` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `time` bigint unsigned NOT NULL,
+  `time` bigint NOT NULL,
   `codeholderId` int unsigned NOT NULL,
   `addedBy` int unsigned DEFAULT NULL,
   `name` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `mime` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `s3Id` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `size` mediumint unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `codeholderId` (`codeholderId`),
   KEY `addedBy` (`addedBy`),
@@ -1353,7 +1356,7 @@ CREATE TABLE `codeholders_human` (
   `lastName` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `lastNameLegal` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `searchName` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `honorific` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `honorific` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `birthdate` date DEFAULT NULL,
   `profession` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `landlinePhone` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -1678,6 +1681,7 @@ CREATE TABLE `congresses_instances_locations` (
   `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `thumbnailS3Id` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `congressInstanceId` (`congressInstanceId`),
   KEY `type` (`type`),
@@ -1876,8 +1880,8 @@ CREATE TABLE `congresses_instances_programs` (
   `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `owner` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `timeFrom` bigint unsigned NOT NULL,
-  `timeTo` bigint unsigned NOT NULL,
+  `timeFrom` bigint NOT NULL,
+  `timeTo` bigint NOT NULL,
   `location` int unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `congressInstanceId` (`congressInstanceId`),
@@ -2223,7 +2227,7 @@ CREATE TABLE `forms_data_fields_datetime` (
   `formId` int unsigned NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `dataId` binary(12) NOT NULL,
-  `value` bigint unsigned DEFAULT NULL,
+  `value` bigint DEFAULT NULL,
   PRIMARY KEY (`formId`,`name`,`dataId`),
   KEY `value` (`value`),
   KEY `formId` (`formId`,`dataId`),
@@ -2464,6 +2468,7 @@ CREATE TABLE `magazines_editions` (
   `description` varchar(5000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `published` tinyint(1) NOT NULL DEFAULT '0',
   `subscribers` json DEFAULT NULL,
+  `thumbnailS3Id` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   KEY `date` (`date`),
   KEY `magazineId` (`magazineId`),
@@ -2486,6 +2491,8 @@ CREATE TABLE `magazines_editions_files` (
   `editionId` int unsigned NOT NULL,
   `format` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `downloads` int unsigned NOT NULL DEFAULT '0',
+  `s3Id` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `size` int unsigned NOT NULL,
   PRIMARY KEY (`magazineId`,`editionId`,`format`),
   KEY `downloads` (`downloads`),
   CONSTRAINT `magazines_editions_files_ibfk_1` FOREIGN KEY (`magazineId`, `editionId`) REFERENCES `magazines_editions` (`magazineId`, `id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -2535,6 +2542,8 @@ CREATE TABLE `magazines_editions_toc_recitations` (
   `tocEntryId` int unsigned NOT NULL,
   `format` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `downloads` int unsigned NOT NULL DEFAULT '0',
+  `s3Id` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `size` int unsigned NOT NULL,
   PRIMARY KEY (`tocEntryId`,`format`),
   KEY `downloads` (`downloads`),
   CONSTRAINT `magazines_editions_toc_recitations_ibfk_1` FOREIGN KEY (`tocEntryId`) REFERENCES `magazines_editions_toc` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -2999,6 +3008,7 @@ CREATE TABLE `pay_methods` (
   `stripeSecretKey` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `stripePublishableKey` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `prices` json DEFAULT NULL,
+  `thumbnailS3Id` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `orgId` (`paymentOrgId`),
   KEY `type` (`type`),
@@ -3295,6 +3305,38 @@ CREATE TABLE `savedQueries` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `statistics`
+--
+
+DROP TABLE IF EXISTS `statistics`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `statistics` (
+  `date` date NOT NULL,
+  `data` json NOT NULL,
+  PRIMARY KEY (`date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tokens`
+--
+
+DROP TABLE IF EXISTS `tokens`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tokens` (
+  `token` binary(32) NOT NULL,
+  `payload` json NOT NULL,
+  `expiry` bigint unsigned NOT NULL,
+  `ctx` varchar(24) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`token`),
+  KEY `expiry` (`expiry`),
+  KEY `ctx` (`ctx`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Temporary view structure for view `view_codeholders`
 --
 
@@ -3337,6 +3379,7 @@ SET @saved_cs_client     = @@character_set_client;
  1 AS `isDead`,
  1 AS `deathdate`,
  1 AS `profilePictureHash`,
+ 1 AS `profilePictureS3Id`,
  1 AS `firstName`,
  1 AS `firstNameLegal`,
  1 AS `lastName`,
@@ -3675,6 +3718,28 @@ end */ ;;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;;
 /*!50003 SET character_set_results = @saved_cs_results */ ;;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;;
+/*!50106 DROP EVENT IF EXISTS `remove_expired_tokens` */;;
+DELIMITER ;;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;;
+/*!50003 SET character_set_client  = utf8mb4 */ ;;
+/*!50003 SET character_set_results = utf8mb4 */ ;;
+/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;;
+/*!50003 SET @saved_time_zone      = @@time_zone */ ;;
+/*!50003 SET time_zone             = 'SYSTEM' */ ;;
+/*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `remove_expired_tokens` ON SCHEDULE EVERY 30 MINUTE STARTS '2023-06-15 14:47:06' ON COMPLETION PRESERVE ENABLE DO begin
+
+delete from tokens where expiry < UNIX_TIMESTAMP();
+
+end */ ;;
+/*!50003 SET time_zone             = @saved_time_zone */ ;;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;;
+/*!50003 SET character_set_results = @saved_cs_results */ ;;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;;
 /*!50106 DROP EVENT IF EXISTS `remove_old_codeholders_logins` */;;
 DELIMITER ;;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;;
@@ -3721,7 +3786,7 @@ USE `akso`;
 /*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `view_codeholders` AS select `codeholders`.`id` AS `id`,`codeholders`.`codeholderType` AS `codeholderType`,`codeholders`.`creationTime` AS `creationTime`,`codeholders`.`oldCode` AS `oldCode`,`codeholders`.`newCode` AS `newCode`,`codeholders`.`password` AS `password`,`codeholders`.`email` AS `email`,`codeholders`.`publicEmail` AS `publicEmail`,`codeholders`.`emailPublicity` AS `emailPublicity`,`codeholders`.`enabled` AS `enabled`,`codeholders`.`feeCountry` AS `feeCountry`,`codeholders`.`publicCountry` AS `publicCountry`,`codeholders_address`.`country` AS `address_country`,`codeholders_address`.`countryArea` AS `address_countryArea`,`codeholders_address`.`countryArea_latin` AS `address_countryArea_latin`,`codeholders_address`.`city` AS `address_city`,`codeholders_address`.`city_latin` AS `address_city_latin`,`codeholders_address`.`cityArea` AS `address_cityArea`,`codeholders_address`.`cityArea_latin` AS `address_cityArea_latin`,`codeholders_address`.`streetAddress` AS `address_streetAddress`,`codeholders_address`.`streetAddress_latin` AS `address_streetAddress_latin`,`codeholders_address`.`postalCode` AS `address_postalCode`,`codeholders_address`.`postalCode_latin` AS `address_postalCode_latin`,`codeholders_address`.`sortingCode` AS `address_sortingCode`,`codeholders_address`.`sortingCode_latin` AS `address_sortingCode_latin`,`codeholders_address`.`search` AS `address_search`,`codeholders`.`addressPublicity` AS `addressPublicity`,`codeholders`.`addressInvalid` AS `addressInvalid`,`codeholders`.`notes` AS `notes`,`codeholders`.`officePhone` AS `officePhone`,`codeholders`.`officePhonePublicity` AS `officePhonePublicity`,`codeholders`.`isDead` AS `isDead`,`codeholders`.`deathdate` AS `deathdate`,`codeholders`.`profilePictureHash` AS `profilePictureHash`,`codeholders_human`.`firstName` AS `firstName`,`codeholders_human`.`firstNameLegal` AS `firstNameLegal`,`codeholders_human`.`lastName` AS `lastName`,`codeholders_human`.`lastNameLegal` AS `lastNameLegal`,`codeholders_human`.`lastNamePublicity` AS `lastNamePublicity`,`codeholders_human`.`honorific` AS `honorific`,`codeholders_human`.`birthdate` AS `birthdate`,if(((0 <> `codeholders`.`isDead`) and (0 = `codeholders`.`deathdate`)),NULL,timestampdiff(YEAR,`codeholders_human`.`birthdate`,if(`codeholders`.`deathdate`,`codeholders`.`deathdate`,now()))) AS `age`,if(((0 <> `codeholders`.`isDead`) and (0 = `codeholders`.`deathdate`)),NULL,timestampdiff(YEAR,`codeholders_human`.`birthdate`,makedate(year(if(`codeholders`.`deathdate`,`codeholders`.`deathdate`,now())),1))) AS `agePrimo`,`codeholders_human`.`profession` AS `profession`,`codeholders`.`profilePicturePublicity` AS `profilePicturePublicity`,`codeholders`.`website` AS `website`,`codeholders`.`biography` AS `biography`,`codeholders_human`.`landlinePhone` AS `landlinePhone`,`codeholders_human`.`landlinePhonePublicity` AS `landlinePhonePublicity`,`codeholders_human`.`cellphone` AS `cellphone`,`codeholders_human`.`cellphonePublicity` AS `cellphonePublicity`,`codeholders_org`.`fullName` AS `fullName`,`codeholders_org`.`fullNameLocal` AS `fullNameLocal`,`codeholders_org`.`careOf` AS `careOf`,`codeholders_org`.`nameAbbrev` AS `nameAbbrev`,`codeholders_org`.`mainDescriptor` AS `mainDescriptor`,`codeholders_org`.`factoids` AS `factoids`,`codeholders_human`.`searchName` AS `searchNameHuman`,`codeholders_org`.`searchName` AS `searchNameOrg` from (((`codeholders` left join `codeholders_human` on((`codeholders`.`id` = `codeholders_human`.`codeholderId`))) left join `codeholders_org` on((`codeholders`.`id` = `codeholders_org`.`codeholderId`))) left join `codeholders_address` on((`codeholders`.`id` = `codeholders_address`.`codeholderId`))) */;
+/*!50001 VIEW `view_codeholders` AS select `codeholders`.`id` AS `id`,`codeholders`.`codeholderType` AS `codeholderType`,`codeholders`.`creationTime` AS `creationTime`,`codeholders`.`oldCode` AS `oldCode`,`codeholders`.`newCode` AS `newCode`,`codeholders`.`password` AS `password`,`codeholders`.`email` AS `email`,`codeholders`.`publicEmail` AS `publicEmail`,`codeholders`.`emailPublicity` AS `emailPublicity`,`codeholders`.`enabled` AS `enabled`,`codeholders`.`feeCountry` AS `feeCountry`,`codeholders`.`publicCountry` AS `publicCountry`,`codeholders_address`.`country` AS `address_country`,`codeholders_address`.`countryArea` AS `address_countryArea`,`codeholders_address`.`countryArea_latin` AS `address_countryArea_latin`,`codeholders_address`.`city` AS `address_city`,`codeholders_address`.`city_latin` AS `address_city_latin`,`codeholders_address`.`cityArea` AS `address_cityArea`,`codeholders_address`.`cityArea_latin` AS `address_cityArea_latin`,`codeholders_address`.`streetAddress` AS `address_streetAddress`,`codeholders_address`.`streetAddress_latin` AS `address_streetAddress_latin`,`codeholders_address`.`postalCode` AS `address_postalCode`,`codeholders_address`.`postalCode_latin` AS `address_postalCode_latin`,`codeholders_address`.`sortingCode` AS `address_sortingCode`,`codeholders_address`.`sortingCode_latin` AS `address_sortingCode_latin`,`codeholders_address`.`search` AS `address_search`,`codeholders`.`addressPublicity` AS `addressPublicity`,`codeholders`.`addressInvalid` AS `addressInvalid`,`codeholders`.`notes` AS `notes`,`codeholders`.`officePhone` AS `officePhone`,`codeholders`.`officePhonePublicity` AS `officePhonePublicity`,`codeholders`.`isDead` AS `isDead`,`codeholders`.`deathdate` AS `deathdate`,`codeholders`.`profilePictureHash` AS `profilePictureHash`,`codeholders`.`profilePictureS3Id` AS `profilePictureS3Id`,`codeholders_human`.`firstName` AS `firstName`,`codeholders_human`.`firstNameLegal` AS `firstNameLegal`,`codeholders_human`.`lastName` AS `lastName`,`codeholders_human`.`lastNameLegal` AS `lastNameLegal`,`codeholders_human`.`lastNamePublicity` AS `lastNamePublicity`,`codeholders_human`.`honorific` AS `honorific`,`codeholders_human`.`birthdate` AS `birthdate`,if(((0 <> `codeholders`.`isDead`) and (0 = `codeholders`.`deathdate`)),NULL,timestampdiff(YEAR,`codeholders_human`.`birthdate`,if(`codeholders`.`deathdate`,`codeholders`.`deathdate`,now()))) AS `age`,if(((0 <> `codeholders`.`isDead`) and (0 = `codeholders`.`deathdate`)),NULL,timestampdiff(YEAR,`codeholders_human`.`birthdate`,makedate(year(if(`codeholders`.`deathdate`,`codeholders`.`deathdate`,now())),1))) AS `agePrimo`,`codeholders_human`.`profession` AS `profession`,`codeholders`.`profilePicturePublicity` AS `profilePicturePublicity`,`codeholders`.`website` AS `website`,`codeholders`.`biography` AS `biography`,`codeholders_human`.`landlinePhone` AS `landlinePhone`,`codeholders_human`.`landlinePhonePublicity` AS `landlinePhonePublicity`,`codeholders_human`.`cellphone` AS `cellphone`,`codeholders_human`.`cellphonePublicity` AS `cellphonePublicity`,`codeholders_org`.`fullName` AS `fullName`,`codeholders_org`.`fullNameLocal` AS `fullNameLocal`,`codeholders_org`.`careOf` AS `careOf`,`codeholders_org`.`nameAbbrev` AS `nameAbbrev`,`codeholders_org`.`mainDescriptor` AS `mainDescriptor`,`codeholders_org`.`factoids` AS `factoids`,`codeholders_human`.`searchName` AS `searchNameHuman`,`codeholders_org`.`searchName` AS `searchNameOrg` from (((`codeholders` left join `codeholders_human` on((`codeholders`.`id` = `codeholders_human`.`codeholderId`))) left join `codeholders_org` on((`codeholders`.`id` = `codeholders_org`.`codeholderId`))) left join `codeholders_address` on((`codeholders`.`id` = `codeholders_address`.`codeholderId`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -3843,4 +3908,4 @@ USE `akso`;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-16 16:39:02
+-- Dump completed on 2023-10-10 17:09:27

@@ -1,8 +1,7 @@
 import { analyzeAll } from '@tejo/akso-script';
 
+import AKSOOrganization from 'akso/lib/enums/akso-organization';
 import AKSONotifTemplateIntent from 'akso/lib/enums/akso-notif-template-intent';
-
-import { domains } from '../schema';
 
 const schema = {
 	query: null,
@@ -104,7 +103,7 @@ const schema = {
 									items: {
 										type: 'string',
 										minLength: 1,
-										maxLength: 5000
+										maxLength: 20000
 									}
 								},
 								button: {
@@ -184,7 +183,7 @@ export default {
 		// Verify from
 		if (req.body.from) {
 			const fromDomain = req.body.from.substring(1 + req.body.from.lastIndexOf('@'));
-			if (!domains[templateData.org].includes(fromDomain)){
+			if (!AKSOOrganization.getEmailDomains(templateData.org).includes(fromDomain)){
 				return res.status(403).type('text/plain')
 					.send(`Illegal from address domain ${fromDomain}`);
 			}

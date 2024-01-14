@@ -69,8 +69,16 @@ async function init () {
 				database: process.env.AKSO_MYSQL_DATABASE,
 				geodbDatabase: process.env.AKSO_MYSQL_GEODB_DATABASE
 			},
-			sendgrid: {
-				apiKey: process.env.AKSO_SENDGRID_API_KEY
+			// s3: {
+			// 	bucket: process.env.AKSO_S3_BUCKET,
+			// 	endpoint: process.env.AKSO_S3_ENDPOINT,
+			// 	accessKeyId: process.env.AKSO_S3_ACCESS_KEY_ID,
+			// 	secretAccessKey: process.env.AKSO_S3_SECRET_ACCESS_KEY,
+			// 	region: process.env.AKSO_S3_REGION,
+			// },
+			rabbitmq: process.env.AKSO_RABBITMQ,
+			nodemailer: {
+				transport: JSON.parse(process.env.AKSO_NODEMAILER ?? '{}'),
 			},
 			telegram: {
 				token: process.env.AKSO_TELEGRAM_TOKEN
@@ -81,13 +89,10 @@ async function init () {
 			},
 			prodMode: process.env.NODE_ENV ?? 'dev',
 			totpAESKey: Buffer.from(process.env.AKSO_TOTP_AES_KEY ?? '', 'hex'),
-			dataDir: process.env.AKSO_DATA_DIR,
 			stateDir: process.env.AKSO_STATE_DIR,
 			loginNotifsEnabled: process.env.AKSO_DISABLE_LOGIN_NOTIFS === undefined ?
 				true : process.env.AKSO_DISABLE_LOGIN_NOTIFS == '0',
 			openExchangeRatesAppID: process.env.AKSO_OPEN_EXCHANGE_RATES_APP_ID,
-			paymentFacilitator: process.env.AKSO_PAYMENT_FACILITATOR === undefined ?
-				'https://pago.akso.org' : process.env.AKSO_PAYMENT_FACILITATOR,
 		},
 
 		// Constants, do not change without updating docs
@@ -128,6 +133,7 @@ async function init () {
 		PASSWORD_BCRYPT_SALT_ROUNDS: 12,
 
 		LOG_DELETION_TIME: 5184000, // 60 days
+		CODEHOLDER_HIST_DELETION_TIME: 5184000, // 60 days
 
 		CODEHOLDER_OWN_CHANGE_CMT: 'Memfarita ŝanĝo',
 		CODEHOLDER_OWN_CHANGE_APPROVED_CMT: async authClient => {
@@ -141,17 +147,6 @@ async function init () {
 
 		// https://github.com/timshadel/subdivision-list
 		SUBDIVISIONS: require('../data/subdivisions.json'),
-
-		STRIPE_API_VERSION: '2022-11-15',
-		STRIPE_WEBHOOK_EVENTS: [
-			'payment_intent.canceled',
-			'payment_intent.processing',
-			'payment_intent.succeeded',
-			'charge.refunded',
-			'charge.dispute.created',
-			'charge.dispute.closed'
-		],
-		STRIPE_WEBHOOK_URL: 'aksopay/stripe_webhook_handler',
 
 		EXCHANGE_RATES_LIFETIME: 3600 * 2 // 2 hours. The Open Exchange Rates API supports 1000 requests/month on the free plan. That's slightly more than once an hour
 	};
@@ -193,10 +188,30 @@ async function init () {
 			AKSO.log.error('AKSO_HTTP_THREADS must be an integer in the range 1-32');
 			process.exit(1);
 		}
-		if (!AKSO.conf.sendgrid.apiKey) {
-			AKSO.log.error('Missing AKSO_SENDGRID_API_KEY');
+		if (!AKSO.conf.rabbitmq) {
+			AKSO.log.error('Missing AKSO_RABBITMQ');
 			process.exit(1);
 		}
+		// if (!AKSO.conf.s3.bucket) {
+		// 	AKSO.log.error('Missing AKSO_S3_BUCKET');
+		// 	process.exit(1);
+		// }
+		// if (!AKSO.conf.s3.endpoint) {
+		// 	AKSO.log.error('Missing AKSO_S3_ENDPOINT');
+		// 	process.exit(1);
+		// }
+		// if (!AKSO.conf.s3.accessKeyId) {
+		// 	AKSO.log.error('Missing AKSO_S3_ACCESS_KEY_ID');
+		// 	process.exit(1);
+		// }
+		// if (!AKSO.conf.s3.secretAccessKey) {
+		// 	AKSO.log.error('Missing AKSO_S3_SECRET_ACCESS_KEY');
+		// 	process.exit(1);
+		// }
+		// if (!AKSO.conf.s3.region) {
+		// 	AKSO.log.error('Missing AKSO_S3_REGION');
+		// 	process.exit(1);
+		// }
 		if (!AKSO.conf.http.sessionSecret) {
 			AKSO.log.error('Missing AKSO_HTTP_SESSION_SECRET');
 			process.exit(1);
@@ -207,13 +222,6 @@ async function init () {
 		}
 		if (AKSO.conf.totpAESKey.length != 32) {
 			AKSO.log.error('AKSO_TOTP_AES_KEY must be 32 bytes encoded in hex');
-			process.exit(1);
-		}
-		if (!AKSO.conf.dataDir) {
-			AKSO.log.error('Missing AKSO_DATA_DIR');
-			process.exit(1);
-		} else if (!fs.statSync(AKSO.conf.dataDir).isDirectory()) {
-			AKSO.log.error('AKSO_DATA_DIR must be a directory');
 			process.exit(1);
 		}
 		if (!AKSO.conf.stateDir) {
@@ -227,24 +235,6 @@ async function init () {
 			AKSO.log.error('Missing AKSO_OPEN_EXCHANGE_RATES_APP_ID');
 			process.exit(1);
 		}
-
-		// Set up subdirs in data dir
-		AKSO.log.info('Setting up data dirs');
-		await Promise.all([
-			// State machines
-			fs.ensureDir(path.join(AKSO.conf.stateDir, 'notifs_telegram')),
-			fs.ensureDir(path.join(AKSO.conf.stateDir, 'notifs_mail')),
-			fs.ensureDir(path.join(AKSO.conf.stateDir, 'address_label_orders')),
-
-			// Resources
-			fs.ensureDir(path.join(AKSO.conf.dataDir, 'codeholder_files')),
-			fs.ensureDir(path.join(AKSO.conf.dataDir, 'codeholder_pictures')),
-			fs.ensureDir(path.join(AKSO.conf.dataDir, 'magazine_edition_files')),
-			fs.ensureDir(path.join(AKSO.conf.dataDir, 'magazine_edition_thumbnails')),
-			fs.ensureDir(path.join(AKSO.conf.dataDir, 'magazine_edition_toc_recitation')),
-			fs.ensureDir(path.join(AKSO.conf.dataDir, 'congress_instance_location_thumbnails')),
-			fs.ensureDir(path.join(AKSO.conf.dataDir, 'aksopay_payment_method_thumbnails'))
-		]);
 	}
 
 	// Init
@@ -275,9 +265,14 @@ async function init () {
 		}
 
 		// stripe
-		if (AKSO.conf.stripe.deleteWebhooks) {
-			AKSO.log.warn('Stripe webhooks are deleted upon shutdown');
-		}
+		// if (AKSO.conf.stripe.deleteWebhooks) {
+		// 	AKSO.log.warn('Stripe webhooks are deleted upon shutdown');
+		// }
+
+		// s3
+		// validate connection
+		// AKSO.log.info('Validating connection to S3 ...');
+		// await require('./lib/s3').validateConnection();
 	}
 
 	// Load shared modules
@@ -295,6 +290,14 @@ async function init () {
 		}
 	};
 	if (cluster.isMaster) {
+		// Make sure the MySQL event scheduler is running
+		const eventSchedulerRunning = await AKSO.db.raw('SELECT @@global.event_scheduler = "ON" AS running')
+			.then(res => !!res[0][0].running);
+		if (!eventSchedulerRunning) {
+			AKSO.log.warn('The MySQL event scheduler is turned off!');
+		}
+
+
 		// Set up cluster
 		let shuttingDown = false;
 		const workers = {};
@@ -349,24 +352,6 @@ async function init () {
 			shuttingDown = true;
 
 			AKSO.log.info(`Received ${signal}, shutting down ...`);
-
-			// Remove stripe webhooks if necessary
-			if (AKSO.conf.stripe.deleteWebhooks) {
-				AKSO.log.info('Cleaning up Stripe webhooks ...');
-				const webhooks = await AKSO.db('pay_stripe_webhooks')
-					.select('stripeId', 'stripeSecretKey');
-
-				for (const hook of webhooks) {
-					const stripeClient = await require('akso/lib/stripe').getStripe(hook.stripeSecretKey, false);
-					try {
-						await stripeClient.webhookEndpoints.del(hook.stripeId);
-					} catch (e) {
-						if (e.statusCode !== 404) { throw e; }
-					}
-				}
-				await AKSO.db('pay_stripe_webhooks')
-					.delete();
-			}
 
 			process.exit();
 		};

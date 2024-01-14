@@ -1,4 +1,5 @@
 import { escapeId } from 'mysql2';
+import { createTransaction, rollbackTransaction } from 'akso/util';
 
 import { memberFilter, schema as chSchema } from 'akso/workers/http/routing/codeholders/schema';
 import CongressParticipantResource from 'akso/lib/resources/congress-participant-resource';
@@ -218,7 +219,7 @@ export async function sendParticipantConfirmationNotif (instanceId, dataId, temp
 	formMetaData.query
 		.where('d.dataId', dataId)
 		.first([
-			'price', 'sequenceId', 'createdTime', 'd.dataId', 'amountPaid',
+			'price', 'sequenceId', 'createdTime', 'd.dataId',
 			...Object.entries(formMetaData.schema.fieldAliases)
 				.filter(([key]) => key.startsWith('data.'))
 				.map(([key, aliasFn]) => {
@@ -229,7 +230,7 @@ export async function sendParticipantConfirmationNotif (instanceId, dataId, temp
 		await formMetaData.query,
 		{
 			query: {
-				fields: [ 'price', 'sequenceId', 'createdTime', 'dataId', 'amountPaid' ],
+				fields: [ 'price', 'sequenceId', 'createdTime', 'dataId' ],
 			},
 		},
 		null,
@@ -248,7 +249,6 @@ export async function sendParticipantConfirmationNotif (instanceId, dataId, temp
 
 	const intentData = {
 		'registrationEntry.price': participant.price,
-		'registrationEntry.amountPaid': participant.amountPaid,
 		'registrationEntry.currency': formMetaData.formData.price_currency,
 		'registrationEntry.sequenceId': participant.sequenceId,
 		'registrationEntry.createdTime': participant.createdTime,
@@ -300,11 +300,57 @@ export async function sendParticipantConfirmationNotif (instanceId, dataId, temp
 		...await renderTemplate(template, intentData),
 		to: {
 			name: validatedDataEntry.evaluate(formMetaData.formData.identifierName),
-			email: validatedDataEntry.evaluate(formMetaData.formData.identifierEmail),
+			address: validatedDataEntry.evaluate(formMetaData.formData.identifierEmail),
 		},
 		from: {
 			name: template.fromName || '',
-			email: template.from
+			address: template.from
 		},
 	});
+}
+
+export async function assignSequenceIdIfNeeded (instanceId, dataId, _db) {
+	let db;
+	if (_db) {
+		db = _db;
+	} else {
+		db = await createTransaction();
+	}
+
+	async function rollback () {
+		if (!_db) { await rollbackTransaction(db); }
+	}
+
+	// Find the sequenceId settings
+	const registrationForm = await db('congresses_instances_registrationForm')
+		.first('sequenceIds_startAt', 'sequenceIds_requireValid')
+		.where('congressInstanceId', instanceId);
+	if (!registrationForm || !registrationForm.sequenceIds_startAt) { return await rollback(); }
+
+	// Find the registration entry
+	const registrationEntry = await db('view_congresses_instances_participants')
+		.first('isValid', 'sequenceId')
+		.where({ dataId });
+	if (!registrationEntry || registrationEntry.sequenceId) { return await rollback(); }
+	if (registrationForm.sequenceIds_requireValid && !registrationEntry.isValid) { return await rollback(); }
+
+	// Find the next useable sequenceId
+	const sequenceId = await db('congresses_instances_participants AS p1')
+		.select({ num: AKSO.db.raw('coalesce(min(p1.sequenceId) + 1, ?)', [ registrationForm.sequenceIds_startAt ]) })
+		.whereNotExists(function () {
+			this.select(1)
+				.from('congresses_instances_participants AS p2')
+				.whereRaw('p2.sequenceId = p1.sequenceId + 1');
+		})
+		.where('p1.sequenceId', '>=', registrationForm.sequenceIds_startAt)
+		.then(res => res[0].num);
+
+	// Assign it
+	await db('congresses_instances_participants')
+		.where({ dataId })
+		.update({ sequenceId });
+
+	if (!_db) {
+		await db.commit();
+	}
 }

@@ -9,7 +9,7 @@ import methodOverride from 'method-override';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import responseTime from 'response-time';
-import csurf from 'csurf';
+import csurf from '@dr.pogodin/csurf';
 import ipaddr from 'ipaddr.js';
 import rateLimit from 'express-rate-limit';
 import useragent from 'useragent';
@@ -246,6 +246,11 @@ export function init () {
 					}
 				}
 
+				if (err.name === 'KnexTimeoutError') {
+					return res.status(400).type('text/plain')
+						.send('TimeOut: The query you provided to ?filter took too long to execute, please try simplifying it.');
+				}
+
 				if (status >= 500) {
 					const url = Url.parse(req.originalUrl).pathname;
 					if (err.sqlState) { // It's from knex
@@ -273,6 +278,7 @@ export function init () {
 									else { resolve(); }
 								});
 							});
+							req.session = null;
 						}
 
 						res.status(status).type('text/plain').send(err.message);

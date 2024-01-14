@@ -92,7 +92,7 @@ export async function validateDataEntry ({
 		};
 		case 'datetime': return {
 			type: 'number',
-			format: 'uint64'
+			format: 'int64'
 		};
 		case 'boolean_table':
 			const items = []; // rows
@@ -159,17 +159,7 @@ export async function validateDataEntry ({
 		}
 
 		const disabled = getComputedProp(formEntry, 'disabled');
-		if (disabled) {
-			if (oldData && oldData[formEntry.name] !== null) {
-				return {
-					oneOf: [
-						{ const: oldData[formEntry.name] },
-						{ type: 'null' },
-					],
-				};
-			}
-			return { type: 'null' };
-		}
+		if (disabled) { return { type: 'null' }; }
 
 		const required = getComputedProp(formEntry, 'required');
 

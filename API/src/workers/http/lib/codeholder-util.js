@@ -1,10 +1,10 @@
-import fs from 'fs-extra';
-import path from 'path';
 import moment from 'moment-timezone';
 import crypto from 'pn/crypto';
+import { v4 as uuidv4 } from 'uuid';
 
 import { profilePictureSizes } from '../routing/codeholders/schema';
 import { cropImgToSizes } from './canvas-util';
+import { putObject, deleteObjects } from 'akso/lib/s3';
 
 /**
  * The JSON schema used for validating codeholder mod query params
@@ -38,36 +38,33 @@ export async function setProfilePicture (codeholderId, tmpFile, mimetype, modBy,
 	const hash = crypto.createHash('sha1').update(pictures.org).digest();
 	delete pictures.org;
 
-	// Ensure the dir for the codeholder's profile picture exists
-	const picDir = path.join(AKSO.conf.dataDir, 'codeholder_pictures', codeholderId.toString());
-	await fs.ensureDir(picDir);
-
-	// Write all files
-	const writePromises = [
-		// Write the info file
-		fs.writeFile(path.join(picDir, 'pic.txt'), JSON.stringify({
-			mime: mimetype
-		}))
-	];
-
-	// Write the pictures
-	for (let [size, picture] of Object.entries(pictures)) {
-		writePromises.push(
-			fs.writeFile(path.join(picDir, size), picture)
-		);
+	// Upload the pictures
+	const uploadPromises = [];
+	const s3Id = uuidv4();
+	for (const [size, picture] of Object.entries(pictures)) {
+		uploadPromises.push(putObject({
+			body: picture,
+			key: `codeholders-profilePictures-${s3Id}-${size}`,
+			contentType: mimetype,
+		}));
 	}
-
-	// Wait for the writes to finish
-	await Promise.all(writePromises);
+	await Promise.all(uploadPromises);
 
 	// Update the db
 	const oldData = await AKSO.db('codeholders')
 		.where('id', codeholderId)
-		.first('profilePictureHash');
+		.first('profilePictureHash', 'profilePictureS3Id');
+
+	if (oldData.profilePictureS3Id) {
+		// Delete the old pics
+		await deleteObjects({
+			keys: profilePictureSizes.map(size => `codeholders-profilePictures-${oldData.profilePictureS3Id}-${size}`)
+		});
+	}
 
 	await AKSO.db('codeholders')
 		.where('id', codeholderId)
-		.update({ profilePictureHash: hash });
+		.update({ profilePictureHash: hash, profilePictureS3Id: s3Id });
 
 	// Update datum history
 	await AKSO.db('codeholders_hist_profilePictureHash')
@@ -76,7 +73,7 @@ export async function setProfilePicture (codeholderId, tmpFile, mimetype, modBy,
 			modTime: moment().unix(),
 			modBy: modBy,
 			modCmt: modCmt,
-			profilePictureHash: oldData.profilePictureHash || null
+			profilePictureHash: oldData.profilePictureHash ?? null,
 		});
 }
 

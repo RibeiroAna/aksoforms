@@ -53,7 +53,6 @@ formValues.NEWSLETTER_MAGAZINE = {
 };
 formValues.CONGRESS = {
 	'registrationEntry.price': union([ NULL, NUMBER ]),
-	'registrationEntry.amountPaid': NUMBER,
 	'registrationEntry.currency': union([ NULL, STRING ]),
 	'registrationEntry.sequenceId': union([ NULL, NUMBER ]),
 	'registrationEntry.createdTime': NUMBER,
@@ -131,13 +130,12 @@ bogusData.NEWSLETTER_MAGAZINE = {
 	'edition.description': null,
 	'edition.editionURL': 'https://uea.org/revuoj/revuo/3/numero/7',
 
-	'toc.md': '', // todo
-	'toc.html': { _akso_safeHtml: true, val: '<table></table>' },
-	'toc.text': '',
+	'toc.md': '**Enhavtabelo**', // todo: these three
+	'toc.html': { _akso_safeHtml: true, val: '<table><tr><td>Enhavtabelo</td></tr></table>' },
+	'toc.text': 'Enhavtabelo',
 };
 bogusData.CONGRESS = {
 	'registrationEntry.price': 10000,
-	'registrationEntry.amountPaid': 2000,
 	'registrationEntry.currency': 'EUR',
 	'registrationEntry.sequenceId': 34,
 	'registrationEntry.createdTime': 1667814523,

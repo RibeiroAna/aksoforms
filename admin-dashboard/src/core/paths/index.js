@@ -42,7 +42,6 @@ const memberships = () => import(/* webpackChunkName: 'core-memberships' */ './m
 const magazines = () => import(/* webpackChunkName: 'core-magazines' */ './magazines');
 const newsletters = () => import(/* webpackChunkName: 'core-newsletters' */ './newsletters');
 const notifTemplates = () => import(/* webpackChunkName: 'core-notif-templates' */ './notif-templates');
-const payments = () => import(/* webpackChunkName: 'core-payments' */ './payments');
 const roles = () => import(/* webpackChunkName: 'core-codeholders' */ './roles');
 const statistics = () => import(/* webpackChunkName: 'core-statistics' */ './statistics');
 const queries = () => import(/* webpackChunkName: 'core-queries' */ './queries');

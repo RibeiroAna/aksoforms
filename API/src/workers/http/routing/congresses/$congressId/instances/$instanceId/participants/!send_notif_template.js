@@ -4,9 +4,10 @@ import QueryUtil from 'akso/lib/query-util';
 import { renderTemplate } from 'akso/lib/notif-template-util';
 import { sendRawMail } from 'akso/mail';
 import { validateDataEntry } from 'akso/workers/http/lib/form-util';
+import { isActiveMember } from 'akso/workers/http/lib/codeholder-util';
 
 import CongressParticipantResource from 'akso/lib/resources/congress-participant-resource';
-import { schema as parSchema, getFormMetaData, afterQuery } from './schema';
+import { schema as parSchema, getFormMetaData } from './schema';
 
 const schema = {
 	...parSchema,
@@ -65,7 +66,7 @@ export default {
 		if (!templateData) { return res.sendStatus(404); }
 		if (!req.hasPermission('notif_templates.read.' + templateData.org)) { return res.sendStatus(403); }
 
-		if (req.body.deleteTemplateOnComplete &&!req.hasPermission('notif_templates.delete.' + templateOrgData.org)) {
+		if (req.body.deleteTemplateOnComplete &&!req.hasPermission('notif_templates.delete.' + templateData.org)) {
 			return res.sendStatus(403);
 		}
 
@@ -85,7 +86,7 @@ export default {
 		// Set up the query
 		formMetaData.query
 			.select([
-				'price', 'sequenceId', 'createdTime', 'd.dataId', 'amountPaid',
+				'price', 'sequenceId', 'createdTime', 'd.dataId',
 				...Object.entries(formMetaData.schema.fieldAliases)
 					.filter(([key]) => key.startsWith('data.'))
 					.map(([key, aliasFn]) => {
@@ -96,7 +97,7 @@ export default {
 		const recipientsStream = formMetaData.query.stream();
 		const donePromise = new Promise((resolve, reject) => {
 			recipientsStream.on('end', () => resolve());
-			recipientsStream.on('error', e => reject);
+			recipientsStream.on('error', e => reject(e));
 		});
 
 		const sendPromises = [];
@@ -105,7 +106,7 @@ export default {
 				rawParticipant,
 				{
 					query: {
-						fields: [ 'price', 'sequenceId', 'createdTime', 'dataId', 'amountPaid' ],
+						fields: [ 'price', 'sequenceId', 'createdTime', 'dataId' ],
 					},
 				},
 				null,
@@ -124,7 +125,6 @@ export default {
 
 			const intentData = {
 				'registrationEntry.price': participant.price,
-				'registrationEntry.amountPaid': participant.amountPaid,
 				'registrationEntry.currency': formMetaData.formData.price_currency,
 				'registrationEntry.sequenceId': participant.sequenceId,
 				'registrationEntry.createdTime': participant.createdTime,
@@ -171,11 +171,11 @@ export default {
 						...renderedTemplate,
 						to: {
 							name: validatedDataEntry.evaluate(formMetaData.formData.identifierName),
-							email: participantEmail,
+							address: participantEmail,
 						},
 						from: {
 							name: templateData.fromName ?? '',
-							email: templateData.from,
+							address: templateData.from,
 						},
 					});
 				})

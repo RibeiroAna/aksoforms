@@ -1,7 +1,5 @@
-import fs from 'fs-extra';
-import path from 'path';
-
-import { schema as parSchema, memberFilter } from '../schema';
+import { deleteObjects } from 'akso/lib/s3';
+import { schema as parSchema, memberFilter, profilePictureSizes } from '../schema';
 
 const schema = {
 	...parSchema,
@@ -17,24 +15,38 @@ export default {
 
 	run: async function run (req, res) {
 		// Try to find the codeholder
-		const query = AKSO.db('view_codeholders')
+		const codeholderQuery = AKSO.db('view_codeholders')
 			.where('id', req.params.codeholderId)
-			.first(1);
-		memberFilter(parSchema, query, req);
+			.first('profilePictureS3Id');
+		memberFilter(parSchema, codeholderQuery, req);
+		const codeholder = await codeholderQuery;
 
-		if (!await query) {
+		if (!codeholder) {
 			return res.sendStatus(404);
 		}
 
+		// Find all the codeholder's files ...
+		const codeholderFiles = await AKSO.db('codeholders_files')
+			.pluck('s3Id')
+			.where('codeholderId', req.params.codeholderId);
+
+		if (codeholderFiles.length) {
+			// ... and delete them
+			await deleteObjects({ keys: codeholderFiles });
+		}
+
+		if (codeholder.profilePictureS3Id) {
+			// Delete the codeholder's profile picture
+			const s3Ids = profilePictureSizes.map(size => {
+				return `codeholders-profilePictures-${codeholder.profilePictureS3Id}-${size}`;
+			});
+			await deleteObjects({ keys: s3Ids });
+		}
+
+		// Delete the codeholder
 		await AKSO.db('codeholders')
 			.where('id', req.params.codeholderId)
 			.delete();
-
-		// Clean up the codeholder's data
-		await Promise.all([
-			fs.remove(path.join(AKSO.conf.dataDir, 'codeholder_files', req.params.codeholderId)),
-			fs.remove(path.join(AKSO.conf.dataDir, 'codeholder_pictures', req.params.codeholderId))
-		]);
 
 		res.sendStatus(204);
 	}
